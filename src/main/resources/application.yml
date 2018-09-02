@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: df-admin-service
+  profiles:
+    active: dev
+server:
+  port: 8080
