@@ -1,4 +1,4 @@
-package net.df.module.admin.config;
+package net.df.module.admin.controller;
 
 import net.df.base.server.Result;
 import net.df.base.utils.MapUtils;
@@ -29,7 +29,7 @@ public class TreeNodeController {
      * @param map
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/tree/list")
     public Result<?> list(@RequestBody Map<String,?> map) {
         Integer resultType = MapUtils.getIntegerFromMap(map, "resultType", 1);
         Result<?> result = null;
@@ -38,7 +38,7 @@ public class TreeNodeController {
             case 2: result = listTypes(map);break;
             default: break;
         }
-        return ResultUtils.success(result);
+        return result;
     }
 
     /**
@@ -61,7 +61,7 @@ public class TreeNodeController {
      * @return
      */
     public Result<List<TreeNode>> listType(Map<String,?> map){
-        String treeNodePath = MapUtils.getStringFromMapNotNull(map, "treeNodePath");
+        String treeNodePath = MapUtils.getStringFromMap(map, "treeNodePath","root");
         List<TreeNode> result = treeNodeService.list(null, null, null, null, treeNodePath, null, null, null, null);
         return ResultUtils.success(result);
     }
