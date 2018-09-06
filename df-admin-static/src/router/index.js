@@ -22,18 +22,30 @@ const baseRouteMap = [
       path: 'dashboard',
       component: dashboard
     }]
+  },
+  {
+    path: '/system',
+    name: '系统设置',
+    children: [{
+      path: 'set',
+      name: '设置'
+    },
+    {
+      path: 'set1',
+      name: '设置2'
+    }]
   }
 ]
 
 const asyncRouteMap = [
 ]
 
-export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
-  routes: baseRouteMap
-})
-
 export {
   baseRouteMap,
   asyncRouteMap
 }
+
+export default new Router({
+  scrollBehavior: () => ({ y: 0 }),
+  routes: baseRouteMap
+})
