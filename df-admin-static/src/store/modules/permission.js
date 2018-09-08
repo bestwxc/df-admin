@@ -1,5 +1,5 @@
 import { baseRouteMap } from '@/router'
-console.log()
+console.log(baseRouteMap)
 const permission = {
   state: {
     routers: baseRouteMap,

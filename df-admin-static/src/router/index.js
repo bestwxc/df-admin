@@ -8,6 +8,7 @@ Vue.use(Router)
 const page404 = r => require.ensure([], () => r(require('@/views/404')), 'page404')
 const login = r => require.ensure([], () => r(require('@/views/login')), 'login')
 const dashboard = r => require.ensure([], () => r(require('@/views/dashboard/index')), 'dashboard')
+const treeNode = r => require.ensure([], () => r(require('@/views/base/treeNode/index')), 'treeNode')
 
 const baseRouteMap = [
   {path: '/login', component: login, hidden: true},
@@ -15,7 +16,7 @@ const baseRouteMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: 'dashboard',
     name: 'Dashboard',
     hidden: true,
     children: [{
@@ -26,13 +27,25 @@ const baseRouteMap = [
   {
     path: '/system',
     name: '系统设置',
-    children: [{
-      path: 'set',
-      name: '设置'
+    component: Layout,
+    meta: {
+      title: '系统设置',
+      icon: 'fa fa-home fa-lg'
     },
-    {
+    children: [{
+      path: 'tree/node',
+      component: treeNode,
+      meta: {
+        title: '配置树节点设置',
+        icon: 'example'
+      }
+    }, {
       path: 'set1',
-      name: '设置2'
+      name: '设置2',
+      meta: {
+        title: '设置2',
+        icon: 'example'
+      }
     }]
   }
 ]

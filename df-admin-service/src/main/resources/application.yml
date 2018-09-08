@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8088
 spring:
   application:
     name: df-admin-service
@@ -17,3 +17,7 @@ mybatis:
 logging:
   level:
     net.df.module.admin.mapper: debug
+df:
+  boot:
+    web:
+      open-cors: true
