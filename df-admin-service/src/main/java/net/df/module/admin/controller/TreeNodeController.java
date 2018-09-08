@@ -62,7 +62,7 @@ public class TreeNodeController {
      */
     public Result<List<TreeNode>> listType(Map<String,?> map){
         String treeNodePath = MapUtils.getStringFromMap(map, "treeNodePath","");
-        Long parentId = MapUtils.getLongFromMap(map, "parentId",0l);
+        Long parentId = MapUtils.getLongFromMap(map, "parentId",null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
         List<TreeNode> result = treeNodeService.list(null, null, null, parentId, treeNodePath, null, flag, null, null);
         return ResultUtils.success(result);

@@ -21,3 +21,4 @@ df:
   boot:
     web:
       open-cors: true
+      open-http-debug-log: true

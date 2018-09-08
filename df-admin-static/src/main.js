@@ -13,7 +13,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, { size: 'small', locale })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
