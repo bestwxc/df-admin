@@ -1,11 +1,13 @@
 <template>
   <div id="app-container">
-    <tree-table :data="data" :expand-all="expandAll" :columns="columns" border />
+    <tree-table :data="data" :expand-all="expandAll" :columns="columns" :load-func="loadFunc" border />
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import TreeTable from '@/components/table/TreeTable'
 import { listTreeNode } from '@/api/admin/treeNode'
+// import treeToArray from '@/components/table/TreeTable/eval'
 export default {
   name: 'tree-node',
   components: { TreeTable },
@@ -42,6 +44,19 @@ export default {
     }
   },
   methods: {
+    loadFunc (data, trIndex) {
+      let result = data
+      /**
+      let record = data[trIndex]
+      let deltaList = await this.getNode(record.parentId)
+      if (deltaList && deltaList.length > 0) {
+        let tempList = treeToArray(deltaList)
+        result = Array.concat(data.slice(0, trIndex), tempList, data.slice(trIndex, trIndex))
+      }
+      */
+      Vue.set(data[trIndex], '_loaded', true)
+      return result
+    },
     async getNode (parentId) {
       return listTreeNode({
         parentId
@@ -51,9 +66,6 @@ export default {
       const result = await this.getNode()
       const rootNode = result[0]
       this.data = rootNode
-      let children = await this.getNode(rootNode.id)
-      rootNode.children = children
-      this.data = Object.assign({}, rootNode)
     }
   },
   created () {

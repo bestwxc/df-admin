@@ -31,6 +31,7 @@
   Auth: Lei.j1ang
   Created: 2018/1/19-13:59
 */
+import Vue from 'vue'
 import treeToArray from './eval'
 export default {
   name: 'TreeTable',
@@ -46,6 +47,7 @@ export default {
     },
     evalFunc: Function,
     evalArgs: Array,
+    loadFunc: Function,
     expandAll: {
       type: Boolean,
       default: false
@@ -54,18 +56,21 @@ export default {
   computed: {
     // 格式化数据源
     formatData: function() {
+      return this.formatList(this.data)
+    }
+  },
+  methods: {
+    formatList: function(data) {
       let tmp
-      if (!Array.isArray(this.data)) {
-        tmp = [this.data]
+      if (!Array.isArray(data)) {
+        tmp = [data]
       } else {
-        tmp = this.data
+        tmp = data
       }
       const func = this.evalFunc || treeToArray
       const args = this.evalArgs ? Array.concat([tmp, this.expandAll], this.evalArgs) : [tmp, this.expandAll]
       return func.apply(null, args)
-    }
-  },
-  methods: {
+    },
     showRow: function(row) {
       const show = (row.row.parent ? (row.row.parent._expanded && row.row.parent._show) : true)
       row.row._show = show
@@ -74,11 +79,19 @@ export default {
     // 切换下级是否展开
     toggleExpanded: function(trIndex) {
       const record = this.formatData[trIndex]
+      const func = this.loadFunc || function (data, trIndex) {
+        Vue.set(data[trIndex], '_loaded', true)
+        return data
+      }
+      if (!record.loaded) {
+        this.formatData = func.apply(null, [this.formatData,trIndex])
+      }
       record._expanded = !record._expanded
     },
     // 图标显示
     iconShow(index, record) {
-      return (index === 0 && record.children && record.children.length > 0)
+      let flag = index === 0 && (!record._loaded || (record._loaded && record.children && record.children.length > 0))
+      return flag
     }
   }
 }
