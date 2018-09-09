@@ -44,7 +44,7 @@ hs_err_pid*
 # vue工程
 .DS_Store
 node_modules/
-/dist/
+dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

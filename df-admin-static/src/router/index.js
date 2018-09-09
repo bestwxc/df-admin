@@ -1,19 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/components/layout/Layout'
+import pages from './pages'
 
 Vue.use(Router)
 
-// 异步引入页面
-const page404 = r => require.ensure([], () => r(require('@/views/404')), 'page404')
-const login = r => require.ensure([], () => r(require('@/views/login')), 'login')
-const dashboard = r => require.ensure([], () => r(require('@/views/dashboard/index')), 'dashboard')
-const treeNode = r => require.ensure([], () => r(require('@/views/base/treeNode/index')), 'treeNode')
-const division = r => require.ensure([], () => r(require('@/views/base/division/index')), 'division')
-
 const baseRouteMap = [
-  {path: '/login', component: login, hidden: true},
-  {path: '/404', component: page404, hidden: true},
+  {path: '/login', component: pages['login'], hidden: true},
+  {path: '/404', component: pages['page404'], hidden: true},
   {
     path: '',
     component: Layout,
@@ -21,7 +15,7 @@ const baseRouteMap = [
     children: [{
       // name: 'Dashboard',
       path: 'dashboard',
-      component: dashboard,
+      component: pages['dashboard'],
       meta: {
         title: 'DashBoard',
         icon: 'dashboard'
@@ -39,7 +33,7 @@ const baseRouteMap = [
     children: [{
       path: 'tree',
       name: '基础设置',
-      component: treeNode,
+      component: pages['treeNode'],
       meta: {
         title: '基础设置',
         icon: 'example'
@@ -47,7 +41,7 @@ const baseRouteMap = [
     }, {
       path: 'division',
       name: '行政区域',
-      component: division,
+      component: pages['division'],
       meta: {
         title: '行政区域',
         icon: 'example'
@@ -55,14 +49,6 @@ const baseRouteMap = [
     }]
   }
 ]
-
-const asyncRouteMap = [
-]
-
-export {
-  baseRouteMap,
-  asyncRouteMap
-}
 
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
