@@ -9,6 +9,7 @@ const page404 = r => require.ensure([], () => r(require('@/views/404')), 'page40
 const login = r => require.ensure([], () => r(require('@/views/login')), 'login')
 const dashboard = r => require.ensure([], () => r(require('@/views/dashboard/index')), 'dashboard')
 const treeNode = r => require.ensure([], () => r(require('@/views/base/treeNode/index')), 'treeNode')
+const division = r => require.ensure([], () => r(require('@/views/base/division/index')), 'division')
 
 const baseRouteMap = [
   {path: '/login', component: login, hidden: true},
@@ -44,10 +45,11 @@ const baseRouteMap = [
         icon: 'example'
       }
     }, {
-      path: 'set1',
-      name: '设置2',
+      path: 'division',
+      name: '行政区域',
+      component: division,
       meta: {
-        title: '设置2',
+        title: '行政区域',
         icon: 'example'
       }
     }]

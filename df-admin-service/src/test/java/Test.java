@@ -28,5 +28,9 @@ public class Test {
         generator.setClassName("UserRole");
         generator.setObjectName("userRole");
         generator.generate();
+
+        generator.setClassName("AdministrativeDivision");
+        generator.setObjectName("administrativeDivision");
+        generator.generate();
     }
 }

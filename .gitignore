@@ -21,6 +21,7 @@ target/
 
 # Log file
 *.log
+nohup.out
 
 # BlueJ files
 *.ctxt
