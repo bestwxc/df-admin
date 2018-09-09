@@ -1,8 +1,27 @@
 /**
-drop table t_base_administrative_division if exists cascade;
-drop table t_base_tree_node if exists casecade;
-
+drop table t_base_administrative_division cascade;
+drop table t_base_tree_node cascade;
+drop table t_base_system_menu cascade;;
 */
+
+-- 系统菜单表
+create table t_base_system_menu(
+	id bigint(18) auto_increment comment '主键ID'
+		primary key,
+	menu_code varchar(45) not null comment '菜单代码',
+	menu_name varchar(45) not null comment '菜单名称',
+	menu_type int default '0' not null comment '菜单节点类型',
+	menu_icon varchar(45) not null comment '菜单图标',
+	parent_menu varchar(45) not null comment '上级菜单',
+	jump_path varchar(200) null comment '跳转地址',
+	order_num int default '0' not null comment '排序值',
+	flag int default '0' not null comment '状态',
+	create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
+	update_time timestamp default CURRENT_TIMESTAMP not null comment '修改时间',
+	constraint idx_system_menu_uk
+		unique (parent_menu, menu_code)
+)comment '系统菜单表';
+
 
 -- 行政区域表
 create table t_base_administrative_division

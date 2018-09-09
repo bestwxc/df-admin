@@ -32,5 +32,9 @@ public class Test {
         generator.setClassName("AdministrativeDivision");
         generator.setObjectName("administrativeDivision");
         generator.generate();
+
+        generator.setClassName("SystemMenu");
+        generator.setObjectName("systemMenu");
+        generator.generate();
     }
 }

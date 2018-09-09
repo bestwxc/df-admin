@@ -61,5 +61,10 @@
         <table tableName="t_base_administrative_division" domainObjectName="AdministrativeDivision">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="t_base_system_menu" domainObjectName="SystemMenu">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+
     </context>
 </generatorConfiguration>
