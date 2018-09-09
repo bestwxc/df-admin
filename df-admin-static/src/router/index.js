@@ -14,14 +14,17 @@ const baseRouteMap = [
   {path: '/login', component: login, hidden: true},
   {path: '/404', component: page404, hidden: true},
   {
-    path: '/',
+    path: '',
     component: Layout,
     redirect: 'dashboard',
-    name: 'Dashboard',
-    hidden: true,
     children: [{
+      // name: 'Dashboard',
       path: 'dashboard',
-      component: dashboard
+      component: dashboard,
+      meta: {
+        title: 'DashBoard',
+        icon: 'dashboard'
+      }
     }]
   },
   {
@@ -33,10 +36,11 @@ const baseRouteMap = [
       icon: 'fa fa-home fa-lg'
     },
     children: [{
-      path: 'tree/node',
+      path: 'tree',
+      name: '基础设置',
       component: treeNode,
       meta: {
-        title: '配置树节点设置',
+        title: '基础设置',
         icon: 'example'
       }
     }, {
