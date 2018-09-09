@@ -24,6 +24,8 @@ public class TreeNodeController {
     @Autowired
     private TreeNodeService treeNodeService;
 
+    private Integer ENABLED = 0;
+
     /**
      * 查询字典
      * @param map
@@ -67,4 +69,52 @@ public class TreeNodeController {
         List<TreeNode> result = treeNodeService.list(null, null, null, parentId, treeNodePath, null, flag, null, null);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 新增
+     * @param map
+     * @return
+     */
+    @RequestMapping("/tree/add")
+    public Result<TreeNode> add(@RequestBody Map<String, ?> map) {
+        Long parentId = MapUtils.getLongFromMap(map, "parentId",null);
+        String nodeName = MapUtils.getStringFromMap(map, "nodeName", null);
+        String nodeValue = MapUtils.getStringFromMap(map,"nodeValue", null);
+        String treeNodePath = MapUtils.getStringFromMap(map,"treeNodePath", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
+        Integer flag = ENABLED;
+        TreeNode treeNode = treeNodeService.add(nodeValue, nodeName, parentId, treeNodePath, orderNum, flag);
+        return ResultUtils.success(treeNode);
+    }
+
+    /**
+     * 更新
+     * @param map
+     * @return
+     */
+    @RequestMapping("/tree/update")
+    public Result<TreeNode> update(@RequestBody Map<String, ?> map) {
+        Long id = MapUtils.getLongFromMapNotNull(map, "id");
+        String nodeName = MapUtils.getStringFromMap(map, "nodeName", null);
+        String nodeValue = MapUtils.getStringFromMap(map,"nodeValue", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
+        TreeNode treeNode = treeNodeService.update(id, nodeValue, nodeName, null, null, orderNum, null);
+        return ResultUtils.success(treeNode);
+    }
+
+    /**
+     * 删除（实际是改变状态）
+     * @param map
+     * @return
+     */
+    @RequestMapping("/tree/delete")
+    public Result delete(@RequestBody Map<String, ?> map) {
+        Long id = MapUtils.getLongFromMapNotNull(map, "id");
+        TreeNode treeNode = treeNodeService.listOne(id, null, null, null, null, null ,null, null, null);
+        List<TreeNode> list = treeNodeService.list(null, treeNode.getNodeValue(), null, treeNode.getParentId(), null, null, null, null, null);
+        TreeNode maxTreeNode = list.stream().max((treeNode1, treeNode2) -> treeNode1.getFlag() - treeNode2.getFlag()).get();
+        treeNodeService.update(id, null, null, null, null, null, maxTreeNode.getFlag() + 1);
+        return ResultUtils.success(null);
+    }
+
 }
