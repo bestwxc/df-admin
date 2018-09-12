@@ -1,18 +1,19 @@
 package net.df.module.admin.controller;
 
-import net.df.base.server.Result;
-import net.df.base.utils.MapUtils;
-import net.df.base.utils.ResultUtils;
-import net.df.module.admin.model.SystemMenu;
-import net.df.module.admin.service.SystemMenuService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import net.df.base.server.Result;
+import net.df.base.utils.MapUtils;
+import net.df.base.utils.ResultUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
+import net.df.module.admin.model.SystemMenu;
+import net.df.module.admin.service.SystemMenuService;
+
 
 @RestController
 @RequestMapping("/api/admin")
@@ -30,9 +31,16 @@ public class SystemMenuController {
      */
     @RequestMapping("/menu/list")
     public Result<List<SystemMenu>> list(@RequestBody Map<String,?> map){
-        String parentMenu = MapUtils.getStringFromMap(map,"parentMenu",null);
-        String menuCode = MapUtils.getStringFromMap(map,"menuCode",null);
-        List<SystemMenu> list = systemMenuService.list(null, null, null, null, null, parentMenu, null, null, null, null, null);
+        Long id = MapUtils.getLongFromMap(map, "id", null);
+        String menuCode = MapUtils.getStringFromMap(map, "menuCode", null);
+        String menuName = MapUtils.getStringFromMap(map, "menuName", null);
+        Integer menuType = MapUtils.getIntegerFromMap(map, "menuType", null);
+        String menuIcon = MapUtils.getStringFromMap(map, "menuIcon", null);
+        String parentMenu = MapUtils.getStringFromMap(map, "parentMenu", null);
+        String jumpPath = MapUtils.getStringFromMap(map, "jumpPath", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        List<SystemMenu> list = systemMenuService.list(id, menuCode, menuName, menuType, menuIcon, parentMenu, jumpPath, orderNum, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -43,14 +51,15 @@ public class SystemMenuController {
      */
     @RequestMapping("/menu/add")
     public Result<SystemMenu> add(@RequestBody Map<String,?> map){
-        String menuCode = MapUtils.getStringFromMapNotNull(map, "menuCode");
-        String menuName = MapUtils.getStringFromMap(map, "menuName",null);
-        Integer menuType = MapUtils.getIntegerFromMapNotNull(map, "menuType");
-        String menuIcon = MapUtils.getStringFromMap(map, "menuIcon",null);
-        String parentMenu = MapUtils.getStringFromMap(map, "parentMenu",null);
-        String jumpPath = MapUtils.getStringFromMap(map, "jumpPath",null);
-        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", 0);
-        SystemMenu systemMenu = systemMenuService.add(menuCode, menuName, menuType, menuIcon, parentMenu, jumpPath, orderNum, 0);
+        String menuCode = MapUtils.getStringFromMap(map, "menuCode", null);
+        String menuName = MapUtils.getStringFromMap(map, "menuName", null);
+        Integer menuType = MapUtils.getIntegerFromMap(map, "menuType", null);
+        String menuIcon = MapUtils.getStringFromMap(map, "menuIcon", null);
+        String parentMenu = MapUtils.getStringFromMap(map, "parentMenu", null);
+        String jumpPath = MapUtils.getStringFromMap(map, "jumpPath", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        SystemMenu systemMenu = systemMenuService.add(menuCode, menuName, menuType, menuIcon, parentMenu, jumpPath, orderNum, flag);
         return ResultUtils.success(systemMenu);
     }
 
@@ -62,16 +71,18 @@ public class SystemMenuController {
     @RequestMapping("/menu/update")
     public Result<SystemMenu> update(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        String menuCode = MapUtils.getStringFromMapNotNull(map, "menuCode");
-        String menuName = MapUtils.getStringFromMap(map, "menuName",null);
-        Integer menuType = MapUtils.getIntegerFromMapNotNull(map, "menuType");
-        String menuIcon = MapUtils.getStringFromMap(map, "menuIcon",null);
-        //String parentMenu = MapUtils.getStringFromMap(map, "parentMenu",null);
-        String jumpPath = MapUtils.getStringFromMap(map, "jumpPath",null);
-        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", 0);
-        SystemMenu systemMenu = systemMenuService.update(id, menuCode, menuName, menuType, menuIcon, null, jumpPath, orderNum, 0);
+        String menuCode = MapUtils.getStringFromMap(map, "menuCode", null);
+        String menuName = MapUtils.getStringFromMap(map, "menuName", null);
+        Integer menuType = MapUtils.getIntegerFromMap(map, "menuType", null);
+        String menuIcon = MapUtils.getStringFromMap(map, "menuIcon", null);
+        String parentMenu = MapUtils.getStringFromMap(map, "parentMenu", null);
+        String jumpPath = MapUtils.getStringFromMap(map, "jumpPath", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        SystemMenu systemMenu = systemMenuService.update(id, menuCode, menuName, menuType, menuIcon, parentMenu, jumpPath, orderNum, flag);
         return ResultUtils.success(systemMenu);
     }
+
 
     /**
      * 删除
@@ -84,5 +95,4 @@ public class SystemMenuController {
         int num = systemMenuService.delete(id);
         return ResultUtils.success(null);
     }
-
 }

@@ -17,6 +17,7 @@ public class DepartmentService {
     private DepartmentMapper departmentMapper;
 
 
+
     /**
      * 新增
      * @param departmentCode
