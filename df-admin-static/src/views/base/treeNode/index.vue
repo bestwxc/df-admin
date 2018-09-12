@@ -78,8 +78,8 @@ export default {
       canUpdateValue: true,
       rules: {},
       columns: [
-        { text: 'ID', value: 'id', width: 240 },
-        { text: '值', value: 'nodeValue', width: 100 },
+        { text: '值', value: 'nodeValue', width: 240 },
+        { text: 'ID', value: 'id', width: 100 },
         { text: '名称', value: 'nodeName', width: 100 },
         { text: '上级ID', value: 'parentId', width: 100 },
         { text: '类型', value: 'treeNodePath' },

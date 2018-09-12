@@ -29,9 +29,9 @@ export default {
       },
       currentRow: {},
       columns: [
-        { text: 'ID', value: 'id', width: 240 },
+        { text: '区域名称', value: 'divisionName', width: 270 },
+        { text: 'ID', value: 'id', width: 120 },
         { text: '区域代码', value: 'divisionCode', width: 120 },
-        { text: '区域名称', value: 'divisionName', width: 150 },
         { text: '上级ID', value: 'parentId', width: 120 },
         { text: '上级区域代码', value: 'parentDivisionCode', width: 150 },
         { text: '区域级别', value: 'divisionLevel', width: 40 },

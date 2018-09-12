@@ -46,7 +46,24 @@ const baseRouteMap = [
         title: '行政区域',
         icon: 'example'
       }
+    }, {
+      path: 'SystemMenu',
+      name: '系统菜单',
+      component: pages['SystemMenu'],
+      meta: {
+        title: '系统菜单',
+        icon: 'example'
+      }
     }]
+  },
+  {
+    path: '/org',
+    name: '用户、角色、资源、权限',
+    component: Layout,
+    meta: {
+      title: '用户、角色、资源、权限',
+      icon: 'example'
+    }
   }
 ]
 
