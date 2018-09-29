@@ -46,7 +46,7 @@ public class LoadDivisionTask implements Runnable{
             logger.info("run,url:{},parentId:{},parentDivisionCode:{}", url, parentId, parentDivisionCode);
             ResponseEntity<String> rsp = null;
             try{
-                RestTemplate restTemplate = SpringUtils.getBean(RestTemplate.class);
+                RestTemplate restTemplate = SpringUtils.getBean("gb2313RestTemplate", RestTemplate.class);
                 rsp = restTemplate.getForEntity(url, String.class);
             }catch (Exception e){
                 if(retryTime < 5){

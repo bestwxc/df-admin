@@ -6,7 +6,7 @@
     <parent>
         <artifactId>df-root</artifactId>
         <groupId>net.df</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <groupId>net.df.admin</groupId>
     <artifactId>df-admin-service</artifactId>
@@ -25,17 +25,12 @@
             <groupId>net.df</groupId>
             <artifactId>df-boot-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>net.df</groupId>
-            <artifactId>df-generator-engine</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>net.df</groupId>
-                <artifactId>df-generator-maven-plugin</artifactId>
+                <artifactId>df-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
