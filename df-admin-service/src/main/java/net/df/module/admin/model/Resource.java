@@ -13,10 +13,10 @@ public class Resource {
     private Long id;
 
     /**
-     * 资源名称
+     * 资源代码
      */
-    @Column(name = "resource_name")
-    private String resourceName;
+    @Column(name = "resource_code")
+    private String resourceCode;
 
     /**
      * 资源路径
@@ -29,6 +29,11 @@ public class Resource {
      */
     @Column(name = "resource_type")
     private Integer resourceType;
+
+    /**
+     * 状态
+     */
+    private Integer flag;
 
     /**
      * 创建时间
@@ -61,21 +66,21 @@ public class Resource {
     }
 
     /**
-     * 获取资源名称
+     * 获取资源代码
      *
-     * @return resource_name - 资源名称
+     * @return resource_code - 资源代码
      */
-    public String getResourceName() {
-        return resourceName;
+    public String getResourceCode() {
+        return resourceCode;
     }
 
     /**
-     * 设置资源名称
+     * 设置资源代码
      *
-     * @param resourceName 资源名称
+     * @param resourceCode 资源代码
      */
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName == null ? null : resourceName.trim();
+    public void setResourceCode(String resourceCode) {
+        this.resourceCode = resourceCode == null ? null : resourceCode.trim();
     }
 
     /**
@@ -112,6 +117,24 @@ public class Resource {
      */
     public void setResourceType(Integer resourceType) {
         this.resourceType = resourceType;
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**

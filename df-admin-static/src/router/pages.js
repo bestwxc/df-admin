@@ -1,14 +1,22 @@
-const page404 = r => require.ensure([], () => r(require('@/views/404')), 'page404')
-const login = r => require.ensure([], () => r(require('@/views/login')), 'login')
-const dashboard = r => require.ensure([], () => r(require('@/views/dashboard/index')), 'dashboard')
-const treeNode = r => require.ensure([], () => r(require('@/views/base/treeNode/index')), 'treeNode')
-const division = r => require.ensure([], () => r(require('@/views/base/division/index')), 'division')
-const SystemMenu = r => require.ensure([], () => r(require('@/views/base/SystemMenu/index')), 'SystemMenu')
+const Page404 = r => require.ensure([], () => r(require('@/views/404')), 'Page404')
+const Login = r => require.ensure([], () => r(require('@/views/login')), 'Login')
+const Dashboard = r => require.ensure([], () => r(require('@/views/dashboard/index')), 'Dashboard')
+const TreeNode = r => require.ensure([], () => r(require('@/views/data/TreeNode/index')), 'TreeNode')
+const Division = r => require.ensure([], () => r(require('@/views/data/Division/index')), 'Division')
+const SystemMenu = r => require.ensure([], () => r(require('@/views/system/SystemMenu/index')), 'SystemMenu')
+const Resource = r => require.ensure([], () => r(require('@/views/userSystem/Resource/index')), 'Resource')
+const User = r => require.ensure([], () => r(require('@/views/userSystem/User/index')), 'User')
+const Role = r => require.ensure([], () => r(require('@/views/userSystem/Role/index')), 'Role')
+const Department = r => require.ensure([], () => r(require('@/views/userSystem/Department/index')), 'Department')
 export default {
-  page404,
-  login,
-  dashboard,
-  treeNode,
-  division,
-  SystemMenu
+  Page404,
+  Login,
+  Dashboard,
+  TreeNode,
+  Division,
+  SystemMenu,
+  Resource,
+  User,
+  Role,
+  Department
 }

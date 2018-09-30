@@ -12,7 +12,8 @@
     <result column="user_state" jdbcType="INTEGER" property="userState" />
     <result column="user_pass" jdbcType="VARCHAR" property="userPass" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
-    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="department_code" jdbcType="VARCHAR" property="departmentCode" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>

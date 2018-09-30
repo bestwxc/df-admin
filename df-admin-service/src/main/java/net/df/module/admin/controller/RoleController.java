@@ -34,8 +34,8 @@ public class RoleController {
         Long id = MapUtils.getLongFromMap(map, "id", null);
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        List<Role> list = roleService.list(id, roleCode, roleName, departmentId, null, null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        List<Role> list = roleService.list(id, roleCode, roleName, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -48,8 +48,8 @@ public class RoleController {
     public Result<Role> add(@RequestBody Map<String,?> map){
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        Role role = roleService.add(roleCode, roleName, departmentId);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Role role = roleService.add(roleCode, roleName, flag);
         return ResultUtils.success(role);
     }
 
@@ -63,8 +63,8 @@ public class RoleController {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        Role role = roleService.update(id, roleCode, roleName, departmentId);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Role role = roleService.update(id, roleCode, roleName, flag);
         return ResultUtils.success(role);
     }
 
@@ -77,7 +77,7 @@ public class RoleController {
     @RequestMapping("/role/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        int num = roleService.delete(id);
+        int num = roleService.logicDelete(id);
         return ResultUtils.success(null);
     }
 }

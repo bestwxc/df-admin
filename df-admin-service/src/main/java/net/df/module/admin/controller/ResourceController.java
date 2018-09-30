@@ -32,10 +32,11 @@ public class ResourceController {
     @RequestMapping("/resource/list")
     public Result<List<Resource>> list(@RequestBody Map<String,?> map){
         Long id = MapUtils.getLongFromMap(map, "id", null);
-        String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
+        String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        List<Resource> list = resourceService.list(id, resourceName, resourcePath, resourceType, null, null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        List<Resource> list = resourceService.list(id, resourceCode, resourcePath, resourceType, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -46,10 +47,11 @@ public class ResourceController {
      */
     @RequestMapping("/resource/add")
     public Result<Resource> add(@RequestBody Map<String,?> map){
-        String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
+        String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        Resource resource = resourceService.add(resourceName, resourcePath, resourceType);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Resource resource = resourceService.add(resourceCode, resourcePath, resourceType, flag);
         return ResultUtils.success(resource);
     }
 
@@ -61,10 +63,11 @@ public class ResourceController {
     @RequestMapping("/resource/update")
     public Result<Resource> update(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
+        String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        Resource resource = resourceService.update(id, resourceName, resourcePath, resourceType);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Resource resource = resourceService.update(id, resourceCode, resourcePath, resourceType, flag);
         return ResultUtils.success(resource);
     }
 
@@ -77,7 +80,7 @@ public class ResourceController {
     @RequestMapping("/resource/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        int num = resourceService.delete(id);
+        int num = resourceService.logicDelete(id);
         return ResultUtils.success(null);
     }
 }

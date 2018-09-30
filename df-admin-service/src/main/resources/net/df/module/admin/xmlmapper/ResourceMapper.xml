@@ -6,9 +6,10 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
+    <result column="resource_code" jdbcType="VARCHAR" property="resourceCode" />
     <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
     <result column="resource_type" jdbcType="INTEGER" property="resourceType" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>

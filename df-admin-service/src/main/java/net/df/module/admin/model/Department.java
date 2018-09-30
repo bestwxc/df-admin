@@ -25,10 +25,15 @@ public class Department {
     private String departmentName;
 
     /**
-     * 上级部门ID
+     * 上级部门代码
      */
-    @Column(name = "parent_department_id")
-    private Long parentDepartmentId;
+    @Column(name = "parent_department_code")
+    private String parentDepartmentCode;
+
+    /**
+     * 状态
+     */
+    private Integer flag;
 
     /**
      * 创建时间
@@ -97,21 +102,39 @@ public class Department {
     }
 
     /**
-     * 获取上级部门ID
+     * 获取上级部门代码
      *
-     * @return parent_department_id - 上级部门ID
+     * @return parent_department_code - 上级部门代码
      */
-    public Long getParentDepartmentId() {
-        return parentDepartmentId;
+    public String getParentDepartmentCode() {
+        return parentDepartmentCode;
     }
 
     /**
-     * 设置上级部门ID
+     * 设置上级部门代码
      *
-     * @param parentDepartmentId 上级部门ID
+     * @param parentDepartmentCode 上级部门代码
      */
-    public void setParentDepartmentId(Long parentDepartmentId) {
-        this.parentDepartmentId = parentDepartmentId;
+    public void setParentDepartmentCode(String parentDepartmentCode) {
+        this.parentDepartmentCode = parentDepartmentCode == null ? null : parentDepartmentCode.trim();
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**

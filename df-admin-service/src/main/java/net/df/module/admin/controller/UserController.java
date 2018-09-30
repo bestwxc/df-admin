@@ -38,8 +38,9 @@ public class UserController {
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        List<User> list = userService.list(id, userName, nickName, mobileNo, userState, userPass, salt, departmentId, null, null);
+        String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        List<User> list = userService.list(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -56,8 +57,9 @@ public class UserController {
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        User user = userService.add(userName, nickName, mobileNo, userState, userPass, salt, departmentId);
+        String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        User user = userService.add(userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
         return ResultUtils.success(user);
     }
 
@@ -75,8 +77,9 @@ public class UserController {
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
-        Long departmentId = MapUtils.getLongFromMap(map, "departmentId", null);
-        User user = userService.update(id, userName, nickName, mobileNo, userState, userPass, salt, departmentId);
+        String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        User user = userService.update(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
         return ResultUtils.success(user);
     }
 
@@ -89,7 +92,7 @@ public class UserController {
     @RequestMapping("/user/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        int num = userService.delete(id);
+        int num = userService.logicDelete(id);
         return ResultUtils.success(null);
     }
 }

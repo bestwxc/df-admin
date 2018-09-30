@@ -8,6 +8,7 @@ public class Role {
     /**
      * 主键ID
      */
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -24,10 +25,9 @@ public class Role {
     private String roleName;
 
     /**
-     * 系统部门ID
+     * 状态
      */
-    @Column(name = "department_id")
-    private Long departmentId;
+    private Integer flag;
 
     /**
      * 新增时间
@@ -96,21 +96,21 @@ public class Role {
     }
 
     /**
-     * 获取系统部门ID
+     * 获取状态
      *
-     * @return department_id - 系统部门ID
+     * @return flag - 状态
      */
-    public Long getDepartmentId() {
-        return departmentId;
+    public Integer getFlag() {
+        return flag;
     }
 
     /**
-     * 设置系统部门ID
+     * 设置状态
      *
-     * @param departmentId 系统部门ID
+     * @param flag 状态
      */
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**

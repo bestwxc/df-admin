@@ -34,8 +34,9 @@ public class DepartmentController {
         Long id = MapUtils.getLongFromMap(map, "id", null);
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
-        Long parentDepartmentId = MapUtils.getLongFromMap(map, "parentDepartmentId", null);
-        List<Department> list = departmentService.list(id, departmentCode, departmentName, parentDepartmentId, null, null);
+        String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        List<Department> list = departmentService.list(id, departmentCode, departmentName, parentDepartmentCode, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -48,8 +49,9 @@ public class DepartmentController {
     public Result<Department> add(@RequestBody Map<String,?> map){
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
-        Long parentDepartmentId = MapUtils.getLongFromMap(map, "parentDepartmentId", null);
-        Department department = departmentService.add(departmentCode, departmentName, parentDepartmentId);
+        String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Department department = departmentService.add(departmentCode, departmentName, parentDepartmentCode, flag);
         return ResultUtils.success(department);
     }
 
@@ -63,8 +65,9 @@ public class DepartmentController {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
-        Long parentDepartmentId = MapUtils.getLongFromMap(map, "parentDepartmentId", null);
-        Department department = departmentService.update(id, departmentCode, departmentName, parentDepartmentId);
+        String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
+        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Department department = departmentService.update(id, departmentCode, departmentName, parentDepartmentCode, flag);
         return ResultUtils.success(department);
     }
 
@@ -77,7 +80,7 @@ public class DepartmentController {
     @RequestMapping("/department/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        int num = departmentService.delete(id);
+        int num = departmentService.logicDelete(id);
         return ResultUtils.success(null);
     }
 }

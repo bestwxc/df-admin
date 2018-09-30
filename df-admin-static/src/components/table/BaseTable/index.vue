@@ -224,7 +224,7 @@ export default {
         method: 'post',
         data: { id: this.currentRow.id }
       }).then(result => {
-        layer.iMsg('删除成功', 'success', 5000)
+        layer.iMsg('删除成功', 'success', 3000)
         this.getList()
       })
     },
@@ -235,7 +235,7 @@ export default {
         data: this.formData
       }).then(result => {
         this.getList()
-        layer.iMsg('添加成功', 'success', 5000)
+        layer.iMsg('添加成功', 'success', 3000)
         this.showEditForm = false
       })
     },
@@ -246,7 +246,7 @@ export default {
         data: this.formData
       }).then(result => {
         this.getList()
-        layer.iMsg('修改成功', 'success', 5000)
+        layer.iMsg('修改成功', 'success', 3000)
         this.showEditForm = false
       })
     },

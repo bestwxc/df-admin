@@ -48,10 +48,15 @@ public class User {
     private String salt;
 
     /**
-     * 部门ID
+     * 部门代码
      */
-    @Column(name = "department_id")
-    private Long departmentId;
+    @Column(name = "department_code")
+    private String departmentCode;
+
+    /**
+     * 状态
+     */
+    private Integer flag;
 
     /**
      * 创建时间
@@ -192,21 +197,39 @@ public class User {
     }
 
     /**
-     * 获取部门ID
+     * 获取部门代码
      *
-     * @return department_id - 部门ID
+     * @return department_code - 部门代码
      */
-    public Long getDepartmentId() {
-        return departmentId;
+    public String getDepartmentCode() {
+        return departmentCode;
     }
 
     /**
-     * 设置部门ID
+     * 设置部门代码
      *
-     * @param departmentId 部门ID
+     * @param departmentCode 部门代码
      */
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode == null ? null : departmentCode.trim();
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**
