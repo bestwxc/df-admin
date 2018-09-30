@@ -1,32 +1,36 @@
 <template>
 <div class="app-container">
-  <base-table
+  <base-tree-table
+    :relateKey="relateKey"
+    :relateParentKey="relateParentKey"
+    :rootKeyValue="rootKeyValue"
     :columns="columns"
-    :supportPage="supportPage"
     :listUrl="listUrl"
     :deleteUrl="deleteUrl"
     :addUrl="addUrl"
     :updateUrl="updateUrl">
-  </base-table>
+  </base-tree-table>
 </div>
 </template>
 <script>
-import BaseTable from '@/components/table/BaseTable'
+import BaseTreeTable from '@/components/table/BaseTreeTable'
 export default {
-  name: 'Department',
-  components: { BaseTable },
+  name: 'TestBaseTreeTable',
+  components: { BaseTreeTable },
   data () {
     return {
+      relateKey: 'departmentCode',
+      relateParentKey: 'parentDepartmentCode',
+      rootKeyValue: 'root',
       listUrl: '/api/admin/department/list',
       addUrl: '/api/admin/department/add',
       deleteUrl: '/api/admin/department/delete',
       updateUrl: '/api/admin/department/update',
-      supportPage: false,
       columns: [
+        {text: '部门名称', width: 240, value: 'departmentName', hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
         {text: 'ID', value: 'id'},
-        {text: '部门名称', value: 'departmentCode', hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
-        {text: '部门代码', value: 'departmentCode', filter: true},
-        {text: '上级部门', value: 'parentDepartmentCode', filter: true},
+        {text: '上级部门', value: 'parentDepartmentCode', filter: true, disableAdd: true, disableUpdate: true},
+        {text: '部门代码', value: 'departmentCode'},
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
       ]
     }

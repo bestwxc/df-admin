@@ -4,9 +4,9 @@
     <!--
     <el-input placeholder="上级区域代码" v-model="queryParam.parentDivisionCode" class="filter-item" @keyup.enter.native="handleFilter" />
     -->
-    <v-for v-for="(column) in columns" :key="column.value">
+    <span v-for="(column) in columns" :key="column.value">
       <el-input v-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
-    </v-for>
+    </span>
     <el-button class="filter-btn" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
   </div>
   <div class="btn-container">
@@ -41,11 +41,11 @@
   </el-pagination>
   <el-dialog :title="editFormProp[editType].title" :visible.sync="showEditForm">
       <el-form ref="dataForm" :rules="rules" :model="formData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <v-for v-for="(column) in columns" :key="column.value">
+        <span v-for="(column) in columns" :key="column.value">
           <el-form-item v-if="judgeHide(column, editType)" :label="column.text" :prop="column.value">
             <el-input v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
-        </v-for>
+        </span>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showEditForm = false">取消</el-button>
@@ -137,7 +137,6 @@ export default {
         this.queryParam.pageNo = this.pageNo
         this.queryParam.pageSize = this.pageSize
       }
-      console.info(this.queryParam)
       request({
         url: this.listUrl,
         method: 'post',
