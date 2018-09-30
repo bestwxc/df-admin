@@ -95,7 +95,8 @@ export default {
       this.currentRow = currentRow
     },
     async loadFunc (record) {
-      let deltaList = await listTreeNode({ flag: 0, parentId: record.id })
+      let data = await listTreeNode({ flag: 0, parentId: record.id })
+      let deltaList = data.result
       Vue.set(record, '_loaded', true)
       return deltaList
     },
@@ -108,8 +109,8 @@ export default {
       } else {
         param.parentId = 0
       }
-      const result = await listTreeNode(param)
-      this.data = result
+      const data = await listTreeNode(param)
+      this.data = data.result
     },
     async handleFilter () {
       this.getRoot()

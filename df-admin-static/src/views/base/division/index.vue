@@ -49,7 +49,8 @@ export default {
       this.currentRow = currentRow
     },
     async loadFunc (record) {
-      let deltaList = await listDivision({ flag: 0, parentId: record.id })
+      let data = await listDivision({ flag: 0, parentId: record.id })
+      let deltaList = data.result
       Vue.set(record, '_loaded', true)
       return deltaList
     },
@@ -62,8 +63,8 @@ export default {
       } else {
         param.parentDivisionCode = '86'
       }
-      const result = await listDivision(param)
-      this.data = result
+      const data = await listDivision(param)
+      this.data = data.result
     },
     async handleFilter () {
       this.getRoot()
