@@ -25,12 +25,6 @@ public class SystemMenu {
     private String menuName;
 
     /**
-     * 菜单节点类型
-     */
-    @Column(name = "menu_type")
-    private Integer menuType;
-
-    /**
      * 菜单图标
      */
     @Column(name = "menu_icon")
@@ -123,24 +117,6 @@ public class SystemMenu {
      */
     public void setMenuName(String menuName) {
         this.menuName = menuName == null ? null : menuName.trim();
-    }
-
-    /**
-     * 获取菜单节点类型
-     *
-     * @return menu_type - 菜单节点类型
-     */
-    public Integer getMenuType() {
-        return menuType;
-    }
-
-    /**
-     * 设置菜单节点类型
-     *
-     * @param menuType 菜单节点类型
-     */
-    public void setMenuType(Integer menuType) {
-        this.menuType = menuType;
     }
 
     /**

@@ -10,7 +10,7 @@ service.interceptors.response.use(
     if (status === 200) {
       const errorNo = res.data.errorNo
       if (errorNo === 0) {
-        return res.data.result
+        return res.data
       } else {
         Message({
           message: res.data.errorInfo + '[' + errorNo + ']',

@@ -22,7 +22,6 @@ public class SystemMenuService {
      * 新增
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -30,9 +29,9 @@ public class SystemMenuService {
      * @param flag
      * @return
      */
-    public SystemMenu add(String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
+    public SystemMenu add(String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
         SystemMenu systemMenu = new SystemMenu();
-        setObject(systemMenu,menuCode,menuName,menuType,menuIcon,parentMenu,jumpPath,orderNum,flag);
+        setObject(systemMenu,menuCode,menuName,menuIcon,parentMenu,jumpPath,orderNum,flag);
         Date now = new Date();
         systemMenu.setCreateTime(now);
         systemMenu.setUpdateTime(now);
@@ -46,7 +45,6 @@ public class SystemMenuService {
      * @param id
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -54,9 +52,9 @@ public class SystemMenuService {
      * @param flag
      * @return
      */
-    public SystemMenu update(Long id, String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
+    public SystemMenu update(Long id, String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
         SystemMenu systemMenu = systemMenuMapper.selectByPrimaryKey(id);
-        setObject(systemMenu,menuCode,menuName,menuType,menuIcon,parentMenu,jumpPath,orderNum,flag);
+        setObject(systemMenu,menuCode,menuName,menuIcon,parentMenu,jumpPath,orderNum,flag);
         Date now = new Date();
         systemMenu.setUpdateTime(now);
         systemMenuMapper.updateByPrimaryKey(systemMenu);
@@ -68,7 +66,6 @@ public class SystemMenuService {
      * @param id
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -78,8 +75,8 @@ public class SystemMenuService {
      * @param updateTime
      * @return
      */
-    public List<SystemMenu> list(Long id,String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,menuCode,menuName,menuType,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
+    public List<SystemMenu> list(Long id,String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,menuCode,menuName,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
         return systemMenuMapper.selectByExample(example);
     }
 
@@ -88,7 +85,6 @@ public class SystemMenuService {
      * @param id
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -98,8 +94,8 @@ public class SystemMenuService {
      * @param updateTime
      * @return
      */
-    public SystemMenu listOne(Long id,String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,menuCode,menuName,menuType,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
+    public SystemMenu listOne(Long id,String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,menuCode,menuName,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
         return systemMenuMapper.selectOneByExample(example);
     }
 
@@ -109,7 +105,6 @@ public class SystemMenuService {
      * @param id
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -119,8 +114,8 @@ public class SystemMenuService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,menuCode,menuName,menuType,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
+    public int delete(Long id,String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,menuCode,menuName,menuIcon,parentMenu,jumpPath,orderNum,flag,createTime,updateTime);
         return systemMenuMapper.deleteByExample(example);
     }
 
@@ -130,7 +125,20 @@ public class SystemMenuService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null, null, null, null);
+    }
+
+    /**
+     * 逻辑删除
+     * @param id
+     * @return
+     */
+    public int logicDelete(Long id){
+        SystemMenu systemMenu = systemMenuMapper.selectByPrimaryKey(id);
+        List<SystemMenu> list = this.list(null, systemMenu.getMenuCode(), null, null, systemMenu.getParentMenu(), null, null, null, null, null);
+        SystemMenu maxSystemMenu = list.stream().max((systemMenu1, systemMenu2) -> systemMenu1.getFlag() - systemMenu2.getFlag()).get();
+        this.update(id, null, null, null, null, null, null, maxSystemMenu.getFlag() + 1);
+        return 1;
     }
 
 
@@ -138,7 +146,6 @@ public class SystemMenuService {
      * 组装更新数据
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -146,15 +153,12 @@ public class SystemMenuService {
      * @param flag
      * @return
      */
-    private void setObject(SystemMenu systemMenu, String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
+    private void setObject(SystemMenu systemMenu, String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag){
         if(ValidateUtils.isNotEmptyString(menuCode)){
             systemMenu.setMenuCode(menuCode);
         }
         if(ValidateUtils.isNotEmptyString(menuName)){
             systemMenu.setMenuName(menuName);
-        }
-        if(ValidateUtils.notNull(menuType)){
-            systemMenu.setMenuType(menuType);
         }
         if(ValidateUtils.isNotEmptyString(menuIcon)){
             systemMenu.setMenuIcon(menuIcon);
@@ -178,7 +182,6 @@ public class SystemMenuService {
      * @param id
      * @param menuCode
      * @param menuName
-     * @param menuType
      * @param menuIcon
      * @param parentMenu
      * @param jumpPath
@@ -188,7 +191,7 @@ public class SystemMenuService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String menuCode,String menuName,Integer menuType,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Long id,String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<SystemMenu> sqls = WeekendSqls.<SystemMenu>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(SystemMenu::getId, id);
@@ -198,9 +201,6 @@ public class SystemMenuService {
         }
         if(ValidateUtils.isNotEmptyString(menuName)) {
             sqls.andEqualTo(SystemMenu::getMenuName, menuName);
-        }
-        if(ValidateUtils.notNull(menuType)) {
-            sqls.andEqualTo(SystemMenu::getMenuType, menuType);
         }
         if(ValidateUtils.isNotEmptyString(menuIcon)) {
             sqls.andEqualTo(SystemMenu::getMenuIcon, menuIcon);

@@ -8,7 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
-    <result column="menu_type" jdbcType="INTEGER" property="menuType" />
     <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
     <result column="parent_menu" jdbcType="VARCHAR" property="parentMenu" />
     <result column="jump_path" jdbcType="VARCHAR" property="jumpPath" />

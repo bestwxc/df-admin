@@ -37,7 +37,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="t_base_department" domainObjectName="Department">
+        <!--<table tableName="t_base_department" domainObjectName="Department">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_base_user" domainObjectName="User">
@@ -60,7 +60,7 @@
         </table>
         <table tableName="t_base_administrative_division" domainObjectName="AdministrativeDivision">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="t_base_system_menu" domainObjectName="SystemMenu">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
