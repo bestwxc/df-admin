@@ -165,6 +165,72 @@
         "view": {
           "enabled": false
         }
+      },
+      "RoleResource":{
+        "basePackage": "net.df.module",
+        "moduleName": "admin",
+        "srcFolder": "src/main/java/",
+        "modelClassName": "RoleResource",
+        "loginDelete": "true",
+        "ukColumns": "roleId,resourceId",
+        "service": {
+          "enabled": true,
+          "serviceClassName": "RoleResourceService"
+        },
+        "controller": {
+          "enabled": true,
+          "controllerClassName": "RoleResourceController",
+          "classRequestMapping": "/api/admin",
+          "methodRequestMapping": "role/resource",
+          "list": {
+            "enabled": true
+          },
+          "add": {
+            "enabled": true
+          },
+          "update": {
+            "enabled": true
+          },
+          "delete": {
+            "enabled": true
+          }
+        },
+        "view": {
+          "enabled": false
+        }
+      },
+      "UserRole":{
+        "basePackage": "net.df.module",
+        "moduleName": "admin",
+        "srcFolder": "src/main/java/",
+        "modelClassName": "UserRole",
+        "loginDelete": "true",
+        "ukColumns": "userId,roleId",
+        "service": {
+          "enabled": true,
+          "serviceClassName": "UserRoleService"
+        },
+        "controller": {
+          "enabled": true,
+          "controllerClassName": "UserRoleController",
+          "classRequestMapping": "/api/admin",
+          "methodRequestMapping": "/user/role",
+          "list": {
+            "enabled": true
+          },
+          "add": {
+            "enabled": true
+          },
+          "update": {
+            "enabled": true
+          },
+          "delete": {
+            "enabled": true
+          }
+        },
+        "view": {
+          "enabled": false
+        }
       }
     }
   }

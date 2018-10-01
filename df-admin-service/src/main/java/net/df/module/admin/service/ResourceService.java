@@ -24,11 +24,12 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @return
      */
-    public Resource add(String resourceCode,String resourcePath,Integer resourceType,Integer flag){
+    public Resource add(String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
         Resource resource = new Resource();
-        setObject(resource,resourceCode,resourcePath,resourceType,flag);
+        setObject(resource,resourceCode,resourcePath,resourceType,flag,description);
         Date now = new Date();
         resource.setCreateTime(now);
         resource.setUpdateTime(now);
@@ -44,11 +45,12 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @return
      */
-    public Resource update(Long id, String resourceCode,String resourcePath,Integer resourceType,Integer flag){
+    public Resource update(Long id, String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        setObject(resource,resourceCode,resourcePath,resourceType,flag);
+        setObject(resource,resourceCode,resourcePath,resourceType,flag,description);
         Date now = new Date();
         resource.setUpdateTime(now);
         resourceMapper.updateByPrimaryKey(resource);
@@ -62,12 +64,13 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @param createTime
      * @param updateTime
      * @return
      */
-    public List<Resource> list(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,createTime,updateTime);
+    public List<Resource> list(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.selectByExample(example);
     }
 
@@ -78,12 +81,13 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @param createTime
      * @param updateTime
      * @return
      */
-    public Resource listOne(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,createTime,updateTime);
+    public Resource listOne(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.selectOneByExample(example);
     }
 
@@ -95,12 +99,13 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @param createTime
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,createTime,updateTime);
+    public int delete(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.deleteByExample(example);
     }
 
@@ -110,7 +115,7 @@ public class ResourceService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null, null);
     }
 
     /**
@@ -120,9 +125,9 @@ public class ResourceService {
      */
     public int logicDelete(Long id){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        List<Resource> list = this.list(null, resource.getResourceCode(), null, null, null, null, null);
+        List<Resource> list = this.list(null, resource.getResourceCode(), null, null, null, null, null, null);
         Resource maxResource = list.stream().max((resource1, resource2) -> resource1.getFlag() - resource2.getFlag()).get();
-        this.update(id, null, null, null, maxResource.getFlag() + 1);
+        this.update(id, null, null, null, maxResource.getFlag() + 1, null);
         return 1;
     }
 
@@ -133,9 +138,10 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @return
      */
-    private void setObject(Resource resource, String resourceCode,String resourcePath,Integer resourceType,Integer flag){
+    private void setObject(Resource resource, String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
         if(ValidateUtils.isNotEmptyString(resourceCode)){
             resource.setResourceCode(resourceCode);
         }
@@ -148,6 +154,9 @@ public class ResourceService {
         if(ValidateUtils.notNull(flag)){
             resource.setFlag(flag);
         }
+        if(ValidateUtils.isNotEmptyString(description)){
+            resource.setDescription(description);
+        }
     }
 
     /**
@@ -157,11 +166,12 @@ public class ResourceService {
      * @param resourcePath
      * @param resourceType
      * @param flag
+     * @param description
      * @param createTime
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
         WeekendSqls<Resource> sqls = WeekendSqls.<Resource>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(Resource::getId, id);
@@ -177,6 +187,9 @@ public class ResourceService {
         }
         if(ValidateUtils.notNull(flag)) {
             sqls.andEqualTo(Resource::getFlag, flag);
+        }
+        if(ValidateUtils.isNotEmptyString(description)) {
+            sqls.andEqualTo(Resource::getDescription, description);
         }
         if(ValidateUtils.notNull(createTime)) {
             sqls.andEqualTo(Resource::getCreateTime, createTime);

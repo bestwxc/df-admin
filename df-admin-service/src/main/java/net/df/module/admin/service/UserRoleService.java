@@ -17,15 +17,17 @@ public class UserRoleService {
     private UserRoleMapper userRoleMapper;
 
 
+
     /**
      * 新增
      * @param userId
      * @param roleId
+     * @param flag
      * @return
      */
-    public UserRole add(Long userId,Long roleId){
+    public UserRole add(Long userId,Long roleId,Integer flag){
         UserRole userRole = new UserRole();
-        setObject(userRole,userId,roleId);
+        setObject(userRole,userId,roleId,flag);
         Date now = new Date();
         userRole.setCreateTime(now);
         userRole.setUpdateTime(now);
@@ -39,11 +41,12 @@ public class UserRoleService {
      * @param id
      * @param userId
      * @param roleId
+     * @param flag
      * @return
      */
-    public UserRole update(Long id, Long userId,Long roleId){
+    public UserRole update(Long id, Long userId,Long roleId,Integer flag){
         UserRole userRole = userRoleMapper.selectByPrimaryKey(id);
-        setObject(userRole,userId,roleId);
+        setObject(userRole,userId,roleId,flag);
         Date now = new Date();
         userRole.setUpdateTime(now);
         userRoleMapper.updateByPrimaryKey(userRole);
@@ -55,12 +58,13 @@ public class UserRoleService {
      * @param id
      * @param userId
      * @param roleId
+     * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public List<UserRole> list(Long id,Long userId,Long roleId,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userId,roleId,createTime,updateTime);
+    public List<UserRole> list(Long id,Long userId,Long roleId,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,userId,roleId,flag,createTime,updateTime);
         return userRoleMapper.selectByExample(example);
     }
 
@@ -69,12 +73,13 @@ public class UserRoleService {
      * @param id
      * @param userId
      * @param roleId
+     * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public UserRole listOne(Long id,Long userId,Long roleId,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userId,roleId,createTime,updateTime);
+    public UserRole listOne(Long id,Long userId,Long roleId,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,userId,roleId,flag,createTime,updateTime);
         return userRoleMapper.selectOneByExample(example);
     }
 
@@ -84,12 +89,13 @@ public class UserRoleService {
      * @param id
      * @param userId
      * @param roleId
+     * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public int delete(Long id,Long userId,Long roleId,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userId,roleId,createTime,updateTime);
+    public int delete(Long id,Long userId,Long roleId,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,userId,roleId,flag,createTime,updateTime);
         return userRoleMapper.deleteByExample(example);
     }
 
@@ -99,7 +105,20 @@ public class UserRoleService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null);
+        return this.delete( id, null, null, null, null, null);
+    }
+
+    /**
+     * 逻辑删除
+     * @param id
+     * @return
+     */
+    public int logicDelete(Long id){
+        UserRole userRole = userRoleMapper.selectByPrimaryKey(id);
+        List<UserRole> list = this.list(null, userRole.getUserId(), userRole.getRoleId(), null, null, null);
+        UserRole maxUserRole = list.stream().max((userRole1, userRole2) -> userRole1.getFlag() - userRole2.getFlag()).get();
+        this.update(id, null, null, maxUserRole.getFlag() + 1);
+        return 1;
     }
 
 
@@ -107,14 +126,18 @@ public class UserRoleService {
      * 组装更新数据
      * @param userId
      * @param roleId
+     * @param flag
      * @return
      */
-    private void setObject(UserRole userRole, Long userId,Long roleId){
+    private void setObject(UserRole userRole, Long userId,Long roleId,Integer flag){
         if(ValidateUtils.notNull(userId)){
             userRole.setUserId(userId);
         }
         if(ValidateUtils.notNull(roleId)){
             userRole.setRoleId(roleId);
+        }
+        if(ValidateUtils.notNull(flag)){
+            userRole.setFlag(flag);
         }
     }
 
@@ -123,11 +146,12 @@ public class UserRoleService {
      * @param id
      * @param userId
      * @param roleId
+     * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,Long userId,Long roleId,Date createTime,Date updateTime){
+    private Example getExample(Long id,Long userId,Long roleId,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<UserRole> sqls = WeekendSqls.<UserRole>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(UserRole::getId, id);
@@ -137,6 +161,9 @@ public class UserRoleService {
         }
         if(ValidateUtils.notNull(roleId)) {
             sqls.andEqualTo(UserRole::getRoleId, roleId);
+        }
+        if(ValidateUtils.notNull(flag)) {
+            sqls.andEqualTo(UserRole::getFlag, flag);
         }
         if(ValidateUtils.notNull(createTime)) {
             sqls.andEqualTo(UserRole::getCreateTime, createTime);

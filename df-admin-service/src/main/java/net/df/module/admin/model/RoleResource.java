@@ -25,6 +25,11 @@ public class RoleResource {
     private Long resourceId;
 
     /**
+     * 状态
+     */
+    private Integer flag;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
@@ -88,6 +93,24 @@ public class RoleResource {
      */
     public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**

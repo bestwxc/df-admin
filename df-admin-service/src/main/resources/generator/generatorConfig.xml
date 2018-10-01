@@ -49,13 +49,13 @@
         <table tableName="t_base_resource" domainObjectName="Resource">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
-        <!--<table tableName="t_base_user_role" domainObjectName="UserRole">
+        <table tableName="t_base_user_role" domainObjectName="UserRole">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_base_role_resource" domainObjectName="RoleResource">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="t_base_tree_node" domainObjectName="TreeNode">
+        <!--<table tableName="t_base_tree_node" domainObjectName="TreeNode">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_base_administrative_division" domainObjectName="AdministrativeDivision">

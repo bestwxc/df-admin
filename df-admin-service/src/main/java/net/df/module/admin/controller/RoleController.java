@@ -34,8 +34,9 @@ public class RoleController {
         Long id = MapUtils.getLongFromMap(map, "id", null);
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
+        String description = MapUtils.getStringFromMap(map, "description", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<Role> list = roleService.list(id, roleCode, roleName, flag, null, null);
+        List<Role> list = roleService.list(id, roleCode, roleName, description, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -48,8 +49,9 @@ public class RoleController {
     public Result<Role> add(@RequestBody Map<String,?> map){
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
+        String description = MapUtils.getStringFromMap(map, "description", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Role role = roleService.add(roleCode, roleName, flag);
+        Role role = roleService.add(roleCode, roleName, description, flag);
         return ResultUtils.success(role);
     }
 
@@ -63,8 +65,9 @@ public class RoleController {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
+        String description = MapUtils.getStringFromMap(map, "description", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Role role = roleService.update(id, roleCode, roleName, flag);
+        Role role = roleService.update(id, roleCode, roleName, description, flag);
         return ResultUtils.success(role);
     }
 

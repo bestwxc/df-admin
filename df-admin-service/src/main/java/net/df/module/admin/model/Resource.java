@@ -36,6 +36,11 @@ public class Resource {
     private Integer flag;
 
     /**
+     * 角色说明
+     */
+    private String description;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
@@ -135,6 +140,24 @@ public class Resource {
      */
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    /**
+     * 获取角色说明
+     *
+     * @return description - 角色说明
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 设置角色说明
+     *
+     * @param description 角色说明
+     */
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     /**

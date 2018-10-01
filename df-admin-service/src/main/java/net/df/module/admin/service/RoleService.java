@@ -22,12 +22,13 @@ public class RoleService {
      * 新增
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @return
      */
-    public Role add(String roleCode,String roleName,Integer flag){
+    public Role add(String roleCode,String roleName,String description,Integer flag){
         Role role = new Role();
-        setObject(role,roleCode,roleName,flag);
+        setObject(role,roleCode,roleName,description,flag);
         Date now = new Date();
         role.setCreateTime(now);
         role.setUpdateTime(now);
@@ -41,12 +42,13 @@ public class RoleService {
      * @param id
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @return
      */
-    public Role update(Long id, String roleCode,String roleName,Integer flag){
+    public Role update(Long id, String roleCode,String roleName,String description,Integer flag){
         Role role = roleMapper.selectByPrimaryKey(id);
-        setObject(role,roleCode,roleName,flag);
+        setObject(role,roleCode,roleName,description,flag);
         Date now = new Date();
         role.setUpdateTime(now);
         roleMapper.updateByPrimaryKey(role);
@@ -58,13 +60,14 @@ public class RoleService {
      * @param id
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public List<Role> list(Long id,String roleCode,String roleName,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,flag,createTime,updateTime);
+    public List<Role> list(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
         return roleMapper.selectByExample(example);
     }
 
@@ -73,13 +76,14 @@ public class RoleService {
      * @param id
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public Role listOne(Long id,String roleCode,String roleName,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,flag,createTime,updateTime);
+    public Role listOne(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
         return roleMapper.selectOneByExample(example);
     }
 
@@ -89,13 +93,14 @@ public class RoleService {
      * @param id
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String roleCode,String roleName,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,flag,createTime,updateTime);
+    public int delete(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
         return roleMapper.deleteByExample(example);
     }
 
@@ -105,7 +110,7 @@ public class RoleService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null);
     }
 
     /**
@@ -115,9 +120,9 @@ public class RoleService {
      */
     public int logicDelete(Long id){
         Role role = roleMapper.selectByPrimaryKey(id);
-        List<Role> list = this.list(null, role.getRoleCode(), null, null, null, null);
+        List<Role> list = this.list(null, role.getRoleCode(), null, null, null, null, null);
         Role maxRole = list.stream().max((role1, role2) -> role1.getFlag() - role2.getFlag()).get();
-        this.update(id, null, null, maxRole.getFlag() + 1);
+        this.update(id, null, null, null, maxRole.getFlag() + 1);
         return 1;
     }
 
@@ -126,15 +131,19 @@ public class RoleService {
      * 组装更新数据
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @return
      */
-    private void setObject(Role role, String roleCode,String roleName,Integer flag){
+    private void setObject(Role role, String roleCode,String roleName,String description,Integer flag){
         if(ValidateUtils.isNotEmptyString(roleCode)){
             role.setRoleCode(roleCode);
         }
         if(ValidateUtils.isNotEmptyString(roleName)){
             role.setRoleName(roleName);
+        }
+        if(ValidateUtils.isNotEmptyString(description)){
+            role.setDescription(description);
         }
         if(ValidateUtils.notNull(flag)){
             role.setFlag(flag);
@@ -146,12 +155,13 @@ public class RoleService {
      * @param id
      * @param roleCode
      * @param roleName
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String roleCode,String roleName,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<Role> sqls = WeekendSqls.<Role>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(Role::getId, id);
@@ -161,6 +171,9 @@ public class RoleService {
         }
         if(ValidateUtils.isNotEmptyString(roleName)) {
             sqls.andEqualTo(Role::getRoleName, roleName);
+        }
+        if(ValidateUtils.isNotEmptyString(description)) {
+            sqls.andEqualTo(Role::getDescription, description);
         }
         if(ValidateUtils.notNull(flag)) {
             sqls.andEqualTo(Role::getFlag, flag);

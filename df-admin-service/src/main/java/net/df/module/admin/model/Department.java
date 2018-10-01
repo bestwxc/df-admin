@@ -31,6 +31,11 @@ public class Department {
     private String parentDepartmentCode;
 
     /**
+     * 部门描述
+     */
+    private String description;
+
+    /**
      * 状态
      */
     private Integer flag;
@@ -117,6 +122,24 @@ public class Department {
      */
     public void setParentDepartmentCode(String parentDepartmentCode) {
         this.parentDepartmentCode = parentDepartmentCode == null ? null : parentDepartmentCode.trim();
+    }
+
+    /**
+     * 获取部门描述
+     *
+     * @return description - 部门描述
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 设置部门描述
+     *
+     * @param description 部门描述
+     */
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     /**

@@ -23,12 +23,13 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @return
      */
-    public Department add(String departmentCode,String departmentName,String parentDepartmentCode,Integer flag){
+    public Department add(String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
         Department department = new Department();
-        setObject(department,departmentCode,departmentName,parentDepartmentCode,flag);
+        setObject(department,departmentCode,departmentName,parentDepartmentCode,description,flag);
         Date now = new Date();
         department.setCreateTime(now);
         department.setUpdateTime(now);
@@ -43,12 +44,13 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @return
      */
-    public Department update(Long id, String departmentCode,String departmentName,String parentDepartmentCode,Integer flag){
+    public Department update(Long id, String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
         Department department = departmentMapper.selectByPrimaryKey(id);
-        setObject(department,departmentCode,departmentName,parentDepartmentCode,flag);
+        setObject(department,departmentCode,departmentName,parentDepartmentCode,description,flag);
         Date now = new Date();
         department.setUpdateTime(now);
         departmentMapper.updateByPrimaryKey(department);
@@ -61,13 +63,14 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public List<Department> list(Long id,String departmentCode,String departmentName,String parentDepartmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,flag,createTime,updateTime);
+    public List<Department> list(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
         return departmentMapper.selectByExample(example);
     }
 
@@ -77,13 +80,14 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public Department listOne(Long id,String departmentCode,String departmentName,String parentDepartmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,flag,createTime,updateTime);
+    public Department listOne(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
         return departmentMapper.selectOneByExample(example);
     }
 
@@ -94,13 +98,14 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String departmentCode,String departmentName,String parentDepartmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,flag,createTime,updateTime);
+    public int delete(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
+        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
         return departmentMapper.deleteByExample(example);
     }
 
@@ -110,7 +115,7 @@ public class DepartmentService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null, null);
     }
 
     /**
@@ -120,9 +125,9 @@ public class DepartmentService {
      */
     public int logicDelete(Long id){
         Department department = departmentMapper.selectByPrimaryKey(id);
-        List<Department> list = this.list(null, department.getDepartmentCode(), null, null, null, null, null);
+        List<Department> list = this.list(null, department.getDepartmentCode(), null, null, null, null, null, null);
         Department maxDepartment = list.stream().max((department1, department2) -> department1.getFlag() - department2.getFlag()).get();
-        this.update(id, null, null, null, maxDepartment.getFlag() + 1);
+        this.update(id, null, null, null, null, maxDepartment.getFlag() + 1);
         return 1;
     }
 
@@ -132,10 +137,11 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @return
      */
-    private void setObject(Department department, String departmentCode,String departmentName,String parentDepartmentCode,Integer flag){
+    private void setObject(Department department, String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
         if(ValidateUtils.isNotEmptyString(departmentCode)){
             department.setDepartmentCode(departmentCode);
         }
@@ -144,6 +150,9 @@ public class DepartmentService {
         }
         if(ValidateUtils.isNotEmptyString(parentDepartmentCode)){
             department.setParentDepartmentCode(parentDepartmentCode);
+        }
+        if(ValidateUtils.isNotEmptyString(description)){
+            department.setDescription(description);
         }
         if(ValidateUtils.notNull(flag)){
             department.setFlag(flag);
@@ -156,12 +165,13 @@ public class DepartmentService {
      * @param departmentCode
      * @param departmentName
      * @param parentDepartmentCode
+     * @param description
      * @param flag
      * @param createTime
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String departmentCode,String departmentName,String parentDepartmentCode,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<Department> sqls = WeekendSqls.<Department>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(Department::getId, id);
@@ -174,6 +184,9 @@ public class DepartmentService {
         }
         if(ValidateUtils.isNotEmptyString(parentDepartmentCode)) {
             sqls.andEqualTo(Department::getParentDepartmentCode, parentDepartmentCode);
+        }
+        if(ValidateUtils.isNotEmptyString(description)) {
+            sqls.andEqualTo(Department::getDescription, description);
         }
         if(ValidateUtils.notNull(flag)) {
             sqls.andEqualTo(Department::getFlag, flag);

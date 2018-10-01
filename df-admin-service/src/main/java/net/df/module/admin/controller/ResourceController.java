@@ -36,7 +36,8 @@ public class ResourceController {
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<Resource> list = resourceService.list(id, resourceCode, resourcePath, resourceType, flag, null, null);
+        String description = MapUtils.getStringFromMap(map, "description", null);
+        List<Resource> list = resourceService.list(id, resourceCode, resourcePath, resourceType, flag, description, null, null);
         return ResultUtils.success(list);
     }
 
@@ -51,7 +52,8 @@ public class ResourceController {
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Resource resource = resourceService.add(resourceCode, resourcePath, resourceType, flag);
+        String description = MapUtils.getStringFromMap(map, "description", null);
+        Resource resource = resourceService.add(resourceCode, resourcePath, resourceType, flag, description);
         return ResultUtils.success(resource);
     }
 
@@ -67,7 +69,8 @@ public class ResourceController {
         String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
         Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Resource resource = resourceService.update(id, resourceCode, resourcePath, resourceType, flag);
+        String description = MapUtils.getStringFromMap(map, "description", null);
+        Resource resource = resourceService.update(id, resourceCode, resourcePath, resourceType, flag, description);
         return ResultUtils.success(resource);
     }
 

@@ -25,6 +25,11 @@ public class UserRole {
     private Long roleId;
 
     /**
+     * 状态
+     */
+    private Integer flag;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
@@ -88,6 +93,24 @@ public class UserRole {
      */
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**
