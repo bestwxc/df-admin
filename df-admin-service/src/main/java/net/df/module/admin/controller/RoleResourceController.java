@@ -15,7 +15,7 @@ import net.df.module.admin.model.RoleResource;
 import net.df.module.admin.service.RoleResourceService;
 
 
-@RestController
+//@RestController
 @RequestMapping("/api/admin")
 public class RoleResourceController {
 

@@ -44,7 +44,7 @@
 <script>
 import Vue from 'vue'
 import TreeTable from '@/components/table/TreeTable'
-import { listTreeNode, addTreeNode, deleteTreeNode, updateTreeNode } from '@/api/admin/treeNode'
+import { listTreeNode, addTreeNode, deleteTreeNode, updateTreeNode } from '@/api/data/treeNode'
 import layer from '@/utils/layer'
 const defaultEditForm = {
   id: '',

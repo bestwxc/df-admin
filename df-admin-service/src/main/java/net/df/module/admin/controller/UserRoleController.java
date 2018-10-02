@@ -15,7 +15,7 @@ import net.df.module.admin.model.UserRole;
 import net.df.module.admin.service.UserRoleService;
 
 
-@RestController
+//@RestController
 @RequestMapping("/api/admin")
 public class UserRoleController {
 
@@ -29,7 +29,7 @@ public class UserRoleController {
      * @param map
      * @return
      */
-    @RequestMapping("//user/role/list")
+    @RequestMapping("/user/role/list")
     public Result<List<UserRole>> list(@RequestBody Map<String,?> map){
         Long id = MapUtils.getLongFromMap(map, "id", null);
         Long userId = MapUtils.getLongFromMap(map, "userId", null);
@@ -44,7 +44,7 @@ public class UserRoleController {
      * @param map
      * @return
      */
-    @RequestMapping("//user/role/add")
+    @RequestMapping("/user/role/add")
     public Result<UserRole> add(@RequestBody Map<String,?> map){
         Long userId = MapUtils.getLongFromMap(map, "userId", null);
         Long roleId = MapUtils.getLongFromMap(map, "roleId", null);
@@ -58,7 +58,7 @@ public class UserRoleController {
      * @param map
      * @return
      */
-    @RequestMapping("//user/role/update")
+    @RequestMapping("/user/role/update")
     public Result<UserRole> update(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         Long userId = MapUtils.getLongFromMap(map, "userId", null);
@@ -74,7 +74,7 @@ public class UserRoleController {
      * @param map
      * @return
      */
-    @RequestMapping("//user/role/delete")
+    @RequestMapping("/user/role/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         int num = userRoleService.logicDelete(id);

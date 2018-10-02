@@ -14,6 +14,7 @@
     <el-button v-if="enableAdd" class="filter-item" type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
     <el-button v-if="enableUpdate" class="filter-item" type="warning" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
     <el-button v-if="enableDelete" class="filter-item" type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+    <el-button v-for="(extBtn) in extBtns" v-bind:key="extBtn.text" class="filter-item" :type="extBtn.type" :icon="extBtn.icon" @click="$emit(extBtn.event, currentRow)">{{extBtn.text}}</el-button>
   </div>
   <el-table
     :data="tableData"
@@ -40,19 +41,19 @@
     :total="total">
   </el-pagination>
   <el-dialog :title="editFormProp[editType].title" :visible.sync="showEditForm">
-      <el-form ref="dataForm" :rules="rules" :model="formData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <span v-for="(column) in columns" :key="column.value">
-          <el-form-item v-if="judgeHide(column, editType)" :label="column.text" :prop="column.value">
-            <el-input v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
-          </el-form-item>
-        </span>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showEditForm = false">取消</el-button>
-        <el-button v-if="editType=='add'" type="primary" @click="addData">新增</el-button>
-        <el-button v-else type="primary" @click="updataData">修改</el-button>
-      </div>
-    </el-dialog>
+    <el-form ref="dataForm" :rules="rules" :model="formData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <span v-for="(column) in columns" :key="column.value">
+        <el-form-item v-if="judgeHide(column, editType)" :label="column.text" :prop="column.value">
+          <el-input v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+        </el-form-item>
+      </span>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="showEditForm = false">取消</el-button>
+      <el-button v-if="editType=='add'" type="primary" @click="addData">新增</el-button>
+      <el-button v-else type="primary" @click="updataData">修改</el-button>
+    </div>
+  </el-dialog>
 </div>
 </template>
 <script>
@@ -97,6 +98,10 @@ export default {
     enableUpdate: {
       type: Boolean,
       default: true
+    },
+    extBtns: {
+      type: Array,
+      default: () => []
     }
   },
   data () {

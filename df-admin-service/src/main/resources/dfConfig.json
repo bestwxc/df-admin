@@ -214,7 +214,7 @@
           "enabled": true,
           "controllerClassName": "UserRoleController",
           "classRequestMapping": "/api/admin",
-          "methodRequestMapping": "/user/role",
+          "methodRequestMapping": "user/role",
           "list": {
             "enabled": true
           },

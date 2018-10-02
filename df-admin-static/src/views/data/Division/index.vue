@@ -17,7 +17,7 @@
 <script>
 import Vue from 'vue'
 import TreeTable from '@/components/table/TreeTable'
-import { listDivision } from '@/api/admin/division'
+import { listDivision } from '@/api/data/division'
 import layer from '@/utils/layer'
 export default {
   name: 'tree-node',
