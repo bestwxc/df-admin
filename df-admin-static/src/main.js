@@ -14,7 +14,7 @@ import router from './router'
 import store from './store'
 import './store/initDict'
 
-Vue.use(ElementUI, { size: 'small', locale })
+Vue.use(ElementUI, { size: 'mini', locale })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
