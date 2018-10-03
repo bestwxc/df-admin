@@ -1,6 +1,72 @@
 {
   "generate":{
     "models":{
+      "AdministrativeDivision":{
+        "basePackage": "net.df.module",
+        "moduleName": "admin",
+        "srcFolder": "src/main/java/",
+        "modelClassName": "AdministrativeDivision",
+        "loginDelete": "true",
+        "ukColumns": "parentDivisionCode,divisionCode",
+        "service": {
+          "enabled": true,
+          "serviceClassName": "AdministrativeDivisionService"
+        },
+        "controller": {
+          "enabled": true,
+          "controllerClassName": "AdministrativeDivisionController",
+          "classRequestMapping": "/api/admin",
+          "methodRequestMapping": "division",
+          "list": {
+            "enabled": true
+          },
+          "add": {
+            "enabled": false
+          },
+          "update": {
+            "enabled": false
+          },
+          "delete": {
+            "enabled": false
+          }
+        },
+        "view": {
+          "enabled": false
+        }
+      },
+      "TreeNode":{
+        "basePackage": "net.df.module",
+        "moduleName": "admin",
+        "srcFolder": "src/main/java/",
+        "modelClassName": "TreeNode",
+        "loginDelete": "true",
+        "ukColumns": "parentId,nodeValue",
+        "service": {
+          "enabled": true,
+          "serviceClassName": "TreeNodeService"
+        },
+        "controller": {
+          "enabled": true,
+          "controllerClassName": "TreeNodeController",
+          "classRequestMapping": "/api/admin",
+          "methodRequestMapping": "tree",
+          "list": {
+            "enabled": true
+          },
+          "add": {
+            "enabled": true
+          },
+          "update": {
+            "enabled": true
+          },
+          "delete": {
+            "enabled": true
+          }
+        },
+        "view": {
+          "enabled": false
+        }
+      },
       "SystemMenu":{
         "basePackage": "net.df.module",
         "moduleName": "admin",

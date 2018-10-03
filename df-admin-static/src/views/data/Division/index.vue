@@ -42,7 +42,7 @@ export default {
         { text: '上级区域代码', value: 'parentDivisionCode', width: 150, filter: true },
         { text: '区域级别', value: 'divisionLevel', width: 40 },
         { text: '区域级别调整', value: 'levelAdjust', width: 40 },
-        { text: '城乡区域类型', value: 'divisionType', width: 60 },
+        { text: '城乡区域类型', value: 'divisionType', displayValue: 'divisionTypeName', width: 60, type: 'select', dictType: 'tree', childDictType: 'system.dicts.divisionType' },
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true},
         { text: '排序值', value: 'orderNum', width: 40 }
       ]

@@ -2,7 +2,15 @@
   <div class="app-container">
     <div class="filter-container">
       <span v-for="(column) in columns" :key="column.value">
-        <el-input v-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
+        <el-select v-if="column.filter && column.type == 'select'" v-model="queryParam[column.value]" clearable placeholder="请选择" @keyup.enter.native="handleFilter">
+          <el-option
+            v-for="item in tree[column.childDictType]"
+            :key="item.nodeValue"
+            :label="item.nodeName"
+            :value="item.nodeValue">
+          </el-option>
+        </el-select>
+        <el-input v-else-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
       </span>
       <el-button class="filter-btn" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
     </div>
@@ -18,7 +26,15 @@
       <el-form ref="dataForm" :rules="rules" :model="formData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <span v-for="(column) in columns" :key="column.value">
           <el-form-item v-if="judgeHide(column, editType)" :label="column.text" :prop="column.value">
-            <el-input v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <el-select v-if="column.type == 'select'" v-model="formData[column.value]" clearable placeholder="请选择">
+              <el-option
+                v-for="item in tree[column.childDictType]"
+                :key="item.nodeValue"
+                :label="item.nodeName"
+                :value="item.nodeValue">
+              </el-option>
+            </el-select>
+            <el-input v-else v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
       </el-form>
@@ -35,6 +51,7 @@ import Vue from 'vue'
 import TreeTable from '@/components/table/TreeTable'
 import layer from '@/utils/layer'
 import request from '@/utils/request'
+import { mapGetters } from 'vuex'
 export default {
   name: 'BaseTreeTable',
   components: { TreeTable },
@@ -68,10 +85,6 @@ export default {
       type: Array,
       required: true
     },
-    filterField: {
-      type: Array,
-      default: () => []
-    },
     enableAdd: {
       type: Boolean,
       default: true
@@ -83,7 +96,8 @@ export default {
     enableUpdate: {
       type: Boolean,
       default: true
-    }
+    },
+    addFunc: Function
   },
   data () {
     return {
@@ -107,6 +121,11 @@ export default {
       expandAll: false
     }
   },
+  computed: {
+    ...mapGetters({
+      tree: 'tree'
+    })
+  },
   methods: {
     handleCurrentChange (currentRow, oldCurrentRow) {
       this.currentRow = currentRow
@@ -115,12 +134,7 @@ export default {
       let param = {}
       param[this.relateParentKey] = record[this.relateKey]
       param.flag = 0
-      let data = await request({
-        url: this.listUrl,
-        method: 'post',
-        data: param
-      })
-      let deltaList = data.result
+      let deltaList = await this.getList(param)
       Vue.set(record, '_loaded', true)
       return deltaList
     },
@@ -129,12 +143,8 @@ export default {
         this.queryParam[this.relateParentKey] = this.rootKeyValue
       }
       this.queryParam.flag = 0
-      const data = await request({
-        url: this.listUrl,
-        method: 'post',
-        data: this.queryParam
-      })
-      this.data = data.result
+      const result = await this.getList(this.queryParam)
+      this.data = result
     },
     async handleFilter () {
       this.getRoot()
@@ -193,6 +203,10 @@ export default {
       }
       const temp = Object.assign({}, this.defaultEditForm())
       temp[this.relateParentKey] = this.currentRow[this.relateKey]
+      const defaultFunc = function (temp, currentRow) {}
+      const func = this.addFunc || defaultFunc
+      const args = [temp, this.currentRow]
+      func.apply(null, args)
       this.formData = temp
       this.editType = 'add'
       this.showEditForm = true
@@ -222,12 +236,7 @@ export default {
       let param = {}
       param[this.relateParentKey] = this.currentRow[this.relateKey]
       param.flag = 0
-      request({
-        url: this.listUrl,
-        method: 'post',
-        data: param
-      }).then(data => {
-        let result = data.result
+      this.getList(param).then(result => {
         Vue.set(this.currentRow, 'children', result)
         layer.iMsg('刷新成功', 'success')
       })
@@ -268,7 +277,7 @@ export default {
         method: 'post',
         data: this.formData
       }).then(data => {
-        let result = data.result
+        let result = this.columnFormatter(data.result)
         if (!this.currentRow.children) {
           Vue.set(this.currentRow, 'children', [])
         }
@@ -283,13 +292,37 @@ export default {
         method: 'post',
         data: this.formData
       }).then(data => {
-        let result = data.result
+        let result = this.columnFormatter(data.result)
         this.columns.forEach(column => {
           this.currentRow[column.value] = result[column.value]
         })
         layer.iMsg('修改成功', 'success', 3000)
         this.showEditForm = false
       })
+    },
+    async getList (param) {
+      let data = await request({
+        url: this.listUrl,
+        method: 'post',
+        data: param
+      })
+      let result = data.result
+      if (result && result.length && result.length > 0) {
+        result.forEach(item => this.columnFormatter(item))
+      }
+      return result
+    },
+    columnFormatter (row) {
+      this.columns.forEach(column => {
+        if (column.type === 'select') {
+          if (column.dictType === 'tree') {
+            let dictList = this.$store.getters.tree[column.childDictType]
+            let displayName = dictList.filter(dict => row[column.value] + '' === dict.nodeValue + '').map(item => item.nodeName)[0]
+            row[column.displayValue] = displayName
+          }
+        }
+      })
+      return row
     }
   },
   created () {

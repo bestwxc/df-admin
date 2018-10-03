@@ -17,6 +17,7 @@ public class TreeNodeService {
     private TreeNodeMapper treeNodeMapper;
 
 
+
     /**
      * 新增
      * @param nodeValue
@@ -120,6 +121,19 @@ public class TreeNodeService {
      */
     public int delete(Long id){
         return this.delete( id, null, null, null, null, null, null, null, null);
+    }
+
+    /**
+     * 逻辑删除
+     * @param id
+     * @return
+     */
+    public int logicDelete(Long id){
+        TreeNode treeNode = treeNodeMapper.selectByPrimaryKey(id);
+        List<TreeNode> list = this.list(null, treeNode.getNodeValue(), null, treeNode.getParentId(), null, null, null, null, null);
+        TreeNode maxTreeNode = list.stream().max((treeNode1, treeNode2) -> treeNode1.getFlag() - treeNode2.getFlag()).get();
+        this.update(id, null, null, null, null, null, maxTreeNode.getFlag() + 1);
+        return 1;
     }
 
 

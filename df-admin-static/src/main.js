@@ -12,6 +12,7 @@ import '@/styles/index.scss'
 import App from './App'
 import router from './router'
 import store from './store'
+import './store/initDict'
 
 Vue.use(ElementUI, { size: 'small', locale })
 Vue.config.productionTip = false

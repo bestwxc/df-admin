@@ -17,6 +17,7 @@ public class AdministrativeDivisionService {
     private AdministrativeDivisionMapper administrativeDivisionMapper;
 
 
+
     /**
      * 新增
      * @param divisionCode
@@ -135,6 +136,19 @@ public class AdministrativeDivisionService {
      */
     public int delete(Long id){
         return this.delete( id, null, null, null, null, null, null, null, null, null, null, null);
+    }
+
+    /**
+     * 逻辑删除
+     * @param id
+     * @return
+     */
+    public int logicDelete(Long id){
+        AdministrativeDivision administrativeDivision = administrativeDivisionMapper.selectByPrimaryKey(id);
+        List<AdministrativeDivision> list = this.list(null, administrativeDivision.getDivisionCode(), null, null, administrativeDivision.getParentDivisionCode(), null, null, null, null, null, null, null);
+        AdministrativeDivision maxAdministrativeDivision = list.stream().max((administrativeDivision1, administrativeDivision2) -> administrativeDivision1.getFlag() - administrativeDivision2.getFlag()).get();
+        this.update(id, null, null, null, null, null, null, null, null, maxAdministrativeDivision.getFlag() + 1);
+        return 1;
     }
 
 

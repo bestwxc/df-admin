@@ -55,12 +55,12 @@
         <table tableName="t_base_role_resource" domainObjectName="RoleResource">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
-        <!--<table tableName="t_base_tree_node" domainObjectName="TreeNode">
+        <table tableName="t_base_tree_node" domainObjectName="TreeNode">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_base_administrative_division" domainObjectName="AdministrativeDivision">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <table tableName="t_base_system_menu" domainObjectName="SystemMenu">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>

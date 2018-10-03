@@ -5,7 +5,15 @@
     <el-input placeholder="上级区域代码" v-model="queryParam.parentDivisionCode" class="filter-item" @keyup.enter.native="handleFilter" />
     -->
     <span v-for="(column) in columns" :key="column.value">
-      <el-input v-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
+      <el-select v-if="column.filter && column.type == 'select'" v-model="queryParam[column.value]" clearable placeholder="请选择">
+        <el-option
+          v-for="item in tree[column.childDictType]"
+          :key="item.nodeValue"
+          :label="item.nodeName"
+          :value="item.nodeValue">
+        </el-option>
+      </el-select>
+      <el-input v-else-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
     </span>
     <el-button class="filter-btn" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
   </div>
@@ -28,6 +36,9 @@
       :label="column.text"
       :width="column.width"
       >
+      <template slot-scope="scope">
+        {{ scope.row[column.displayValue] || scope.row[column.value] }}
+      </template>
     </el-table-column>
   </el-table>
   <el-pagination
@@ -44,7 +55,15 @@
     <el-form ref="dataForm" :rules="rules" :model="formData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
       <span v-for="(column) in columns" :key="column.value">
         <el-form-item v-if="judgeHide(column, editType)" :label="column.text" :prop="column.value">
-          <el-input v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+          <el-select v-if="column.type == 'select'" v-model="formData[column.value]" clearable placeholder="请选择">
+            <el-option
+              v-for="item in tree[column.childDictType]"
+              :key="item.nodeValue"
+              :label="item.nodeName"
+              :value="item.nodeValue">
+            </el-option>
+          </el-select>
+          <el-input v-else v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
         </el-form-item>
       </span>
     </el-form>
@@ -59,6 +78,7 @@
 <script>
 import request from '@/utils/request'
 import layer from '@/utils/layer'
+import { mapGetters } from 'vuex'
 export default {
   name: 'BaseTable',
   props: {
@@ -83,10 +103,6 @@ export default {
       type: Boolean,
       default: false
     },
-    filterField: {
-      type: Array,
-      default: () => []
-    },
     enableAdd: {
       type: Boolean,
       default: true
@@ -102,7 +118,8 @@ export default {
     extBtns: {
       type: Array,
       default: () => []
-    }
+    },
+    addFunc: Function
   },
   data () {
     return {
@@ -128,6 +145,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      tree: 'tree'
+    })
   },
   methods: {
     handleCurrentChange (currentRow, oldCurrentRow) {
@@ -148,6 +168,9 @@ export default {
         data: this.queryParam
       }).then(data => {
         let result = data.result
+        if (result && result.length && result.length > 0) {
+          result.forEach(item => this.columnFormatter(item))
+        }
         if (this.supportPage) {
           let tempTotal = 0
           if (data.resultType === 'list') {
@@ -202,6 +225,10 @@ export default {
     },
     handleAdd () {
       const temp = Object.assign({}, this.defaultEditForm())
+      const defaultFunc = function (temp, currentRow) {}
+      const func = this.addFunc || defaultFunc
+      const args = [temp, this.currentRow]
+      func.apply(null, args)
       this.formData = temp
       this.editType = 'add'
       this.showEditForm = true
@@ -267,6 +294,18 @@ export default {
       }
       this.pageNo = pageNo
       this.getList()
+    },
+    columnFormatter (row) {
+      this.columns.forEach(column => {
+        if (column.type === 'select') {
+          if (column.dictType === 'tree') {
+            let dictList = this.$store.getters.tree[column.childDictType]
+            let displayName = dictList.filter(dict => row[column.value] + '' === dict.nodeValue + '').map(item => item.nodeName)[0]
+            row[column.displayValue] = displayName
+          }
+        }
+      })
+      return row
     }
   },
   created () {

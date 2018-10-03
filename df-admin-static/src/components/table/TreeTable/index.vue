@@ -10,7 +10,7 @@
         {{ scope.$index }}
       </template>
     </el-table-column>
-    <el-table-column v-for="(column, index) in columns" v-else :key="column.value" :label="column.text" :width="column.width">
+    <el-table-column v-for="(column, index) in columns" v-else :key="column.value" :label="column.text" :width="column.width" :prop="column.value">
       <template slot-scope="scope">
         <!-- Todo -->
         <!-- eslint-disable-next-line vue/no-confusing-v-for-v-if -->
@@ -19,7 +19,7 @@
           <i v-if="!scope.row._expanded" class="el-icon-plus" />
           <i v-else class="el-icon-minus" />
         </span>
-        {{ scope.row[column.value] }}
+        {{ scope.row[column.displayValue] || scope.row[column.value] }}
       </template>
     </el-table-column>
     <slot/>
@@ -95,6 +95,15 @@ export default {
     iconShow (index, record) {
       let flag = index === 0 && (!record._loaded || (record._loaded && record.children && record.children.length > 0))
       return flag
+    },
+    columnFormatter (row, column, cellValue, index) {
+      console.log('columnFormatter')
+      const prop = column.property
+      let columnConfig = this.columns.filter(item => item.value === prop)[0]
+      if (columnConfig.type === 'dict' && columnConfig.dictType && cellValue) {
+        return this.commonFormatter('dict', columnConfig.dictType, row, column, cellValue, index)
+      }
+      return cellValue
     }
   }
 }
