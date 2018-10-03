@@ -20,6 +20,7 @@ public class ResourceService {
 
     /**
      * 新增
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -27,9 +28,9 @@ public class ResourceService {
      * @param description
      * @return
      */
-    public Resource add(String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    public Resource add(String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
         Resource resource = new Resource();
-        setObject(resource,resourceCode,resourcePath,resourceType,flag,description);
+        setObject(resource,resourceName,resourceCode,resourcePath,resourceType,flag,description);
         Date now = new Date();
         resource.setCreateTime(now);
         resource.setUpdateTime(now);
@@ -41,6 +42,7 @@ public class ResourceService {
     /**
      * 更新
      * @param id
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -48,9 +50,9 @@ public class ResourceService {
      * @param description
      * @return
      */
-    public Resource update(Long id, String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    public Resource update(Long id, String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        setObject(resource,resourceCode,resourcePath,resourceType,flag,description);
+        setObject(resource,resourceName,resourceCode,resourcePath,resourceType,flag,description);
         Date now = new Date();
         resource.setUpdateTime(now);
         resourceMapper.updateByPrimaryKey(resource);
@@ -60,6 +62,7 @@ public class ResourceService {
     /**
      * 查询
      * @param id
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -69,14 +72,15 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public List<Resource> list(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public List<Resource> list(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.selectByExample(example);
     }
 
     /**
      * 查询一个
      * @param id
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -86,8 +90,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public Resource listOne(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public Resource listOne(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.selectOneByExample(example);
     }
 
@@ -95,6 +99,7 @@ public class ResourceService {
     /**
      * 删除
      * @param id
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -104,8 +109,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public int delete(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
         return resourceMapper.deleteByExample(example);
     }
 
@@ -115,7 +120,7 @@ public class ResourceService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -125,15 +130,16 @@ public class ResourceService {
      */
     public int logicDelete(Long id){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        List<Resource> list = this.list(null, resource.getResourceCode(), null, null, null, null, null, null);
+        List<Resource> list = this.list(null, null, resource.getResourceCode(), null, null, null, null, null, null);
         Resource maxResource = list.stream().max((resource1, resource2) -> resource1.getFlag() - resource2.getFlag()).get();
-        this.update(id, null, null, null, maxResource.getFlag() + 1, null);
+        this.update(id, null, null, null, null, maxResource.getFlag() + 1, null);
         return 1;
     }
 
 
     /**
      * 组装更新数据
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -141,7 +147,10 @@ public class ResourceService {
      * @param description
      * @return
      */
-    private void setObject(Resource resource, String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    private void setObject(Resource resource, String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+        if(ValidateUtils.isNotEmptyString(resourceName)){
+            resource.setResourceName(resourceName);
+        }
         if(ValidateUtils.isNotEmptyString(resourceCode)){
             resource.setResourceCode(resourceCode);
         }
@@ -162,6 +171,7 @@ public class ResourceService {
     /**
      * 组装Example
      * @param id
+     * @param resourceName
      * @param resourceCode
      * @param resourcePath
      * @param resourceType
@@ -171,10 +181,13 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
+    private Example getExample(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
         WeekendSqls<Resource> sqls = WeekendSqls.<Resource>custom();
         if(ValidateUtils.notNull(id)) {
             sqls.andEqualTo(Resource::getId, id);
+        }
+        if(ValidateUtils.isNotEmptyString(resourceName)) {
+            sqls.andEqualTo(Resource::getResourceName, resourceName);
         }
         if(ValidateUtils.isNotEmptyString(resourceCode)) {
             sqls.andEqualTo(Resource::getResourceCode, resourceCode);

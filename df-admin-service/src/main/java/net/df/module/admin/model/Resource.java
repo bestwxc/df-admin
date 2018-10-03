@@ -13,6 +13,12 @@ public class Resource {
     private Long id;
 
     /**
+     * 资源名称
+     */
+    @Column(name = "resource_name")
+    private String resourceName;
+
+    /**
      * 资源代码
      */
     @Column(name = "resource_code")
@@ -68,6 +74,24 @@ public class Resource {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 获取资源名称
+     *
+     * @return resource_name - 资源名称
+     */
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    /**
+     * 设置资源名称
+     *
+     * @param resourceName 资源名称
+     */
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName == null ? null : resourceName.trim();
     }
 
     /**
