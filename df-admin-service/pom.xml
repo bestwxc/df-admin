@@ -4,26 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>df-root</artifactId>
-        <groupId>net.df</groupId>
-        <version>1.1.0-SNAPSHOT</version>
+        <artifactId>df4j-root</artifactId>
+        <groupId>com.df4j</groupId>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
-    <groupId>net.df.admin</groupId>
+    <groupId>com.df4j.admin</groupId>
     <artifactId>df-admin-service</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>net.df</groupId>
-            <artifactId>df-boot-datasource</artifactId>
+            <groupId>com.df4j</groupId>
+            <artifactId>df4j-boot-datasource</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.df</groupId>
-            <artifactId>df-boot-mybatis</artifactId>
+            <groupId>com.df4j</groupId>
+            <artifactId>df4j-boot-mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.df</groupId>
-            <artifactId>df-boot-web</artifactId>
+            <groupId>com.df4j</groupId>
+            <artifactId>df4j-boot-web</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -33,8 +33,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>net.df</groupId>
-                <artifactId>df-maven-plugin</artifactId>
+                <groupId>com.df4j</groupId>
+                <artifactId>df4j-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -10,7 +10,7 @@
         <property name="endingDelimiter" value="`"/>
 
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="net.df.boot.mybatis.mapper.BaseMapper"/>
+            <property name="mappers" value="com.df4j.boot.mybatis.mapper.BaseMapper"/>
         </plugin>
 
         <commentGenerator>
@@ -24,16 +24,16 @@
                         password="dream_flower">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="net.df.module.admin.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.df4j.module.admin.model" targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="net.df.module.admin.xmlmapper" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="com.df4j.module.admin.xmlmapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator targetPackage="net.df.module.admin.mapper" targetProject="src/main/java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.df4j.module.admin.mapper" targetProject="src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 

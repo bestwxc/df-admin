@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.df4j.module.admin.mapper.AdministrativeDivisionMapper">
+  <resultMap id="BaseResultMap" type="com.df4j.module.admin.model.AdministrativeDivision">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="division_code" jdbcType="VARCHAR" property="divisionCode" />
+    <result column="division_name" jdbcType="VARCHAR" property="divisionName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="parent_division_code" jdbcType="VARCHAR" property="parentDivisionCode" />
+    <result column="division_level" jdbcType="INTEGER" property="divisionLevel" />
+    <result column="level_adjust" jdbcType="INTEGER" property="levelAdjust" />
+    <result column="division_type" jdbcType="VARCHAR" property="divisionType" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

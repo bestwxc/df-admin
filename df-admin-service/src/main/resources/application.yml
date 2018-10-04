@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8088
 spring:
   application:
     name: df-admin-service
@@ -13,10 +13,10 @@ spring:
 mybatis:
   mapper-locations:
     - classpath:net/df/module/admin/xmlmapper/*.xml
-  type-aliases-package: net.df.module.**.model
+  type-aliases-package: com.df4j.module.**.model
 logging:
   level:
-    net.df.module.admin.mapper: debug
+    com.df4j.module.admin.mapper: debug
 df:
   boot:
     web:

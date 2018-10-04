@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.df4j.module.admin.mapper.TreeNodeMapper">
+  <resultMap id="BaseResultMap" type="com.df4j.module.admin.model.TreeNode">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="node_value" jdbcType="VARCHAR" property="nodeValue" />
+    <result column="node_name" jdbcType="VARCHAR" property="nodeName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="tree_node_path" jdbcType="VARCHAR" property="treeNodePath" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

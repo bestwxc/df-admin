@@ -2,7 +2,7 @@
   "generate":{
     "models":{
       "AdministrativeDivision":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "AdministrativeDivision",
@@ -35,7 +35,7 @@
         }
       },
       "TreeNode":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "TreeNode",
@@ -68,7 +68,7 @@
         }
       },
       "SystemMenu":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "SystemMenu",
@@ -101,7 +101,7 @@
         }
       },
       "Department":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "Department",
@@ -134,7 +134,7 @@
         }
       },
       "User":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "User",
@@ -167,7 +167,7 @@
         }
       },
       "Role":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "Role",
@@ -200,7 +200,7 @@
         }
       },
       "Resource":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "Resource",
@@ -233,7 +233,7 @@
         }
       },
       "RoleResource":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "RoleResource",
@@ -266,7 +266,7 @@
         }
       },
       "UserRole":{
-        "basePackage": "net.df.module",
+        "basePackage": "com.df4j.module",
         "moduleName": "admin",
         "srcFolder": "src/main/java/",
         "modelClassName": "UserRole",
