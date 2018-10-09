@@ -15,7 +15,7 @@ import com.df4j.module.admin.model.User;
 import com.df4j.module.admin.service.UserService;
 
 
-@RestController
+//@RestController
 @RequestMapping("/api/admin")
 public class UserController {
 
