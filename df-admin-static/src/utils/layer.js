@@ -1,4 +1,4 @@
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 
 /**
  * 提示
@@ -14,7 +14,7 @@ const iMsg = function (message, type, time) {
     type = 'error'
   }
   if (!time) {
-    time = 5 * 1000
+    time = 3 * 1000
   }
   Message({
     message: message,
@@ -23,6 +23,27 @@ const iMsg = function (message, type, time) {
   })
 }
 
+const iConfirm = function (message, confirmButtonCallBack, confirmButtonText, cancelButtonCallBack, cancelButtonText, title, type) {
+  const showTitle = title || '提示'
+  const showConfirmButtonText = confirmButtonText || '确定'
+  const showCancelButtonText = cancelButtonText || '取消'
+  const showType = type || 'warning'
+  const defaultConfirmButtonFunc = () => {}
+  const defaultCancelButtonFunc = () => {
+    Message({
+      type: 'info',
+      message: '已取消'
+    })
+  }
+  const confirmButtonFunc = confirmButtonCallBack || defaultConfirmButtonFunc
+  MessageBox(message, showTitle, {
+    confirmButtonText: showConfirmButtonText,
+    cancelButtonText: showCancelButtonText,
+    type: showType
+  }).then(confirmButtonFunc).catch(defaultCancelButtonFunc)
+}
+
 export default {
-  iMsg
+  iMsg,
+  iConfirm
 }

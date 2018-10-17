@@ -1,5 +1,7 @@
 package com.df4j.module.admin.config;
 
+import com.df4j.module.admin.properties.DfAdminProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -11,7 +13,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Configuration
-public class Config {
+@EnableConfigurationProperties({
+        DfAdminProperties.class
+})
+public class DfAdminConfig {
 
     /**
      * 线程池

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import layer from './layer'
+import store from '@/store'
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
   timeout: 5000 // request timeout
@@ -15,8 +17,13 @@ service.interceptors.response.use(
         Message({
           message: res.data.errorInfo + '[' + errorNo + ']',
           type: 'error',
-          duration: 5 * 1000
+          duration: 3 * 1000
         })
+        if (errorNo === -999) {
+          layer.iConfirm('登陆已失效，重新登陆？', () => {
+            store.dispatch('Logout')
+          })
+        }
         return Promise.reject(new Error())
       }
     } else {
@@ -28,7 +35,7 @@ service.interceptors.response.use(
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 3 * 1000
     })
     return Promise.reject(error)
   }
