@@ -2,6 +2,7 @@ package com.df4j.module.admin.config;
 
 
 import com.df4j.module.admin.sesurity.shiro.DfAdminRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -25,7 +26,6 @@ public class ShrioConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager());
         //拦截器.
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
-        filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -33,6 +33,12 @@ public class ShrioConfig {
 
     @Bean
     DfAdminRealm dfAdminRealm(){
-        return new DfAdminRealm();
+        DfAdminRealm dfAdminRealm = new DfAdminRealm();
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("SHA1");
+        hashedCredentialsMatcher.setHashIterations(3);
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        dfAdminRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+        return dfAdminRealm;
     }
 }

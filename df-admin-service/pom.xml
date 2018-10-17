@@ -14,6 +14,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.df4j</groupId>
             <artifactId>df4j-boot-datasource</artifactId>
         </dependency>

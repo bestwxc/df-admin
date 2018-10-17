@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/components/layout/Layout'
 import pages from './pages'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css'// progress bar style
+import { isLogin } from '@/utils/auth'
 
 Vue.use(Router)
 
@@ -110,7 +113,35 @@ const baseRouteMap = [
   }
 ]
 
-export default new Router({
+const whiteList = [
+  '/login'
+]
+
+const router = new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: baseRouteMap
 })
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  console.log('beforeEach')
+  if (isLogin()) {
+    if (to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
+    } else {
+      next()
+    }
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+    }
+  }
+})
+router.afterEach((to, from) => {
+  console.log('afterEach')
+  NProgress.done()
+})
+export default router

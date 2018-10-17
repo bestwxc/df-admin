@@ -13,6 +13,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './store/initDict'
+import './icons'
 
 Vue.use(ElementUI, { size: 'mini', locale })
 Vue.config.productionTip = false

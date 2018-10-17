@@ -43,10 +43,9 @@ export default {
         {text: '昵称', value: 'nickName', filter: true},
         {text: '手机号码', value: 'mobileNo', filter: true},
         {text: '用户状态', value: 'userState', filter: true, type: 'select', displayValue: 'userStateName', dictType: 'tree', childDictType: 'system.dicts.userState'},
-        {text: '用户密码', value: 'userPass', hide: true},
+        {text: '用户密码', value: 'userPass', hide: true, hideUpdate: true},
         {text: 'salt', value: 'salt', hide: true, hideAdd: true, hideUpdate: true},
         {text: '部门代码', value: 'departmentCode', filter: true},
-        {text: '排序值', value: 'orderNum', defaultValue: 0},
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
       ],
       extBtns: [
