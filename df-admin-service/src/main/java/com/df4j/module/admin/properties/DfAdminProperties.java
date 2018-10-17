@@ -2,7 +2,7 @@ package com.df4j.module.admin.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("df4j.admin")
+@ConfigurationProperties("df.admin")
 public class DfAdminProperties {
 
     private SecurityProperties security = new SecurityProperties();

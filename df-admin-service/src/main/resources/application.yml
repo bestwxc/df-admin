@@ -26,6 +26,7 @@ mybatis:
 logging:
   level:
     com.df4j.module.admin.mapper: debug
+    # org.apache.shiro: debug
 df:
   boot:
     web:

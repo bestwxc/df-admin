@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import layer from './layer'
 import store from '@/store'
+axios.defaults.withCredentials = true
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
   timeout: 5000 // request timeout
@@ -21,7 +22,9 @@ service.interceptors.response.use(
         })
         if (errorNo === -999) {
           layer.iConfirm('登陆已失效，重新登陆？', () => {
-            store.dispatch('Logout')
+            store.dispatch('Logout').then(() => {
+              location.reload()
+            })
           })
         }
         return Promise.reject(new Error())

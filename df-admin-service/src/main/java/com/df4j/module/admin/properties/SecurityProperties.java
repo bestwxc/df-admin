@@ -2,11 +2,10 @@ package com.df4j.module.admin.properties;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@ConfigurationProperties("df4j.admin.security")
+@ConfigurationProperties("df.admin.security")
 public class SecurityProperties {
     public static List<String> defaultExcludes;
     static{

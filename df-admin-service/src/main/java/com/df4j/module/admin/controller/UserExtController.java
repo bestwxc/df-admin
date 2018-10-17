@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
+import org.apache.shiro.mgt.SecurityManager;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,6 +27,9 @@ public class UserExtController extends UserController{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SecurityManager securityManager;
 
 
     /**
@@ -47,6 +51,7 @@ public class UserExtController extends UserController{
      */
     @RequestMapping("/user/login")
     public Result login(@RequestBody Map<String,?> map) {
+        logger.info("securityManager:{}",securityManager);
         String userName = MapUtils.getStringFromMapNotNull(map, "userName");
         String password = MapUtils.getStringFromMapNotNull(map, "password");
         Subject currentUser = SecurityUtils.getSubject();

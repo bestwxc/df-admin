@@ -44,12 +44,20 @@ public class ShiroAspect {
         }
         String requestRUI = request.getRequestURI();
         String urlCode = requestRUI.replaceAll("/api/","");
+        //白名单
         if(dfAdminProperties.getSecurity().getExcludes().contains(urlCode)){
             return;
         }
+        //校验登录
         Subject currentUser = SecurityUtils.getSubject();
         if(!currentUser.isAuthenticated()){
             throw BusinessException.build(ErrorCode.UNLOGIN, "未登录");
         }
+        //对于所有管理员组用户，不校验权限
+        if(currentUser.hasRole("admin")){
+            return;
+        }
+        //校验权限
+        currentUser.checkPermission(urlCode);
     }
 }
