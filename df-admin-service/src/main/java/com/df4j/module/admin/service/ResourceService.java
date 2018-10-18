@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.ResourceMapper;
 import com.df4j.module.admin.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class ResourceService {
     @Autowired
     private ResourceMapper resourceMapper;
 
+    private WeekendSqlsUtils<Resource> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -28,7 +31,7 @@ public class ResourceService {
      * @param description
      * @return
      */
-    public Resource add(String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    public Resource add(String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description){
         Resource resource = new Resource();
         setObject(resource,resourceName,resourceCode,resourcePath,resourceType,flag,description);
         Date now = new Date();
@@ -50,9 +53,9 @@ public class ResourceService {
      * @param description
      * @return
      */
-    public Resource update(Long id, String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    public Resource update(Long id, String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        setObject(resource,resourceName,resourceCode,resourcePath,resourceType,flag,description);
+        setObject(resource,resourceName, resourceCode, resourcePath, resourceType, flag, description);
         Date now = new Date();
         resource.setUpdateTime(now);
         resourceMapper.updateByPrimaryKey(resource);
@@ -72,9 +75,40 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public List<Resource> list(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public List<Resource> list(Long id, String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description, Date createTime, Date updateTime){
+        Example example = this.getExample(id, resourceName, resourceCode, resourcePath, resourceType, flag, description, createTime, updateTime);
         return resourceMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param resourceName
+     * @param resourceCode
+     * @param resourcePath
+     * @param resourceType
+     * @param flag
+     * @param description
+     * @return
+     */
+    public List<Resource> list(String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description){
+        return this.list(null, resourceName , resourceCode , resourcePath , resourceType , flag , description  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public Resource listOne(Long id){
+        return resourceMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param resourceCode
+     * @return
+     */
+    public Resource listOne(String resourceCode){
+        return listOne(null, null, resourceCode, null, null, 0, null, null, null);
     }
 
     /**
@@ -90,8 +124,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public Resource listOne(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public Resource listOne(Long id, String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description, Date createTime, Date updateTime){
+        Example example = this.getExample(id, resourceName, resourceCode, resourcePath, resourceType, flag, description, createTime, updateTime);
         return resourceMapper.selectOneByExample(example);
     }
 
@@ -109,8 +143,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
-        Example example = this.getExample(id,resourceName,resourceCode,resourcePath,resourceType,flag,description,createTime,updateTime);
+    public int delete(Long id, String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description, Date createTime, Date updateTime){
+        Example example = this.getExample(id, resourceName, resourceCode, resourcePath, resourceType, flag, description, createTime, updateTime);
         return resourceMapper.deleteByExample(example);
     }
 
@@ -147,7 +181,7 @@ public class ResourceService {
      * @param description
      * @return
      */
-    private void setObject(Resource resource, String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description){
+    private void setObject(Resource resource, String resourceName, String resourceCode, String resourcePath, Integer resourceType, Integer flag, String description){
         if(ValidateUtils.isNotEmptyString(resourceName)){
             resource.setResourceName(resourceName);
         }
@@ -183,33 +217,15 @@ public class ResourceService {
      */
     private Example getExample(Long id,String resourceName,String resourceCode,String resourcePath,Integer resourceType,Integer flag,String description,Date createTime,Date updateTime){
         WeekendSqls<Resource> sqls = WeekendSqls.<Resource>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(Resource::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(resourceName)) {
-            sqls.andEqualTo(Resource::getResourceName, resourceName);
-        }
-        if(ValidateUtils.isNotEmptyString(resourceCode)) {
-            sqls.andEqualTo(Resource::getResourceCode, resourceCode);
-        }
-        if(ValidateUtils.isNotEmptyString(resourcePath)) {
-            sqls.andEqualTo(Resource::getResourcePath, resourcePath);
-        }
-        if(ValidateUtils.notNull(resourceType)) {
-            sqls.andEqualTo(Resource::getResourceType, resourceType);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(Resource::getFlag, flag);
-        }
-        if(ValidateUtils.isNotEmptyString(description)) {
-            sqls.andEqualTo(Resource::getDescription, description);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(Resource::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(Resource::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, Resource::getId, id);
+        sqlsUtils.appendSql(sqls, Resource::getResourceName, resourceName);
+        sqlsUtils.appendSql(sqls, Resource::getResourceCode, resourceCode);
+        sqlsUtils.appendSql(sqls, Resource::getResourcePath, resourcePath);
+        sqlsUtils.appendSql(sqls, Resource::getResourceType, resourceType);
+        sqlsUtils.appendSql(sqls, Resource::getFlag, flag);
+        sqlsUtils.appendSql(sqls, Resource::getDescription, description);
+        sqlsUtils.appendSql(sqls, Resource::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, Resource::getUpdateTime, updateTime);
         Example example = new Example.Builder(Resource.class).where(sqls).build();
         return example;
     }

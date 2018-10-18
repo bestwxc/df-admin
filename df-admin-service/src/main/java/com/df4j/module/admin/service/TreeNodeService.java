@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.TreeNodeMapper;
 import com.df4j.module.admin.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class TreeNodeService {
     @Autowired
     private TreeNodeMapper treeNodeMapper;
 
+    private WeekendSqlsUtils<TreeNode> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -28,7 +31,7 @@ public class TreeNodeService {
      * @param flag
      * @return
      */
-    public TreeNode add(String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag){
+    public TreeNode add(String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag){
         TreeNode treeNode = new TreeNode();
         setObject(treeNode,nodeValue,nodeName,parentId,treeNodePath,orderNum,flag);
         Date now = new Date();
@@ -50,9 +53,9 @@ public class TreeNodeService {
      * @param flag
      * @return
      */
-    public TreeNode update(Long id, String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag){
+    public TreeNode update(Long id, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag){
         TreeNode treeNode = treeNodeMapper.selectByPrimaryKey(id);
-        setObject(treeNode,nodeValue,nodeName,parentId,treeNodePath,orderNum,flag);
+        setObject(treeNode,nodeValue, nodeName, parentId, treeNodePath, orderNum, flag);
         Date now = new Date();
         treeNode.setUpdateTime(now);
         treeNodeMapper.updateByPrimaryKey(treeNode);
@@ -72,9 +75,41 @@ public class TreeNodeService {
      * @param updateTime
      * @return
      */
-    public List<TreeNode> list(Long id,String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,nodeValue,nodeName,parentId,treeNodePath,orderNum,flag,createTime,updateTime);
+    public List<TreeNode> list(Long id, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, nodeValue, nodeName, parentId, treeNodePath, orderNum, flag, createTime, updateTime);
         return treeNodeMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param nodeValue
+     * @param nodeName
+     * @param parentId
+     * @param treeNodePath
+     * @param orderNum
+     * @param flag
+     * @return
+     */
+    public List<TreeNode> list(String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag){
+        return this.list(null, nodeValue , nodeName , parentId , treeNodePath , orderNum , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public TreeNode listOne(Long id){
+        return treeNodeMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param parentId
+     * @param nodeValue
+     * @return
+     */
+    public TreeNode listOne(Long parentId, String nodeValue){
+        return listOne(null, nodeValue, null, parentId, null, null, 0, null, null);
     }
 
     /**
@@ -90,8 +125,8 @@ public class TreeNodeService {
      * @param updateTime
      * @return
      */
-    public TreeNode listOne(Long id,String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,nodeValue,nodeName,parentId,treeNodePath,orderNum,flag,createTime,updateTime);
+    public TreeNode listOne(Long id, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, nodeValue, nodeName, parentId, treeNodePath, orderNum, flag, createTime, updateTime);
         return treeNodeMapper.selectOneByExample(example);
     }
 
@@ -109,8 +144,8 @@ public class TreeNodeService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,nodeValue,nodeName,parentId,treeNodePath,orderNum,flag,createTime,updateTime);
+    public int delete(Long id, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, nodeValue, nodeName, parentId, treeNodePath, orderNum, flag, createTime, updateTime);
         return treeNodeMapper.deleteByExample(example);
     }
 
@@ -147,7 +182,7 @@ public class TreeNodeService {
      * @param flag
      * @return
      */
-    private void setObject(TreeNode treeNode, String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag){
+    private void setObject(TreeNode treeNode, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag){
         if(ValidateUtils.isNotEmptyString(nodeValue)){
             treeNode.setNodeValue(nodeValue);
         }
@@ -183,33 +218,15 @@ public class TreeNodeService {
      */
     private Example getExample(Long id,String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<TreeNode> sqls = WeekendSqls.<TreeNode>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(TreeNode::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(nodeValue)) {
-            sqls.andEqualTo(TreeNode::getNodeValue, nodeValue);
-        }
-        if(ValidateUtils.isNotEmptyString(nodeName)) {
-            sqls.andEqualTo(TreeNode::getNodeName, nodeName);
-        }
-        if(ValidateUtils.notNull(parentId)) {
-            sqls.andEqualTo(TreeNode::getParentId, parentId);
-        }
-        if(ValidateUtils.isNotEmptyString(treeNodePath)) {
-            sqls.andEqualTo(TreeNode::getTreeNodePath, treeNodePath);
-        }
-        if(ValidateUtils.notNull(orderNum)) {
-            sqls.andEqualTo(TreeNode::getOrderNum, orderNum);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(TreeNode::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(TreeNode::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(TreeNode::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, TreeNode::getId, id);
+        sqlsUtils.appendSql(sqls, TreeNode::getNodeValue, nodeValue);
+        sqlsUtils.appendSql(sqls, TreeNode::getNodeName, nodeName);
+        sqlsUtils.appendSql(sqls, TreeNode::getParentId, parentId);
+        sqlsUtils.appendSql(sqls, TreeNode::getTreeNodePath, treeNodePath);
+        sqlsUtils.appendSql(sqls, TreeNode::getOrderNum, orderNum);
+        sqlsUtils.appendSql(sqls, TreeNode::getFlag, flag);
+        sqlsUtils.appendSql(sqls, TreeNode::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, TreeNode::getUpdateTime, updateTime);
         Example example = new Example.Builder(TreeNode.class).where(sqls).build();
         return example;
     }

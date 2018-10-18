@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.RoleMapper;
 import com.df4j.module.admin.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
+    private WeekendSqlsUtils<Role> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -26,7 +29,7 @@ public class RoleService {
      * @param flag
      * @return
      */
-    public Role add(String roleCode,String roleName,String description,Integer flag){
+    public Role add(String roleCode, String roleName, String description, Integer flag){
         Role role = new Role();
         setObject(role,roleCode,roleName,description,flag);
         Date now = new Date();
@@ -46,9 +49,9 @@ public class RoleService {
      * @param flag
      * @return
      */
-    public Role update(Long id, String roleCode,String roleName,String description,Integer flag){
+    public Role update(Long id, String roleCode, String roleName, String description, Integer flag){
         Role role = roleMapper.selectByPrimaryKey(id);
-        setObject(role,roleCode,roleName,description,flag);
+        setObject(role,roleCode, roleName, description, flag);
         Date now = new Date();
         role.setUpdateTime(now);
         roleMapper.updateByPrimaryKey(role);
@@ -66,9 +69,38 @@ public class RoleService {
      * @param updateTime
      * @return
      */
-    public List<Role> list(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
+    public List<Role> list(Long id, String roleCode, String roleName, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleCode, roleName, description, flag, createTime, updateTime);
         return roleMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param roleCode
+     * @param roleName
+     * @param description
+     * @param flag
+     * @return
+     */
+    public List<Role> list(String roleCode, String roleName, String description, Integer flag){
+        return this.list(null, roleCode , roleName , description , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public Role listOne(Long id){
+        return roleMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param roleCode
+     * @return
+     */
+    public Role listOne(String roleCode){
+        return listOne(null, roleCode, null, null, 0, null, null);
     }
 
     /**
@@ -82,8 +114,8 @@ public class RoleService {
      * @param updateTime
      * @return
      */
-    public Role listOne(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
+    public Role listOne(Long id, String roleCode, String roleName, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleCode, roleName, description, flag, createTime, updateTime);
         return roleMapper.selectOneByExample(example);
     }
 
@@ -99,8 +131,8 @@ public class RoleService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleCode,roleName,description,flag,createTime,updateTime);
+    public int delete(Long id, String roleCode, String roleName, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleCode, roleName, description, flag, createTime, updateTime);
         return roleMapper.deleteByExample(example);
     }
 
@@ -135,7 +167,7 @@ public class RoleService {
      * @param flag
      * @return
      */
-    private void setObject(Role role, String roleCode,String roleName,String description,Integer flag){
+    private void setObject(Role role, String roleCode, String roleName, String description, Integer flag){
         if(ValidateUtils.isNotEmptyString(roleCode)){
             role.setRoleCode(roleCode);
         }
@@ -163,27 +195,13 @@ public class RoleService {
      */
     private Example getExample(Long id,String roleCode,String roleName,String description,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<Role> sqls = WeekendSqls.<Role>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(Role::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(roleCode)) {
-            sqls.andEqualTo(Role::getRoleCode, roleCode);
-        }
-        if(ValidateUtils.isNotEmptyString(roleName)) {
-            sqls.andEqualTo(Role::getRoleName, roleName);
-        }
-        if(ValidateUtils.isNotEmptyString(description)) {
-            sqls.andEqualTo(Role::getDescription, description);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(Role::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(Role::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(Role::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, Role::getId, id);
+        sqlsUtils.appendSql(sqls, Role::getRoleCode, roleCode);
+        sqlsUtils.appendSql(sqls, Role::getRoleName, roleName);
+        sqlsUtils.appendSql(sqls, Role::getDescription, description);
+        sqlsUtils.appendSql(sqls, Role::getFlag, flag);
+        sqlsUtils.appendSql(sqls, Role::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, Role::getUpdateTime, updateTime);
         Example example = new Example.Builder(Role.class).where(sqls).build();
         return example;
     }

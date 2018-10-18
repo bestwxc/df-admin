@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.DepartmentMapper;
 import com.df4j.module.admin.model.Department;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class DepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
 
+    private WeekendSqlsUtils<Department> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -27,7 +30,7 @@ public class DepartmentService {
      * @param flag
      * @return
      */
-    public Department add(String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
+    public Department add(String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag){
         Department department = new Department();
         setObject(department,departmentCode,departmentName,parentDepartmentCode,description,flag);
         Date now = new Date();
@@ -48,9 +51,9 @@ public class DepartmentService {
      * @param flag
      * @return
      */
-    public Department update(Long id, String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
+    public Department update(Long id, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag){
         Department department = departmentMapper.selectByPrimaryKey(id);
-        setObject(department,departmentCode,departmentName,parentDepartmentCode,description,flag);
+        setObject(department,departmentCode, departmentName, parentDepartmentCode, description, flag);
         Date now = new Date();
         department.setUpdateTime(now);
         departmentMapper.updateByPrimaryKey(department);
@@ -69,9 +72,39 @@ public class DepartmentService {
      * @param updateTime
      * @return
      */
-    public List<Department> list(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
+    public List<Department> list(Long id, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, departmentCode, departmentName, parentDepartmentCode, description, flag, createTime, updateTime);
         return departmentMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param departmentCode
+     * @param departmentName
+     * @param parentDepartmentCode
+     * @param description
+     * @param flag
+     * @return
+     */
+    public List<Department> list(String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag){
+        return this.list(null, departmentCode , departmentName , parentDepartmentCode , description , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public Department listOne(Long id){
+        return departmentMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param departmentCode
+     * @return
+     */
+    public Department listOne(String departmentCode){
+        return listOne(null, departmentCode, null, null, null, 0, null, null);
     }
 
     /**
@@ -86,8 +119,8 @@ public class DepartmentService {
      * @param updateTime
      * @return
      */
-    public Department listOne(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
+    public Department listOne(Long id, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, departmentCode, departmentName, parentDepartmentCode, description, flag, createTime, updateTime);
         return departmentMapper.selectOneByExample(example);
     }
 
@@ -104,8 +137,8 @@ public class DepartmentService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,departmentCode,departmentName,parentDepartmentCode,description,flag,createTime,updateTime);
+    public int delete(Long id, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, departmentCode, departmentName, parentDepartmentCode, description, flag, createTime, updateTime);
         return departmentMapper.deleteByExample(example);
     }
 
@@ -141,7 +174,7 @@ public class DepartmentService {
      * @param flag
      * @return
      */
-    private void setObject(Department department, String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag){
+    private void setObject(Department department, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer flag){
         if(ValidateUtils.isNotEmptyString(departmentCode)){
             department.setDepartmentCode(departmentCode);
         }
@@ -173,30 +206,14 @@ public class DepartmentService {
      */
     private Example getExample(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<Department> sqls = WeekendSqls.<Department>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(Department::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(departmentCode)) {
-            sqls.andEqualTo(Department::getDepartmentCode, departmentCode);
-        }
-        if(ValidateUtils.isNotEmptyString(departmentName)) {
-            sqls.andEqualTo(Department::getDepartmentName, departmentName);
-        }
-        if(ValidateUtils.isNotEmptyString(parentDepartmentCode)) {
-            sqls.andEqualTo(Department::getParentDepartmentCode, parentDepartmentCode);
-        }
-        if(ValidateUtils.isNotEmptyString(description)) {
-            sqls.andEqualTo(Department::getDescription, description);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(Department::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(Department::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(Department::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, Department::getId, id);
+        sqlsUtils.appendSql(sqls, Department::getDepartmentCode, departmentCode);
+        sqlsUtils.appendSql(sqls, Department::getDepartmentName, departmentName);
+        sqlsUtils.appendSql(sqls, Department::getParentDepartmentCode, parentDepartmentCode);
+        sqlsUtils.appendSql(sqls, Department::getDescription, description);
+        sqlsUtils.appendSql(sqls, Department::getFlag, flag);
+        sqlsUtils.appendSql(sqls, Department::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, Department::getUpdateTime, updateTime);
         Example example = new Example.Builder(Department.class).where(sqls).build();
         return example;
     }

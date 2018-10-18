@@ -14,6 +14,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "AdministrativeDivisionController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "division",
@@ -47,6 +48,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "TreeNodeController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "tree",
@@ -80,6 +82,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "SystemMenuController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "menu",
@@ -113,6 +116,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "DepartmentController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "department",
@@ -146,6 +150,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": true,
           "controllerClassName": "UserController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "user",
@@ -179,6 +184,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "RoleController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "role",
@@ -212,6 +218,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": false,
           "controllerClassName": "ResourceController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "resource",
@@ -245,6 +252,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": true,
           "controllerClassName": "RoleResourceController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "role/resource",
@@ -278,6 +286,7 @@
         },
         "controller": {
           "enabled": true,
+          "disableMapping": true,
           "controllerClassName": "UserRoleController",
           "classRequestMapping": "/api/admin",
           "methodRequestMapping": "user/role",

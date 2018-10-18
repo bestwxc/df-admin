@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.AdministrativeDivisionMapper;
 import com.df4j.module.admin.model.AdministrativeDivision;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class AdministrativeDivisionService {
 
     @Autowired
     private AdministrativeDivisionMapper administrativeDivisionMapper;
+
+    private WeekendSqlsUtils<AdministrativeDivision> sqlsUtils = new WeekendSqlsUtils<>();
 
 
 
@@ -31,7 +34,7 @@ public class AdministrativeDivisionService {
      * @param flag
      * @return
      */
-    public AdministrativeDivision add(String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag){
+    public AdministrativeDivision add(String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag){
         AdministrativeDivision administrativeDivision = new AdministrativeDivision();
         setObject(administrativeDivision,divisionCode,divisionName,parentId,parentDivisionCode,divisionLevel,levelAdjust,divisionType,orderNum,flag);
         Date now = new Date();
@@ -56,9 +59,9 @@ public class AdministrativeDivisionService {
      * @param flag
      * @return
      */
-    public AdministrativeDivision update(Long id, String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag){
+    public AdministrativeDivision update(Long id, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag){
         AdministrativeDivision administrativeDivision = administrativeDivisionMapper.selectByPrimaryKey(id);
-        setObject(administrativeDivision,divisionCode,divisionName,parentId,parentDivisionCode,divisionLevel,levelAdjust,divisionType,orderNum,flag);
+        setObject(administrativeDivision,divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag);
         Date now = new Date();
         administrativeDivision.setUpdateTime(now);
         administrativeDivisionMapper.updateByPrimaryKey(administrativeDivision);
@@ -81,9 +84,44 @@ public class AdministrativeDivisionService {
      * @param updateTime
      * @return
      */
-    public List<AdministrativeDivision> list(Long id,String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,divisionCode,divisionName,parentId,parentDivisionCode,divisionLevel,levelAdjust,divisionType,orderNum,flag,createTime,updateTime);
+    public List<AdministrativeDivision> list(Long id, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag, createTime, updateTime);
         return administrativeDivisionMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param divisionCode
+     * @param divisionName
+     * @param parentId
+     * @param parentDivisionCode
+     * @param divisionLevel
+     * @param levelAdjust
+     * @param divisionType
+     * @param orderNum
+     * @param flag
+     * @return
+     */
+    public List<AdministrativeDivision> list(String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag){
+        return this.list(null, divisionCode , divisionName , parentId , parentDivisionCode , divisionLevel , levelAdjust , divisionType , orderNum , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public AdministrativeDivision listOne(Long id){
+        return administrativeDivisionMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param parentDivisionCode
+     * @param divisionCode
+     * @return
+     */
+    public AdministrativeDivision listOne(String parentDivisionCode, String divisionCode){
+        return listOne(null, divisionCode, null, null, parentDivisionCode, null, null, null, null, 0, null, null);
     }
 
     /**
@@ -102,8 +140,8 @@ public class AdministrativeDivisionService {
      * @param updateTime
      * @return
      */
-    public AdministrativeDivision listOne(Long id,String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,divisionCode,divisionName,parentId,parentDivisionCode,divisionLevel,levelAdjust,divisionType,orderNum,flag,createTime,updateTime);
+    public AdministrativeDivision listOne(Long id, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag, createTime, updateTime);
         return administrativeDivisionMapper.selectOneByExample(example);
     }
 
@@ -124,8 +162,8 @@ public class AdministrativeDivisionService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,divisionCode,divisionName,parentId,parentDivisionCode,divisionLevel,levelAdjust,divisionType,orderNum,flag,createTime,updateTime);
+    public int delete(Long id, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag, createTime, updateTime);
         return administrativeDivisionMapper.deleteByExample(example);
     }
 
@@ -165,7 +203,7 @@ public class AdministrativeDivisionService {
      * @param flag
      * @return
      */
-    private void setObject(AdministrativeDivision administrativeDivision, String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag){
+    private void setObject(AdministrativeDivision administrativeDivision, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag){
         if(ValidateUtils.isNotEmptyString(divisionCode)){
             administrativeDivision.setDivisionCode(divisionCode);
         }
@@ -213,42 +251,18 @@ public class AdministrativeDivisionService {
      */
     private Example getExample(Long id,String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<AdministrativeDivision> sqls = WeekendSqls.<AdministrativeDivision>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(AdministrativeDivision::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(divisionCode)) {
-            sqls.andEqualTo(AdministrativeDivision::getDivisionCode, divisionCode);
-        }
-        if(ValidateUtils.isNotEmptyString(divisionName)) {
-            sqls.andEqualTo(AdministrativeDivision::getDivisionName, divisionName);
-        }
-        if(ValidateUtils.notNull(parentId)) {
-            sqls.andEqualTo(AdministrativeDivision::getParentId, parentId);
-        }
-        if(ValidateUtils.isNotEmptyString(parentDivisionCode)) {
-            sqls.andEqualTo(AdministrativeDivision::getParentDivisionCode, parentDivisionCode);
-        }
-        if(ValidateUtils.notNull(divisionLevel)) {
-            sqls.andEqualTo(AdministrativeDivision::getDivisionLevel, divisionLevel);
-        }
-        if(ValidateUtils.notNull(levelAdjust)) {
-            sqls.andEqualTo(AdministrativeDivision::getLevelAdjust, levelAdjust);
-        }
-        if(ValidateUtils.isNotEmptyString(divisionType)) {
-            sqls.andEqualTo(AdministrativeDivision::getDivisionType, divisionType);
-        }
-        if(ValidateUtils.notNull(orderNum)) {
-            sqls.andEqualTo(AdministrativeDivision::getOrderNum, orderNum);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(AdministrativeDivision::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(AdministrativeDivision::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(AdministrativeDivision::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getId, id);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getDivisionCode, divisionCode);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getDivisionName, divisionName);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getParentId, parentId);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getParentDivisionCode, parentDivisionCode);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getDivisionLevel, divisionLevel);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getLevelAdjust, levelAdjust);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getDivisionType, divisionType);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getOrderNum, orderNum);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getFlag, flag);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, AdministrativeDivision::getUpdateTime, updateTime);
         Example example = new Example.Builder(AdministrativeDivision.class).where(sqls).build();
         return example;
     }

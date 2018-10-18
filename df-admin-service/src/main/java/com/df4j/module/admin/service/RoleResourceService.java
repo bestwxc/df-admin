@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.RoleResourceMapper;
 import com.df4j.module.admin.model.RoleResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class RoleResourceService {
     @Autowired
     private RoleResourceMapper roleResourceMapper;
 
+    private WeekendSqlsUtils<RoleResource> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -25,7 +28,7 @@ public class RoleResourceService {
      * @param flag
      * @return
      */
-    public RoleResource add(Long roleId,Long resourceId,Integer flag){
+    public RoleResource add(Long roleId, Long resourceId, Integer flag){
         RoleResource roleResource = new RoleResource();
         setObject(roleResource,roleId,resourceId,flag);
         Date now = new Date();
@@ -44,9 +47,9 @@ public class RoleResourceService {
      * @param flag
      * @return
      */
-    public RoleResource update(Long id, Long roleId,Long resourceId,Integer flag){
+    public RoleResource update(Long id, Long roleId, Long resourceId, Integer flag){
         RoleResource roleResource = roleResourceMapper.selectByPrimaryKey(id);
-        setObject(roleResource,roleId,resourceId,flag);
+        setObject(roleResource,roleId, resourceId, flag);
         Date now = new Date();
         roleResource.setUpdateTime(now);
         roleResourceMapper.updateByPrimaryKey(roleResource);
@@ -63,9 +66,38 @@ public class RoleResourceService {
      * @param updateTime
      * @return
      */
-    public List<RoleResource> list(Long id,Long roleId,Long resourceId,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleId,resourceId,flag,createTime,updateTime);
+    public List<RoleResource> list(Long id, Long roleId, Long resourceId, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleId, resourceId, flag, createTime, updateTime);
         return roleResourceMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param roleId
+     * @param resourceId
+     * @param flag
+     * @return
+     */
+    public List<RoleResource> list(Long roleId, Long resourceId, Integer flag){
+        return this.list(null, roleId , resourceId , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public RoleResource listOne(Long id){
+        return roleResourceMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param roleId
+     * @param resourceId
+     * @return
+     */
+    public RoleResource listOne(Long roleId, Long resourceId){
+        return listOne(null, roleId, resourceId, 0, null, null);
     }
 
     /**
@@ -78,8 +110,8 @@ public class RoleResourceService {
      * @param updateTime
      * @return
      */
-    public RoleResource listOne(Long id,Long roleId,Long resourceId,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleId,resourceId,flag,createTime,updateTime);
+    public RoleResource listOne(Long id, Long roleId, Long resourceId, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleId, resourceId, flag, createTime, updateTime);
         return roleResourceMapper.selectOneByExample(example);
     }
 
@@ -94,8 +126,8 @@ public class RoleResourceService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,Long roleId,Long resourceId,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,roleId,resourceId,flag,createTime,updateTime);
+    public int delete(Long id, Long roleId, Long resourceId, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleId, resourceId, flag, createTime, updateTime);
         return roleResourceMapper.deleteByExample(example);
     }
 
@@ -129,7 +161,7 @@ public class RoleResourceService {
      * @param flag
      * @return
      */
-    private void setObject(RoleResource roleResource, Long roleId,Long resourceId,Integer flag){
+    private void setObject(RoleResource roleResource, Long roleId, Long resourceId, Integer flag){
         if(ValidateUtils.notNull(roleId)){
             roleResource.setRoleId(roleId);
         }
@@ -153,24 +185,12 @@ public class RoleResourceService {
      */
     private Example getExample(Long id,Long roleId,Long resourceId,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<RoleResource> sqls = WeekendSqls.<RoleResource>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(RoleResource::getId, id);
-        }
-        if(ValidateUtils.notNull(roleId)) {
-            sqls.andEqualTo(RoleResource::getRoleId, roleId);
-        }
-        if(ValidateUtils.notNull(resourceId)) {
-            sqls.andEqualTo(RoleResource::getResourceId, resourceId);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(RoleResource::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(RoleResource::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(RoleResource::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, RoleResource::getId, id);
+        sqlsUtils.appendSql(sqls, RoleResource::getRoleId, roleId);
+        sqlsUtils.appendSql(sqls, RoleResource::getResourceId, resourceId);
+        sqlsUtils.appendSql(sqls, RoleResource::getFlag, flag);
+        sqlsUtils.appendSql(sqls, RoleResource::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, RoleResource::getUpdateTime, updateTime);
         Example example = new Example.Builder(RoleResource.class).where(sqls).build();
         return example;
     }

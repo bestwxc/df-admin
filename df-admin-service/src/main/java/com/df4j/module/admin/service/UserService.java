@@ -1,6 +1,7 @@
 package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
+import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
 import com.df4j.module.admin.mapper.UserMapper;
 import com.df4j.module.admin.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    private WeekendSqlsUtils<User> sqlsUtils = new WeekendSqlsUtils<>();
+
 
 
     /**
@@ -30,7 +33,7 @@ public class UserService {
      * @param flag
      * @return
      */
-    public User add(String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag){
+    public User add(String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         User user = new User();
         setObject(user,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag);
         Date now = new Date();
@@ -54,9 +57,9 @@ public class UserService {
      * @param flag
      * @return
      */
-    public User update(Long id, String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag){
+    public User update(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         User user = userMapper.selectByPrimaryKey(id);
-        setObject(user,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag);
+        setObject(user,userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
         Date now = new Date();
         user.setUpdateTime(now);
         userMapper.updateByPrimaryKey(user);
@@ -78,9 +81,42 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public List<User> list(Long id,String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag,createTime,updateTime);
+    public List<User> list(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param userName
+     * @param nickName
+     * @param mobileNo
+     * @param userState
+     * @param userPass
+     * @param salt
+     * @param departmentCode
+     * @param flag
+     * @return
+     */
+    public List<User> list(String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
+        return this.list(null, userName , nickName , mobileNo , userState , userPass , salt , departmentCode , flag  ,null, null);
+    }
+
+    /**
+     * 查询一个
+     * @param id
+     * @return
+     */
+    public User listOne(Long id){
+        return userMapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询一个
+     * @param userName
+     * @return
+     */
+    public User listOne(String userName){
+        return listOne(null, userName, null, null, null, null, null, null, 0, null, null);
     }
 
     /**
@@ -98,8 +134,8 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public User listOne(Long id,String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag,createTime,updateTime);
+    public User listOne(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.selectOneByExample(example);
     }
 
@@ -119,8 +155,8 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id,String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
-        Example example = this.getExample(id,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag,createTime,updateTime);
+    public int delete(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.deleteByExample(example);
     }
 
@@ -159,7 +195,7 @@ public class UserService {
      * @param flag
      * @return
      */
-    private void setObject(User user, String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag){
+    private void setObject(User user, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         if(ValidateUtils.isNotEmptyString(userName)){
             user.setUserName(userName);
         }
@@ -203,39 +239,17 @@ public class UserService {
      */
     private Example getExample(Long id,String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<User> sqls = WeekendSqls.<User>custom();
-        if(ValidateUtils.notNull(id)) {
-            sqls.andEqualTo(User::getId, id);
-        }
-        if(ValidateUtils.isNotEmptyString(userName)) {
-            sqls.andEqualTo(User::getUserName, userName);
-        }
-        if(ValidateUtils.isNotEmptyString(nickName)) {
-            sqls.andEqualTo(User::getNickName, nickName);
-        }
-        if(ValidateUtils.isNotEmptyString(mobileNo)) {
-            sqls.andEqualTo(User::getMobileNo, mobileNo);
-        }
-        if(ValidateUtils.notNull(userState)) {
-            sqls.andEqualTo(User::getUserState, userState);
-        }
-        if(ValidateUtils.isNotEmptyString(userPass)) {
-            sqls.andEqualTo(User::getUserPass, userPass);
-        }
-        if(ValidateUtils.isNotEmptyString(salt)) {
-            sqls.andEqualTo(User::getSalt, salt);
-        }
-        if(ValidateUtils.isNotEmptyString(departmentCode)) {
-            sqls.andEqualTo(User::getDepartmentCode, departmentCode);
-        }
-        if(ValidateUtils.notNull(flag)) {
-            sqls.andEqualTo(User::getFlag, flag);
-        }
-        if(ValidateUtils.notNull(createTime)) {
-            sqls.andEqualTo(User::getCreateTime, createTime);
-        }
-        if(ValidateUtils.notNull(updateTime)) {
-            sqls.andEqualTo(User::getUpdateTime, updateTime);
-        }
+        sqlsUtils.appendSql(sqls, User::getId, id);
+        sqlsUtils.appendSql(sqls, User::getUserName, userName);
+        sqlsUtils.appendSql(sqls, User::getNickName, nickName);
+        sqlsUtils.appendSql(sqls, User::getMobileNo, mobileNo);
+        sqlsUtils.appendSql(sqls, User::getUserState, userState);
+        sqlsUtils.appendSql(sqls, User::getUserPass, userPass);
+        sqlsUtils.appendSql(sqls, User::getSalt, salt);
+        sqlsUtils.appendSql(sqls, User::getDepartmentCode, departmentCode);
+        sqlsUtils.appendSql(sqls, User::getFlag, flag);
+        sqlsUtils.appendSql(sqls, User::getCreateTime, createTime);
+        sqlsUtils.appendSql(sqls, User::getUpdateTime, updateTime);
         Example example = new Example.Builder(User.class).where(sqls).build();
         return example;
     }
