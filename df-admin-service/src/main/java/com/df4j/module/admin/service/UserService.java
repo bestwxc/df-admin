@@ -26,6 +26,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -33,9 +34,9 @@ public class UserService {
      * @param flag
      * @return
      */
-    public User add(String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
+    public User add(String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         User user = new User();
-        setObject(user,userName,nickName,mobileNo,userState,userPass,salt,departmentCode,flag);
+        setObject(user,userName,nickName,mobileNo,headUrl,userState,userPass,salt,departmentCode,flag);
         Date now = new Date();
         user.setCreateTime(now);
         user.setUpdateTime(now);
@@ -50,6 +51,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -57,9 +59,9 @@ public class UserService {
      * @param flag
      * @return
      */
-    public User update(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
+    public User update(Long id, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         User user = userMapper.selectByPrimaryKey(id);
-        setObject(user,userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
+        setObject(user,userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag);
         Date now = new Date();
         user.setUpdateTime(now);
         userMapper.updateByPrimaryKey(user);
@@ -72,6 +74,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -81,8 +84,8 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public List<User> list(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
+    public List<User> list(Long id, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.selectByExample(example);
     }
 
@@ -91,6 +94,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -98,8 +102,8 @@ public class UserService {
      * @param flag
      * @return
      */
-    public List<User> list(String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
-        return this.list(null, userName , nickName , mobileNo , userState , userPass , salt , departmentCode , flag  ,null, null);
+    public List<User> list(String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
+        return this.list(null, userName , nickName , mobileNo , headUrl , userState , userPass , salt , departmentCode , flag  ,null, null);
     }
 
     /**
@@ -116,7 +120,7 @@ public class UserService {
      * @return
      */
     public User listOne(String userName){
-        return listOne(null, userName, null, null, null, null, null, null, 0, null, null);
+        return listOne(null, userName, null, null, null, null, null, null, null, 0, null, null);
     }
 
     /**
@@ -125,6 +129,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -134,8 +139,8 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public User listOne(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
+    public User listOne(Long id, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.selectOneByExample(example);
     }
 
@@ -146,6 +151,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -155,8 +161,8 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
+    public int delete(Long id, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.deleteByExample(example);
     }
 
@@ -166,7 +172,7 @@ public class UserService {
      * @return
      */
     public int delete(Long id){
-        return this.delete( id, null, null, null, null, null, null, null, null, null, null);
+        return this.delete( id, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -176,9 +182,9 @@ public class UserService {
      */
     public int logicDelete(Long id){
         User user = userMapper.selectByPrimaryKey(id);
-        List<User> list = this.list(null, user.getUserName(), null, null, null, null, null, null, null, null, null);
+        List<User> list = this.list(null, user.getUserName(), null, null, null, null, null, null, null, null, null, null);
         User maxUser = list.stream().max((user1, user2) -> user1.getFlag() - user2.getFlag()).get();
-        this.update(id, null, null, null, null, null, null, null, maxUser.getFlag() + 1);
+        this.update(id, null, null, null, null, null, null, null, null, maxUser.getFlag() + 1);
         return 1;
     }
 
@@ -188,6 +194,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -195,7 +202,7 @@ public class UserService {
      * @param flag
      * @return
      */
-    private void setObject(User user, String userName, String nickName, String mobileNo, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
+    private void setObject(User user, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag){
         if(ValidateUtils.isNotEmptyString(userName)){
             user.setUserName(userName);
         }
@@ -204,6 +211,9 @@ public class UserService {
         }
         if(ValidateUtils.isNotEmptyString(mobileNo)){
             user.setMobileNo(mobileNo);
+        }
+        if(ValidateUtils.isNotEmptyString(headUrl)){
+            user.setHeadUrl(headUrl);
         }
         if(ValidateUtils.notNull(userState)){
             user.setUserState(userState);
@@ -228,6 +238,7 @@ public class UserService {
      * @param userName
      * @param nickName
      * @param mobileNo
+     * @param headUrl
      * @param userState
      * @param userPass
      * @param salt
@@ -237,12 +248,13 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String userName,String nickName,String mobileNo,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Long id,String userName,String nickName,String mobileNo,String headUrl,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
         WeekendSqls<User> sqls = WeekendSqls.<User>custom();
         sqlsUtils.appendSql(sqls, User::getId, id);
         sqlsUtils.appendSql(sqls, User::getUserName, userName);
         sqlsUtils.appendSql(sqls, User::getNickName, nickName);
         sqlsUtils.appendSql(sqls, User::getMobileNo, mobileNo);
+        sqlsUtils.appendSql(sqls, User::getHeadUrl, headUrl);
         sqlsUtils.appendSql(sqls, User::getUserState, userState);
         sqlsUtils.appendSql(sqls, User::getUserPass, userPass);
         sqlsUtils.appendSql(sqls, User::getSalt, salt);

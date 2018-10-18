@@ -36,8 +36,9 @@ public class DepartmentController {
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
         String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<Department> list = departmentService.list(id, departmentCode, departmentName, parentDepartmentCode, description, flag, null, null);
+        List<Department> list = departmentService.list(id, departmentCode, departmentName, parentDepartmentCode, description, orderNum, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -52,8 +53,9 @@ public class DepartmentController {
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
         String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Department department = departmentService.add(departmentCode, departmentName, parentDepartmentCode, description, flag);
+        Department department = departmentService.add(departmentCode, departmentName, parentDepartmentCode, description, orderNum, flag);
         return ResultUtils.success(department);
     }
 
@@ -69,8 +71,9 @@ public class DepartmentController {
         String departmentName = MapUtils.getStringFromMap(map, "departmentName", null);
         String parentDepartmentCode = MapUtils.getStringFromMap(map, "parentDepartmentCode", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Department department = departmentService.update(id, departmentCode, departmentName, parentDepartmentCode, description, flag);
+        Department department = departmentService.update(id, departmentCode, departmentName, parentDepartmentCode, description, orderNum, flag);
         return ResultUtils.success(department);
     }
 

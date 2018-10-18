@@ -30,6 +30,12 @@ public class Role {
     private String description;
 
     /**
+     * 排序值
+     */
+    @Column(name = "order_num")
+    private Integer orderNum;
+
+    /**
      * 状态
      */
     private Integer flag;
@@ -116,6 +122,24 @@ public class Role {
      */
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    /**
+     * 获取排序值
+     *
+     * @return order_num - 排序值
+     */
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    /**
+     * 设置排序值
+     *
+     * @param orderNum 排序值
+     */
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
     /**

@@ -40,19 +40,19 @@ public class DfAdminRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String primaryPrincipal = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo= new SimpleAuthorizationInfo();
-        User user = userService.listOne(null, primaryPrincipal, null, null, null, null, null, null, 0, null, null);
+        User user = userService.listOne(primaryPrincipal);
         Long userId = user.getId();
         List<UserRole> list = userRoleService.list(null, userId, null, 0, null, null);
         if(ValidateUtils.notEmpty(list)){
             for(UserRole userRole : list){
                 Long roleId = userRole.getRoleId();
-                Role role = roleService.listOne(roleId, null, null, null, 0, null, null);
+                Role role = roleService.listOne(roleId);
                 if(ValidateUtils.notNull(role)){
                     authorizationInfo.addRole(role.getRoleCode());
                     List<RoleResource> roleResources = roleResourceService.list(null, role.getId(), null, 0, null, null);
                     if(ValidateUtils.notEmpty(roleResources)){
                         for(RoleResource roleResource: roleResources){
-                            Resource resource = resourceService.listOne(roleResource.getResourceId(), null, null, null, null, 0, null, null, null);
+                            Resource resource = resourceService.listOne(roleResource.getResourceId());
                             if(ValidateUtils.notNull(resource)){
                                 String stringPermission = resource.getResourceType() + "-" + resource.getResourceCode();
                                 authorizationInfo.addStringPermission(stringPermission);
@@ -70,7 +70,7 @@ public class DfAdminRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String userName = token.getUsername();
         String password = new String(token.getPassword());
-        User user = userService.listOne(null, userName, null, null, null, null, null, null, 0, null, null);
+        User user = userService.listOne(userName);
         if(ValidateUtils.isNull(user)){
             throw new DfException("用户不存在");
         }

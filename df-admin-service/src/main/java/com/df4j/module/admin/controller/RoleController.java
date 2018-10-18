@@ -35,8 +35,9 @@ public class RoleController {
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<Role> list = roleService.list(id, roleCode, roleName, description, flag, null, null);
+        List<Role> list = roleService.list(id, roleCode, roleName, description, orderNum, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -50,8 +51,9 @@ public class RoleController {
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Role role = roleService.add(roleCode, roleName, description, flag);
+        Role role = roleService.add(roleCode, roleName, description, orderNum, flag);
         return ResultUtils.success(role);
     }
 
@@ -66,8 +68,9 @@ public class RoleController {
         String roleCode = MapUtils.getStringFromMap(map, "roleCode", null);
         String roleName = MapUtils.getStringFromMap(map, "roleName", null);
         String description = MapUtils.getStringFromMap(map, "description", null);
+        Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Role role = roleService.update(id, roleCode, roleName, description, flag);
+        Role role = roleService.update(id, roleCode, roleName, description, orderNum, flag);
         return ResultUtils.success(role);
     }
 

@@ -35,12 +35,13 @@ public class UserController {
         String userName = MapUtils.getStringFromMap(map, "userName", null);
         String nickName = MapUtils.getStringFromMap(map, "nickName", null);
         String mobileNo = MapUtils.getStringFromMap(map, "mobileNo", null);
+        String headUrl = MapUtils.getStringFromMap(map, "headUrl", null);
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<User> list = userService.list(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag, null, null);
+        List<User> list = userService.list(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, null, null);
         return ResultUtils.success(list);
     }
 
@@ -54,12 +55,13 @@ public class UserController {
         String userName = MapUtils.getStringFromMap(map, "userName", null);
         String nickName = MapUtils.getStringFromMap(map, "nickName", null);
         String mobileNo = MapUtils.getStringFromMap(map, "mobileNo", null);
+        String headUrl = MapUtils.getStringFromMap(map, "headUrl", null);
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        User user = userService.add(userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
+        User user = userService.add(userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag);
         return ResultUtils.success(user);
     }
 
@@ -74,12 +76,13 @@ public class UserController {
         String userName = MapUtils.getStringFromMap(map, "userName", null);
         String nickName = MapUtils.getStringFromMap(map, "nickName", null);
         String mobileNo = MapUtils.getStringFromMap(map, "mobileNo", null);
+        String headUrl = MapUtils.getStringFromMap(map, "headUrl", null);
         Integer userState = MapUtils.getIntegerFromMap(map, "userState", null);
         String userPass = MapUtils.getStringFromMap(map, "userPass", null);
         String salt = MapUtils.getStringFromMap(map, "salt", null);
         String departmentCode = MapUtils.getStringFromMap(map, "departmentCode", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        User user = userService.update(id, userName, nickName, mobileNo, userState, userPass, salt, departmentCode, flag);
+        User user = userService.update(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag);
         return ResultUtils.success(user);
     }
 

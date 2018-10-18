@@ -9,6 +9,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
     <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
     <result column="user_state" jdbcType="INTEGER" property="userState" />
     <result column="user_pass" jdbcType="VARCHAR" property="userPass" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />

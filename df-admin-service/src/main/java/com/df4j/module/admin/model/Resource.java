@@ -13,22 +13,10 @@ public class Resource {
     private Long id;
 
     /**
-     * 资源名称
+     * 关联的菜单ID
      */
-    @Column(name = "resource_name")
-    private String resourceName;
-
-    /**
-     * 资源代码
-     */
-    @Column(name = "resource_code")
-    private String resourceCode;
-
-    /**
-     * 资源路径
-     */
-    @Column(name = "resource_path")
-    private String resourcePath;
+    @Column(name = "menu_id")
+    private Long menuId;
 
     /**
      * 资源类型
@@ -37,14 +25,38 @@ public class Resource {
     private Integer resourceType;
 
     /**
-     * 状态
+     * 资源代码
      */
-    private Integer flag;
+    @Column(name = "resource_code")
+    private String resourceCode;
+
+    /**
+     * 资源名称
+     */
+    @Column(name = "resource_name")
+    private String resourceName;
+
+    /**
+     * 资源路径
+     */
+    @Column(name = "resource_path")
+    private String resourcePath;
 
     /**
      * 角色说明
      */
     private String description;
+
+    /**
+     * 排序值
+     */
+    @Column(name = "order_num")
+    private Integer orderNum;
+
+    /**
+     * 状态
+     */
+    private Integer flag;
 
     /**
      * 创建时间
@@ -77,57 +89,21 @@ public class Resource {
     }
 
     /**
-     * 获取资源名称
+     * 获取关联的菜单ID
      *
-     * @return resource_name - 资源名称
+     * @return menu_id - 关联的菜单ID
      */
-    public String getResourceName() {
-        return resourceName;
+    public Long getMenuId() {
+        return menuId;
     }
 
     /**
-     * 设置资源名称
+     * 设置关联的菜单ID
      *
-     * @param resourceName 资源名称
+     * @param menuId 关联的菜单ID
      */
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName == null ? null : resourceName.trim();
-    }
-
-    /**
-     * 获取资源代码
-     *
-     * @return resource_code - 资源代码
-     */
-    public String getResourceCode() {
-        return resourceCode;
-    }
-
-    /**
-     * 设置资源代码
-     *
-     * @param resourceCode 资源代码
-     */
-    public void setResourceCode(String resourceCode) {
-        this.resourceCode = resourceCode == null ? null : resourceCode.trim();
-    }
-
-    /**
-     * 获取资源路径
-     *
-     * @return resource_path - 资源路径
-     */
-    public String getResourcePath() {
-        return resourcePath;
-    }
-
-    /**
-     * 设置资源路径
-     *
-     * @param resourcePath 资源路径
-     */
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath == null ? null : resourcePath.trim();
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 
     /**
@@ -149,21 +125,57 @@ public class Resource {
     }
 
     /**
-     * 获取状态
+     * 获取资源代码
      *
-     * @return flag - 状态
+     * @return resource_code - 资源代码
      */
-    public Integer getFlag() {
-        return flag;
+    public String getResourceCode() {
+        return resourceCode;
     }
 
     /**
-     * 设置状态
+     * 设置资源代码
      *
-     * @param flag 状态
+     * @param resourceCode 资源代码
      */
-    public void setFlag(Integer flag) {
-        this.flag = flag;
+    public void setResourceCode(String resourceCode) {
+        this.resourceCode = resourceCode == null ? null : resourceCode.trim();
+    }
+
+    /**
+     * 获取资源名称
+     *
+     * @return resource_name - 资源名称
+     */
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    /**
+     * 设置资源名称
+     *
+     * @param resourceName 资源名称
+     */
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName == null ? null : resourceName.trim();
+    }
+
+    /**
+     * 获取资源路径
+     *
+     * @return resource_path - 资源路径
+     */
+    public String getResourcePath() {
+        return resourcePath;
+    }
+
+    /**
+     * 设置资源路径
+     *
+     * @param resourcePath 资源路径
+     */
+    public void setResourcePath(String resourcePath) {
+        this.resourcePath = resourcePath == null ? null : resourcePath.trim();
     }
 
     /**
@@ -182,6 +194,42 @@ public class Resource {
      */
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    /**
+     * 获取排序值
+     *
+     * @return order_num - 排序值
+     */
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    /**
+     * 设置排序值
+     *
+     * @param orderNum 排序值
+     */
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return flag - 状态
+     */
+    public Integer getFlag() {
+        return flag;
+    }
+
+    /**
+     * 设置状态
+     *
+     * @param flag 状态
+     */
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     /**

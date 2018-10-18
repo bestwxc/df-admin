@@ -85,7 +85,7 @@ public class UserExtController extends UserController{
         String password = MapUtils.getStringFromMapNotNull(map, "password");
         String newPassword = MapUtils.getStringFromMapNotNull(map, "newPassword");
         String newPasswordCheck = MapUtils.getStringFromMapNotNull(map, "newPasswordCheck");
-        User user = userService.listOne(id, null, null, null, null, null, null, null, null, null, null);
+        User user = userService.listOne(id);
         if(!newPassword.equals(newPasswordCheck)){
             throw new DfException("两次输入的密码不一致");
         }
@@ -98,7 +98,7 @@ public class UserExtController extends UserController{
         }
         salt = this.getSalt();
         String userPass = this.mdPass(newPassword, salt);
-        userService.update(id, null, null, null, null, userPass, salt, null, null);
+        userService.update(id, null, null, null, null, null, userPass, salt, null, null);
         return ResultUtils.success(null);
     }
 

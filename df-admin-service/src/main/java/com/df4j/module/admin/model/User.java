@@ -31,6 +31,12 @@ public class User {
     private String mobileNo;
 
     /**
+     * 头像地址
+     */
+    @Column(name = "head_url")
+    private String headUrl;
+
+    /**
      * 用户状态
      */
     @Column(name = "user_state")
@@ -140,6 +146,24 @@ public class User {
      */
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo == null ? null : mobileNo.trim();
+    }
+
+    /**
+     * 获取头像地址
+     *
+     * @return head_url - 头像地址
+     */
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    /**
+     * 设置头像地址
+     *
+     * @param headUrl 头像地址
+     */
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl == null ? null : headUrl.trim();
     }
 
     /**
