@@ -58,6 +58,6 @@ public class ShiroAspect {
             return;
         }
         //校验权限
-        currentUser.checkPermission(urlCode);
+        currentUser.checkPermission("3" + "-" + urlCode);
     }
 }

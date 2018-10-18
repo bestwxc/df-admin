@@ -1,5 +1,6 @@
 package com.df4j;
 
+import com.df4j.module.admin.task.SyncApiResourceTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,8 @@ public class Application implements ApplicationRunner {
         String url8 = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/46/4604.html";
         executorService.submit(new LoadDivisionTask(url8, 720710l,2,"460400000000"));
         */
+
+        executorService.submit(new SyncApiResourceTask());
 
     }
 }

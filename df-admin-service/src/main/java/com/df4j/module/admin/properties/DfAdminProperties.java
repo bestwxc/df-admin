@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DfAdminProperties {
 
     private SecurityProperties security = new SecurityProperties();
+    private InitTaskProperties initTask = new InitTaskProperties();
 
     public SecurityProperties getSecurity() {
         return security;
