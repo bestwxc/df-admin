@@ -3,6 +3,7 @@ package com.df4j.module.admin.config;
 
 import com.df4j.module.admin.sesurity.shiro.DfAdminRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -32,6 +33,7 @@ public class ShrioConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(dfAdminRealm);
         securityManager.setSessionManager(sessionManager);
+        securityManager.setCacheManager(new MemoryConstrainedCacheManager());
         return securityManager;
     }
 
