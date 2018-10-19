@@ -299,9 +299,9 @@ export default {
       this.columns.forEach(column => {
         if (column.type === 'select') {
           if (column.dictType === 'tree') {
-            let dictList = this.$store.getters.tree[column.childDictType]
+            let dictList = this.$store.getters.tree[column.childDictType] || []
             let displayName = dictList.filter(dict => row[column.value] + '' === dict.nodeValue + '').map(item => item.nodeName)[0]
-            row[column.displayValue] = displayName
+            row[column.displayValue] = displayName || ''
           }
         }
       })
