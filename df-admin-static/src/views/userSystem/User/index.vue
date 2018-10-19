@@ -8,8 +8,10 @@
     :addUrl="addUrl"
     :updateUrl="updateUrl"
     :extBtns="extBtns"
-    v-on:addRoles="addRoles">
+    v-on:addRoles="addRoles"
+    v-on:showResetPass="showResetPass">
   </base-table>
+  <!-- 设置角色区域 -->
   <el-dialog title="设置角色" :visible.sync="showEditForm">
     <el-transfer v-model="selectRoles" :data="roles"
       :titles="['所有角色', '已选择']"
@@ -20,6 +22,21 @@
       <el-button type="primary" @click="syncUserRole">确认</el-button>
     </div>
   </el-dialog>
+  <!-- 重置密码区域 -->
+  <el-dialog title="重置密码" :visible.sync="showResetPassForm">
+    <el-form ref="dataForm" :rules="rules" :model="resetPassFormData" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form-item label="新密码" prop="newPassword">
+        <el-input :type="pwdType" v-model="resetPassFormData.newPassword" minlength="6" placeholder="请输入新密码" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="密码校验" prop="newPasswordCheck">
+        <el-input :type="pwdType" v-model="resetPassFormData.newPasswordCheck" minlength="6" placeholder="请再输入一次密码" clearable></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="showResetPassForm = false">取消</el-button>
+      <el-button type="primary" @click="resetPass">重置</el-button>
+    </div>
+  </el-dialog>
 </div>
 </template>
 <script>
@@ -27,6 +44,7 @@ import BaseTable from '@/components/table/BaseTable'
 import layer from '@/utils/layer'
 import { listRole } from '@/api/userSystem/role'
 import { listUserRole, syncUserRole } from '@/api/userSystem/userRole'
+import { userResetPass } from '@/api/userSystem/user'
 export default {
   name: 'User',
   components: { BaseTable },
@@ -49,13 +67,21 @@ export default {
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
       ],
       extBtns: [
-        {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles'}
+        {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles'},
+        {type: 'primary', text: '重置密码', icon: 'el-icon-edit', event: 'showResetPass'}
       ],
       showEditForm: false,
       roles: [],
       currentRow: {},
       userRoles: [],
-      selectRoles: []
+      selectRoles: [],
+      showResetPassForm: false,
+      resetPassFormData: {
+        newPassword: '',
+        newPasswordCheck: ''
+      },
+      pwdType: 'password',
+      rules: {}
     }
   },
   methods: {
@@ -95,6 +121,22 @@ export default {
         removeUserRoleIds
       })
       this.showEditForm = false
+    },
+    async showResetPass (currentRow) {
+      if (currentRow && currentRow.id) {
+        this.resetPassFormData.id = currentRow.id
+        this.resetPassFormData.newPassword = ''
+        this.resetPassFormData.newPasswordCheck = ''
+        this.showResetPassForm = true
+      } else {
+        layer.iMsg('请选择待操作的数据', 'error')
+      }
+    },
+    async resetPass () {
+      userResetPass(this.resetPassFormData).then(res => {
+        layer.iMsg('重置成功', 'success', 3000)
+        this.showResetPassForm = false
+      })
     }
   },
   created () {

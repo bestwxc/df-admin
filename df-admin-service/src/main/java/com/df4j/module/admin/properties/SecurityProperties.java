@@ -12,6 +12,7 @@ public class SecurityProperties {
         defaultExcludes = new ArrayList<>();
         defaultExcludes.add("admin/user/login");
         defaultExcludes.add("admin/user/logout");
+        defaultExcludes.add("admin/user/passwd");
         defaultExcludes.add("admin/image/code");
         defaultExcludes.add("admin/tree/list");
     }

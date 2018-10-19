@@ -59,7 +59,8 @@ public class UserExtController extends UserController{
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, password);
             currentUser.login(usernamePasswordToken);
         }
-        return ResultUtils.success(null);
+        User user = userService.listOne(userName);
+        return ResultUtils.success(user);
     }
 
     @RequestMapping("/user/logout")
@@ -75,7 +76,7 @@ public class UserExtController extends UserController{
 
 
     /**
-     * 重置密码接口
+     * 修改密码接口
      * @param map
      * @return
      */
@@ -97,6 +98,29 @@ public class UserExtController extends UserController{
             throw new DfException("原用户密码不正确");
         }
         salt = this.getSalt();
+        String userPass = this.mdPass(newPassword, salt);
+        userService.update(id, null, null, null, null, null, userPass, salt, null, null);
+        return ResultUtils.success(null);
+    }
+
+    /**
+     * 重置密码接口
+     * @param map
+     * @return
+     */
+    @RequestMapping("/user/resetpass")
+    public Result resetpass(@RequestBody Map<String,?> map) {
+        Long id = MapUtils.getLongFromMapNotNull(map, "id");
+        String newPassword = MapUtils.getStringFromMapNotNull(map, "newPassword");
+        String newPasswordCheck = MapUtils.getStringFromMapNotNull(map, "newPasswordCheck");
+        User user = userService.listOne(id);
+        if(!newPassword.equals(newPasswordCheck)){
+            throw new DfException("两次输入的密码不一致");
+        }
+        if(ValidateUtils.isNull(user)){
+            throw new DfException("用户不存在");
+        }
+        String salt = this.getSalt();
         String userPass = this.mdPass(newPassword, salt);
         userService.update(id, null, null, null, null, null, userPass, salt, null, null);
         return ResultUtils.success(null);
