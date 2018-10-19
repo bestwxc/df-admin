@@ -24,7 +24,6 @@
 </template>
 <script>
 import BaseTable from '@/components/table/BaseTable'
-import layer from '@/utils/layer'
 import { listResource } from '@/api/userSystem/resource'
 import { listRoleResource, syncRoleResource } from '@/api/userSystem/roleResource'
 export default {
@@ -45,7 +44,7 @@ export default {
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
       ],
       extBtns: [
-        {type: 'success', text: '设置权限', icon: 'el-icon-plus', event: 'addResources'}
+        {type: 'success', text: '设置权限', icon: 'el-icon-plus', event: 'addResources', judgeSelectOne: true}
       ],
       showEditForm: false,
       resources: [],
@@ -56,15 +55,11 @@ export default {
   },
   methods: {
     async addResources (currentRow) {
-      if (currentRow && currentRow.id) {
-        this.currentRow = currentRow
-        await this.getAllResource()
-        await this.getAllRoleResource(currentRow.id)
-        this.selectResources = this.roleResources.map(item => item.resourceId)
-        this.showEditForm = true
-      } else {
-        layer.iMsg('请选择待操作的数据', 'error')
-      }
+      this.currentRow = currentRow
+      await this.getAllResource()
+      await this.getAllRoleResource(currentRow.id)
+      this.selectResources = this.roleResources.map(item => item.resourceId)
+      this.showEditForm = true
     },
     async getAllResource () {
       let data = await listResource({

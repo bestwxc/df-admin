@@ -22,7 +22,7 @@
     <el-button v-if="enableAdd" class="filter-item" type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
     <el-button v-if="enableUpdate" class="filter-item" type="warning" icon="el-icon-edit" @click="handleUpdate">修改</el-button>
     <el-button v-if="enableDelete" class="filter-item" type="danger" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-    <el-button v-for="(extBtn) in extBtns" v-bind:key="extBtn.text" class="filter-item" :type="extBtn.type" :icon="extBtn.icon" @click="$emit(extBtn.event, currentRow)">{{extBtn.text}}</el-button>
+    <el-button v-for="(extBtn) in extBtns" v-bind:key="extBtn.text" class="filter-item" :type="extBtn.type" :icon="extBtn.icon" @click="emitExtBtnEvent(extBtn)">{{extBtn.text}}</el-button>
   </div>
   <el-table
     :data="tableData"
@@ -306,6 +306,17 @@ export default {
         }
       })
       return row
+    },
+    emitExtBtnEvent (extBtn) {
+      const event = extBtn.event
+      const judgeSelectOne = extBtn.judgeSelectOne || false
+      if (judgeSelectOne) {
+        if (!this.judgeSelectOne(this.currentRow)) {
+          layer.iMsg('请选择待操作的数据', 'error')
+          return
+        }
+      }
+      this.$emit(event, this.currentRow)
     }
   },
   created () {

@@ -67,8 +67,8 @@ export default {
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
       ],
       extBtns: [
-        {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles'},
-        {type: 'primary', text: '重置密码', icon: 'el-icon-edit', event: 'showResetPass'}
+        {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles', judgeSelectOne: true},
+        {type: 'primary', text: '重置密码', icon: 'el-icon-edit', event: 'showResetPass', judgeSelectOne: true}
       ],
       showEditForm: false,
       roles: [],
@@ -86,15 +86,11 @@ export default {
   },
   methods: {
     async addRoles (currentRow) {
-      if (currentRow && currentRow.id) {
-        this.currentRow = currentRow
-        await this.getAllRole()
-        await this.getAllUserRole(currentRow.id)
-        this.selectRoles = this.userRoles.map(item => item.roleId)
-        this.showEditForm = true
-      } else {
-        layer.iMsg('请选择待操作的数据', 'error')
-      }
+      this.currentRow = currentRow
+      await this.getAllRole()
+      await this.getAllUserRole(currentRow.id)
+      this.selectRoles = this.userRoles.map(item => item.roleId)
+      this.showEditForm = true
     },
     async getAllRole () {
       let data = await listRole({
@@ -123,14 +119,10 @@ export default {
       this.showEditForm = false
     },
     async showResetPass (currentRow) {
-      if (currentRow && currentRow.id) {
-        this.resetPassFormData.id = currentRow.id
-        this.resetPassFormData.newPassword = ''
-        this.resetPassFormData.newPasswordCheck = ''
-        this.showResetPassForm = true
-      } else {
-        layer.iMsg('请选择待操作的数据', 'error')
-      }
+      this.resetPassFormData.id = currentRow.id
+      this.resetPassFormData.newPassword = ''
+      this.resetPassFormData.newPasswordCheck = ''
+      this.showResetPassForm = true
     },
     async resetPass () {
       userResetPass(this.resetPassFormData).then(res => {
