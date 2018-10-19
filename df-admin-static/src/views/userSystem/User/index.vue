@@ -34,7 +34,7 @@
 </div>
 </template>
 <script>
-import DfTable from '@/components/table/DfTable'
+import DfTable from '@/components/table/BaseTable'
 import layer from '@/utils/layer'
 import { listRole } from '@/api/userSystem/role'
 import { listUserRole, syncUserRole } from '@/api/userSystem/userRole'

@@ -1,16 +1,16 @@
 <template>
 <div class="app-container">
-  <df-table
+  <base-table
     v-on:showRelateResourcePage="showRelateResourcePage"
     v-bind="tableConfig">
-  </df-table>
+  </base-table>
 </div>
 </template>
 <script>
-import DfTable from '@/components/table/DfTable'
+import BaseTable from '@/components/table/BaseTable'
 export default {
-  name: 'TestTreeTable',
-  components: { DfTable },
+  name: 'SystemMenu',
+  components: { BaseTable },
   data () {
     return {
       tableConfig: {

@@ -1,12 +1,7 @@
 <template>
 <div class="app-container">
   <base-table
-    :columns="columns"
-    :supportPage="supportPage"
-    :listUrl="listUrl"
-    :deleteUrl="deleteUrl"
-    :addUrl="addUrl"
-    :updateUrl="updateUrl">
+    v-bind="tableConfig">
   </base-table>
 </div>
 </template>
@@ -17,21 +12,40 @@ export default {
   components: { BaseTable },
   data () {
     return {
-      listUrl: '/api/admin/resource/list',
-      addUrl: '/api/admin/resource/add',
-      deleteUrl: '/api/admin/resource/delete',
-      updateUrl: '/api/admin/resource/update',
-      supportPage: false,
-      columns: [
-        {text: 'ID', value: 'id'},
-        {text: '菜单ID', value: 'menuId', hide: true, hideAdd: true, hideUpdate: true},
-        {text: '资源名称', value: 'resourceName', filter: true},
-        {text: '资源代码', value: 'resourceCode', filter: true},
-        {text: '资源路径', value: 'resourcePath'},
-        {text: '资源类型', value: 'resourceType', filter: true, type: 'select', displayValue: 'resourceTypeName', dictType: 'tree', childDictType: 'system.dicts.resourceType'},
-        {text: '资源说明', value: 'description'},
-        {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
-      ]
+      tableConfig: {
+        tableType: 'baseTable',
+        treeTableConfig: {
+        },
+        columns: [
+          {text: 'ID', value: 'id', disableAdd: true, disableUpdate: true},
+          {text: '菜单ID', value: 'menuId', hide: true, hideAdd: true, hideUpdate: true},
+          {text: '资源名称', value: 'resourceName', filter: true},
+          {text: '资源代码', value: 'resourceCode', filter: true},
+          {text: '资源路径', value: 'resourcePath'},
+          {text: '资源类型', value: 'resourceType', filter: true, type: 'select', displayValue: 'resourceTypeName', dictType: 'tree', childDictType: 'system.dicts.resourceType'},
+          {text: '资源说明', value: 'description'},
+          {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
+        ],
+        list: {
+          enabled: true,
+          url: '/api/admin/resource/list',
+          supportPage: false
+        },
+        add: {
+          enabled: true,
+          url: '/api/admin/resource/add'
+        },
+        update: {
+          enabled: true,
+          url: '/api/admin/resource/update'
+        },
+        del: {
+          enabled: true,
+          url: '/api/admin/resource/delete'
+        },
+        extBtns: [
+        ]
+      }
     }
   },
   methods: {

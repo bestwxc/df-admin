@@ -1,13 +1,7 @@
 <template>
 <div class="app-container">
   <base-table
-    :columns="columns"
-    :supportPage="supportPage"
-    :listUrl="listUrl"
-    :deleteUrl="deleteUrl"
-    :addUrl="addUrl"
-    :updateUrl="updateUrl"
-    :extBtns="extBtns"
+    v-bind="tableConfig"
     v-on:addResources="addResources">
   </base-table>
   <el-dialog title="设置权限" :visible.sync="showEditForm">
@@ -31,21 +25,38 @@ export default {
   components: { BaseTable },
   data () {
     return {
-      listUrl: '/api/admin/role/list',
-      addUrl: '/api/admin/role/add',
-      deleteUrl: '/api/admin/role/delete',
-      updateUrl: '/api/admin/role/update',
-      supportPage: false,
-      columns: [
-        {text: 'ID', value: 'id'},
-        {text: '角色名称', value: 'roleName', hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
-        {text: '角色代码', value: 'roleCode', filter: true},
-        {text: '角色说明', value: 'description'},
-        {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
-      ],
-      extBtns: [
-        {type: 'success', text: '设置权限', icon: 'el-icon-plus', event: 'addResources', judgeSelectOne: true}
-      ],
+      tableConfig: {
+        tableType: 'baseTable',
+        treeTableConfig: {
+        },
+        columns: [
+          {text: 'ID', value: 'id'},
+          {text: '角色名称', value: 'roleName', hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
+          {text: '角色代码', value: 'roleCode', filter: true},
+          {text: '角色说明', value: 'description'},
+          {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
+        ],
+        list: {
+          enabled: true,
+          url: '/api/admin/role/list',
+          supportPage: false
+        },
+        add: {
+          enabled: true,
+          url: '/api/admin/role/add'
+        },
+        update: {
+          enabled: true,
+          url: '/api/admin/role/update'
+        },
+        del: {
+          enabled: true,
+          url: '/api/admin/role/delete'
+        },
+        extBtns: [
+          {type: 'success', text: '设置权限', icon: 'el-icon-plus', event: 'addResources', judgeSelectOne: true}
+        ]
+      },
       showEditForm: false,
       resources: [],
       currentRow: {},
