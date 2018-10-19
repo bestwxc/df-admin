@@ -9,7 +9,9 @@
     :listUrl="listUrl"
     :deleteUrl="deleteUrl"
     :addUrl="addUrl"
-    :updateUrl="updateUrl">
+    :updateUrl="updateUrl"
+    :extBtns="extBtns"
+    v-on:showRelateResourcePage="showRelateResourcePage">
   </base-tree-table>
 </div>
 </template>
@@ -37,10 +39,16 @@ export default {
         {text: '跳转地址', value: 'jumpPath'},
         {text: '排序值', value: 'orderNum', defaultValue: 0},
         {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
+      ],
+      extBtns: [
+        {type: 'success', text: '关联资源', icon: 'el-icon-edit', event: 'showRelateResourcePage', judgeSelectOne: true, judegNoChild: true}
       ]
     }
   },
   methods: {
+    showRelateResourcePage () {
+      console.log('showRelateResourcePage')
+    }
   },
   created () {
   }

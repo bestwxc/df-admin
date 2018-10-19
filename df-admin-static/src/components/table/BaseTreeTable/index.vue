@@ -338,7 +338,7 @@ export default {
           return
         }
       }
-      const judegNoChild = extBtn.judegNoChild
+      const judegNoChild = extBtn.judegNoChild || false
       if (judegNoChild) {
         if (!this.judegNoChild()) {
           layer.iMsg('节点未展开或节点存在下级元素，不能进行操作！', 'error')
