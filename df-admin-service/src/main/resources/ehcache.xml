@@ -1,0 +1,89 @@
+<config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3
+	                        http://www.ehcache.org/schema/ehcache-core-3.2.xsd
+	                        http://www.ehcache.org/v3/jsr107
+	                        http://www.ehcache.org/schema/ehcache-107-ext-3.2.xsd">
+    <cache-template name="default">
+        <heap unit="entries">1000</heap>
+    </cache-template>
+
+    <cache alias="administrativeDivision" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="agreement" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="bankBin" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="bank" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="branch" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="paperAnswer" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="paperLimitRule" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="paperQuestion" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="treeNode" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="promoteChannel" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="ygxx" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="tzgw" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+    <cache alias="cityCode" uses-template="default">
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+    </cache>
+</config>
