@@ -14,6 +14,7 @@ import router from './router'
 import store from './store'
 import './store/initDict'
 import './icons'
+import 'babel-polyfill'
 
 Vue.use(ElementUI, { size: 'mini', locale })
 Vue.config.productionTip = false
