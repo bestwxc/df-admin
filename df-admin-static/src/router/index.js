@@ -10,6 +10,18 @@ Vue.use(Router)
 
 const baseRouteMap = [
   {path: '/login', component: pages['Login'], hidden: true},
+  {
+    path: '',
+    component: Layout,
+    hidden: true,
+    redirect: '401',
+    children: [
+      {
+        path: '401',
+        component: pages['Page401']
+      }
+    ]
+  },
   {path: '/404', component: pages['Page404'], hidden: true},
   {
     path: '',

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import layer from './layer'
 import store from '@/store'
+import router from '../router'
 axios.defaults.withCredentials = true
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
@@ -26,6 +27,9 @@ service.interceptors.response.use(
               location.reload()
             })
           })
+        }
+        if (errorNo === -998) {
+          router.replace('/401')
         }
         return Promise.reject(new Error())
       }
