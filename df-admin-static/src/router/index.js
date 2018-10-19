@@ -122,24 +122,6 @@ const baseRouteMap = [
         icon: 'example'
       }
     }]
-  },
-  {
-    path: '/test',
-    name: '测试',
-    component: Layout,
-    meta: {
-      title: '测试',
-      icon: 'example'
-    },
-    children: [{
-      path: 'tree',
-      name: '树形表',
-      component: r => require.ensure([], () => r(require('@/views/TestTreeTable/index')), 'TestTreeTable'),
-      meta: {
-        title: '树形表',
-        icon: 'example'
-      }
-    }]
   }
 ]
 

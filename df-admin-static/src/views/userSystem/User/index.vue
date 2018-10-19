@@ -1,16 +1,10 @@
 <template>
 <div class="app-container">
-  <base-table
-    :columns="columns"
-    :supportPage="supportPage"
-    :listUrl="listUrl"
-    :deleteUrl="deleteUrl"
-    :addUrl="addUrl"
-    :updateUrl="updateUrl"
-    :extBtns="extBtns"
+  <df-table
     v-on:addRoles="addRoles"
-    v-on:showResetPass="showResetPass">
-  </base-table>
+    v-on:showResetPass="showResetPass"
+    v-bind="tableConfig">
+  </df-table>
   <!-- 设置角色区域 -->
   <el-dialog title="设置角色" :visible.sync="showEditForm">
     <el-transfer v-model="selectRoles" :data="roles"
@@ -40,36 +34,53 @@
 </div>
 </template>
 <script>
-import BaseTable from '@/components/table/BaseTable'
+import DfTable from '@/components/table/DfTable'
 import layer from '@/utils/layer'
 import { listRole } from '@/api/userSystem/role'
 import { listUserRole, syncUserRole } from '@/api/userSystem/userRole'
 import { userResetPass } from '@/api/userSystem/user'
 export default {
   name: 'User',
-  components: { BaseTable },
+  components: { DfTable },
   data () {
     return {
-      listUrl: '/api/admin/user/list',
-      addUrl: '/api/admin/user/add',
-      deleteUrl: '/api/admin/user/delete',
-      updateUrl: '/api/admin/user/update',
-      supportPage: false,
-      columns: [
-        {text: 'ID', value: 'id'},
-        {text: '用户名', value: 'userName', filter: true, hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
-        {text: '昵称', value: 'nickName', filter: true},
-        {text: '手机号码', value: 'mobileNo', filter: true},
-        {text: '用户状态', value: 'userState', filter: true, type: 'select', displayValue: 'userStateName', dictType: 'tree', childDictType: 'system.dicts.userState'},
-        {text: '用户密码', value: 'userPass', hide: true, hideUpdate: true},
-        {text: 'salt', value: 'salt', hide: true, hideAdd: true, hideUpdate: true},
-        {text: '部门代码', value: 'departmentCode', filter: true},
-        {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
-      ],
-      extBtns: [
-        {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles', judgeSelectOne: true},
-        {type: 'primary', text: '重置密码', icon: 'el-icon-edit', event: 'showResetPass', judgeSelectOne: true}
-      ],
+      tableConfig: {
+        tableType: 'baseTable',
+        treeTableConfig: {
+        },
+        columns: [
+          {text: 'ID', value: 'id', hideAdd: true, disableAdd: true, disableUpdate: true},
+          {text: '用户名', value: 'userName', filter: true, hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
+          {text: '昵称', value: 'nickName', filter: true},
+          {text: '手机号码', value: 'mobileNo', filter: true},
+          {text: '用户状态', value: 'userState', filter: true, type: 'select', displayValue: 'userStateName', dictType: 'tree', childDictType: 'system.dicts.userState'},
+          {text: '用户密码', value: 'userPass', hide: true, hideUpdate: true},
+          {text: 'salt', value: 'salt', hide: true, hideAdd: true, hideUpdate: true},
+          {text: '部门代码', value: 'departmentCode', filter: true},
+          {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
+        ],
+        list: {
+          enabled: true,
+          url: '/api/admin/user/list',
+          supportPage: false
+        },
+        add: {
+          enabled: true,
+          url: '/api/admin/user/add'
+        },
+        update: {
+          enabled: true,
+          url: '/api/admin/user/update'
+        },
+        del: {
+          enabled: true,
+          url: '/api/admin/user/delete'
+        },
+        extBtns: [
+          {type: 'success', text: '设置角色', icon: 'el-icon-plus', event: 'addRoles', judgeSelectOne: true},
+          {type: 'primary', text: '重置密码', icon: 'el-icon-edit', event: 'showResetPass', judgeSelectOne: true}
+        ]
+      },
       showEditForm: false,
       roles: [],
       currentRow: {},
