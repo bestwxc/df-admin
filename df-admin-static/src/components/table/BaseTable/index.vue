@@ -50,6 +50,16 @@
             </el-date-picker>
           </span>
         </span>
+        <!-- textarea输入框，不允许筛选 -->
+        <span v-else-if="column.filter && column.type == 'textarea'">
+        </span>
+        <!-- 文件上传，同样不允许预览 -->
+        <span v-else-if="column.filter && column.type == 'upload'">
+        </span>
+        <!-- slider -->
+        <span v-else-if="column.filter && column.type == 'slider'">
+        </span>
+        <!-- 普通input框 -->
         <span v-else-if="column.filter">
           <span v-if="column.range">
             <el-input
@@ -128,7 +138,7 @@
                 :value="item.nodeValue">
               </el-option>
             </el-select>
-            <el-date-picker v-else-if="column.filter && column.type == 'datetime'"
+            <el-date-picker v-else-if="column.type == 'datetime'"
               v-model="queryParam[column.value + 'Value']"
               :type="column.dateOptions.editFormate"
               :placeholder="column.text"
@@ -136,7 +146,12 @@
               :disabled="judgeDisabled(column, editType)"
               :picker-options="column.dateOptions.editFormate.pickerOptions">
             </el-date-picker>
-            <el-input v-else v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <el-input v-else-if="column.type == 'textarea'" type="textarea" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <el-slider v-else-if="column.type == 'slider'"
+              v-model="value9"
+              b-bind = column.sliderOptions>
+            </el-slider>
+            <el-input v-else type="textarea" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
       </el-form>
