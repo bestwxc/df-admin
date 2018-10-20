@@ -3,11 +3,77 @@
     <!-- 筛选区域 -->
     <div class="filter-container">
       <span v-for="(column) in columns" :key="column.value">
-        <el-select v-if="column.filter && column.type == 'select'" v-model="queryParam[column.value]" clearable placeholder="请选择" @keyup.enter.native="handleFilter">
-          <el-option v-for="item in tree[column.childDictType]" :key="item.nodeValue" :label="item.nodeName" :value="item.nodeValue">
-          </el-option>
-        </el-select>
-        <el-input v-else-if="column.filter" :placeholder="column.text" v-model="queryParam[column.value]" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
+        <!-- 下拉选择 -->
+        <span  v-if="column.filter && column.type == 'select'">
+          <span v-if="column.range">
+            <el-select v-model="queryParam[fromKey(column.value)]" clearable :placeholder="'from:' + column.text" @keyup.enter.native="handleFilter">
+              <el-option v-for="item in tree[column.childDictType]" :key="item.nodeValue" :label="item.nodeName" :value="item.nodeValue">
+              </el-option>
+            </el-select>
+            <el-select v-model="queryParam[toKey(column.value)]" clearable :placeholder="'to' + column.text" @keyup.enter.native="handleFilter">
+              <el-option v-for="item in tree[column.childDictType]" :key="item.nodeValue" :label="item.nodeName" :value="item.nodeValue">
+              </el-option>
+            </el-select>
+          </span>
+          <span v-else>
+            <el-select v-model="queryParam[column.value]" clearable :placeholder="column.text" @keyup.enter.native="handleFilter">
+              <el-option v-for="item in tree[column.childDictType]" :key="item.nodeValue" :label="item.nodeName" :value="item.nodeValue">
+              </el-option>
+            </el-select>
+          </span>
+        </span>
+        <!-- 日期选择 -->
+        <span  v-else-if="column.filter && column.type == 'datetime'">
+          <span v-if="column.range">
+            <el-date-picker
+              v-model="queryParam[fromKey(column.value + 'Value')]"
+              :type="column.dateOptions.editFormate"
+              :placeholder="'from:' + column.text"
+              align="right"
+              :picker-options="column.dateOptions.editFormate.pickerOptions">
+            </el-date-picker>
+            <el-date-picker
+              v-model="queryParam[toKey(column.value + 'Value')]"
+              :type="column.dateOptions.editFormate"
+              :placeholder="'to:' + column.text"
+              align="right"
+              :picker-options="column.dateOptions.editFormate.pickerOptions">
+            </el-date-picker>
+          </span>
+          <span v-else>
+            <el-date-picker
+              v-model="queryParam[column.value + 'Value']"
+              :type="column.dateOptions.editFormate"
+              :placeholder="column.text"
+              align="right"
+              :picker-options="column.dateOptions.editFormate.pickerOptions">
+            </el-date-picker>
+          </span>
+        </span>
+        <span v-else-if="column.filter">
+          <span v-if="column.range">
+            <el-input
+              :placeholder="'from:' + column.text"
+              v-model="queryParam[fromKey(column.value)]"
+              class="filter-item" clearable
+              @keyup.enter.native="handleFilter">
+            </el-input>
+            <el-input
+              :placeholder="'to:' + column.text"
+              v-model="queryParam[toKey(column.value)]"
+              class="filter-item" clearable
+              @keyup.enter.native="handleFilter">
+            </el-input>
+          </span>
+          <span v-else>
+            <el-input
+              :placeholder="column.text"
+              v-model="queryParam[column.value]"
+              class="filter-item" clearable
+              @keyup.enter.native="handleFilter">
+            </el-input>
+          </span>
+        </span>
       </span>
       <el-button class="filter-btn" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
     </div>
@@ -62,6 +128,14 @@
                 :value="item.nodeValue">
               </el-option>
             </el-select>
+            <el-date-picker v-else-if="column.filter && column.type == 'datetime'"
+              v-model="queryParam[column.value + 'Value']"
+              :type="column.dateOptions.editFormate"
+              :placeholder="column.text"
+              align="right"
+              :disabled="judgeDisabled(column, editType)"
+              :picker-options="column.dateOptions.editFormate.pickerOptions">
+            </el-date-picker>
             <el-input v-else v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
@@ -78,6 +152,8 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import layer from '@/utils/layer'
+import dateUtils from '@/utils/dateUtils'
+import stringUtils from '@/utils/stringUtils'
 import request from '@/utils/request'
 import TreeTable from '@/components/table/TreeTable'
 export default {
@@ -148,6 +224,12 @@ export default {
     })
   },
   methods: {
+    fromKey (String) {
+      return 'from' + stringUtils.capFirst(String)
+    },
+    toKey (String) {
+      return 'to' + stringUtils.capFirst(String)
+    },
     isTreeTable () {
       return this.tableType === 'treeTable'
     },
@@ -169,6 +251,7 @@ export default {
       this.getAndSetData()
     },
     async listData (param) {
+      this.handlerDateTime(param, true)
       let data = await request({
         url: this.list.url,
         method: 'post',
@@ -274,6 +357,7 @@ export default {
       })
     },
     addData () {
+      this.handlerDateTime(this.formData, false)
       request({
         url: this.add.url,
         method: 'post',
@@ -294,6 +378,7 @@ export default {
       })
     },
     updateData () {
+      this.handlerDateTime(this.formData, false)
       request({
         url: this.update.url,
         method: 'post',
@@ -363,6 +448,25 @@ export default {
         }
       })
       return row
+    },
+    handlerDateTime (param, enableRange) {
+      this.columns.forEach(column => {
+        if (column.type === 'datetime') {
+          let dealKey = []
+          if (enableRange && column.range) {
+            dealKey.push('from' + stringUtils.capFirst(column.value))
+            dealKey.push('to' + stringUtils.capFirst(column.value))
+          } else {
+            dealKey.push(column.value)
+          }
+          dealKey.forEach(key => {
+            let value = param[key + 'Value']
+            if (value) {
+              param[key] = dateUtils.format(value, dateUtils.datetime)
+            }
+          })
+        }
+      })
     },
     emitExtBtnEvent (extBtn) {
       const event = extBtn.event

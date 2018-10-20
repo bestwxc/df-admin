@@ -4,9 +4,10 @@ import Vue from 'vue'
 
 import 'normalize.css/normalize.css'
 import 'font-awesome/css/font-awesome.min.css'
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/styles/index.scss'
 import App from './App'
@@ -16,7 +17,7 @@ import './store/initDict'
 import './icons'
 import 'babel-polyfill'
 
-Vue.use(ElementUI, { size: 'mini', locale })
+Vue.use(ElementUI, { size: 'mini', locale: zhLocale })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

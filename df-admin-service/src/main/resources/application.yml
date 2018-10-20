@@ -19,6 +19,9 @@ spring:
       table-name: SPRING_SESSION
       initialize-schema: always
     timeout: 1800s
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis:
   mapper-locations:
     - classpath:net/df/module/admin/xmlmapper/*.xml

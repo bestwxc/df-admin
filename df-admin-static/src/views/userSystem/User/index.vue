@@ -52,12 +52,14 @@ export default {
           {text: 'ID', value: 'id', hideAdd: true, disableAdd: true, disableUpdate: true},
           {text: '用户名', value: 'userName', filter: true, hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
           {text: '昵称', value: 'nickName', filter: true},
-          {text: '手机号码', value: 'mobileNo', filter: true},
-          {text: '用户状态', value: 'userState', filter: true, type: 'select', displayValue: 'userStateName', dictType: 'tree', childDictType: 'system.dicts.userState'},
+          {text: '手机号码', value: 'mobileNo', range: false, filter: true},
+          {text: '用户状态', value: 'userState', filter: true, type: 'select', range: false, displayValue: 'userStateName', dictType: 'tree', childDictType: 'system.dicts.userState'},
           {text: '用户密码', value: 'userPass', hide: true, hideUpdate: true},
           {text: 'salt', value: 'salt', hide: true, hideAdd: true, hideUpdate: true},
           {text: '部门代码', value: 'departmentCode', filter: true},
-          {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
+          {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true},
+          {text: '创建时间', value: 'createTime', defaultValue: '', filter: false, type: 'datetime', range: true, dateOptions: {showFormate: 'datetime', editFormate: 'datetime'}},
+          {text: '修改时间', value: 'updateTime', defaultValue: '', type: 'datetime', dateOptions: {showFormate: 'datetime', editFormate: 'datetime'}}
         ],
         list: {
           enabled: true,
