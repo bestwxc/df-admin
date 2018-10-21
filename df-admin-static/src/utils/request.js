@@ -5,7 +5,7 @@ import store from '@/store'
 import router from '../router'
 axios.defaults.withCredentials = true
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api 的 base_url
+  baseURL: process.env.NODE_ENV === 'development' ? '' : process.env.BASE_API, // api 的 base_url
   timeout: 5000 // request timeout
 })
 service.interceptors.response.use(
