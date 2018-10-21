@@ -124,6 +124,23 @@ const baseRouteMap = [
         icon: 'example'
       }
     }]
+  }, {
+    path: '',
+    name: '测试',
+    component: Layout,
+    meta: {
+      title: '测试',
+      icon: 'example'
+    },
+    children: [{
+      path: 'test',
+      name: '测试页面',
+      component: r => require.ensure([], () => r(require('@/views/TestPage')), 'TestPage'),
+      meta: {
+        title: '测试页面',
+        icon: 'example'
+      }
+    }]
   }
 ]
 
