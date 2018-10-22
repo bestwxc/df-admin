@@ -5,14 +5,20 @@ let initTreeNodePaths = [
   'system.dicts.resourceType',
   'system.dicts.userState'
 ]
-initTreeNodePaths.forEach(item => {
-  listTreeNode({
-    treeNodePath: item,
-    flag: 0
-  }).then(data => {
-    let payload = {}
-    payload.dictType = item
-    payload.dictList = data.result
-    store.dispatch('SaveTreeNode', payload)
+const init = function () {
+  initTreeNodePaths.forEach(item => {
+    listTreeNode({
+      treeNodePath: item,
+      flag: 0
+    }).then(data => {
+      let payload = {}
+      payload.dictType = item
+      payload.dictList = data.result
+      store.dispatch('SaveTreeNode', payload)
+    })
   })
-})
+}
+const initDict = {
+  init
+}
+export default initDict

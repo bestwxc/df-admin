@@ -34,6 +34,7 @@ export default {
           {text: '角色名称', value: 'roleName', hide: false, hideAdd: false, hideUpdate: false, disableAdd: false, disableUpdate: false},
           {text: '角色代码', value: 'roleCode', filter: true},
           {text: '角色说明', value: 'description'},
+          {text: '排序值', value: 'orderNum', hide: true, defaultValue: 0},
           {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
         ],
         list: {

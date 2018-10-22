@@ -18,7 +18,7 @@ export default {
           expandAll: false,
           relateKey: 'id',
           relateParentKey: 'parentId',
-          rootKeyValue: '0'
+          rootKeyValue: '1'
         },
         columns: [
           { text: '值', value: 'nodeValue', width: 240 },

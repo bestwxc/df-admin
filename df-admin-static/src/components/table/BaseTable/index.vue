@@ -59,6 +59,12 @@
         <!-- slider -->
         <span v-else-if="column.filter && column.type == 'slider'">
         </span>
+        <span v-else-if="column.filter && column.type == 'json'">
+        </span>
+        <span v-else-if="column.filter && column.type == 'markdown'">
+        </span>
+        <span v-else-if="column.filter && column.type == 'tinymce'">
+        </span>
         <!-- 普通input框 -->
         <span v-else-if="column.filter">
           <span v-if="column.range">
@@ -151,7 +157,10 @@
               v-model="value9"
               b-bind = column.sliderOptions>
             </el-slider>
-            <el-input v-else type="textarea" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'json'" type="json" :editorOptions="editorOptions" :value="formData[column.value]"/>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'markdown'" type="markdown" :editorOptions="editorOptions" :value="formData[column.value]"/>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'tinymce'" type="tinymce" :editorOptions="editorOptions" :value="formData[column.value]"/>
+            <el-input v-else v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
       </el-form>
@@ -171,9 +180,13 @@ import dateUtils from '@/utils/dateUtils'
 import stringUtils from '@/utils/stringUtils'
 import request from '@/utils/request'
 import TreeTable from '@/components/table/TreeTable'
+import DfEditor from '@/components/DfEditor'
 export default {
   name: 'BaseTable',
-  components: { TreeTable },
+  components: {
+    TreeTable,
+    DfEditor
+  },
   props: {
     tableType: {
       type: String,
@@ -182,6 +195,10 @@ export default {
     treeTableConfig: {
       type: Object,
       default: () => { }
+    },
+    editorOptions: {
+      type: Object,
+      default: () => {}
     },
     columns: {
       type: Array,
@@ -266,7 +283,7 @@ export default {
       this.getAndSetData()
     },
     async listData (param) {
-      this.handlerDateTime(param, true)
+      this.handleFields(param, true)
       let data = await request({
         url: this.list.url,
         method: 'post',
@@ -372,7 +389,8 @@ export default {
       })
     },
     addData () {
-      this.handlerDateTime(this.formData, false)
+      console.log(this.formData)
+      this.handleFields(this.formData, false)
       request({
         url: this.add.url,
         method: 'post',
@@ -393,7 +411,7 @@ export default {
       })
     },
     updateData () {
-      this.handlerDateTime(this.formData, false)
+      this.handleFields(this.formData, false)
       request({
         url: this.update.url,
         method: 'post',
@@ -464,24 +482,30 @@ export default {
       })
       return row
     },
-    handlerDateTime (param, enableRange) {
-      this.columns.forEach(column => {
-        if (column.type === 'datetime') {
-          let dealKey = []
-          if (enableRange && column.range) {
-            dealKey.push('from' + stringUtils.capFirst(column.value))
-            dealKey.push('to' + stringUtils.capFirst(column.value))
-          } else {
-            dealKey.push(column.value)
-          }
-          dealKey.forEach(key => {
-            let value = param[key + 'Value']
-            if (value) {
-              param[key] = dateUtils.format(value, dateUtils.datetime)
-            }
-          })
+    handleFields (param, enableRange) {
+      for (let i = 0; i < this.columns.length; i++) {
+        let column = this.columns[i]
+        let dealKey = []
+        if (enableRange && column.range) {
+          dealKey.push('from' + stringUtils.capFirst(column.value))
+          dealKey.push('to' + stringUtils.capFirst(column.value))
+        } else {
+          dealKey.push(column.value)
         }
-      })
+        for (let ii = 0; ii < dealKey.length; ii++) {
+          let key = dealKey[ii]
+          let value = param[key]
+          if (value) {
+            let handledVaue = ''
+            if (column.type === 'datetime') {
+              handledVaue = dateUtils.format(value, dateUtils.datetime)
+            } else if (column.type === 'richTextEditor') {
+              handledVaue = this.$ref['richTextEditor-' + key].getContent()
+            }
+            param[key] = handledVaue
+          }
+        }
+      }
     },
     emitExtBtnEvent (extBtn) {
       const event = extBtn.event
@@ -510,7 +534,13 @@ export default {
     },
     async getAndSetData () {
       if (this.isTreeTable() && !this.queryParam[this.treeTableConfig.relateParentKey]) {
-        this.queryParam[this.treeTableConfig.relateParentKey] = this.treeTableConfig.rootKeyValue
+        console.log(this.treeTableConfig)
+        console.log(this.treeTableConfig.relateParentKey)
+        console.log(this.treeTableConfig.rootKeyValue)
+        let tempKey = this.treeTableConfig.relateParentKey
+        let tempValue = this.treeTableConfig.rootKeyValue
+        Vue.set(this.queryParam, tempKey, tempValue)
+        console.log(this.queryParam)
       }
       this.queryParam.flag = 0
       const result = await this.listData(this.queryParam)
@@ -518,9 +548,9 @@ export default {
     }
   },
   mounted () {
+    this.getAndSetData()
   },
   created () {
-    this.getAndSetData()
   }
 }
 </script>

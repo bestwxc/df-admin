@@ -56,6 +56,11 @@ export default {
       this.simplemde.value(val)
     }
   },
+  methods: {
+    getValue () {
+      return this.simplemde.value()
+    }
+  },
   mounted () {
     this.simplemde = new SimpleMDE({
       element: document.getElementById(this.id),

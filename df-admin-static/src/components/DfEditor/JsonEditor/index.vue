@@ -49,6 +49,9 @@ export default {
   methods: {
     getValue () {
       return this.jsonEditor.getValue()
+    },
+    getContent () {
+      return this.getValue()
     }
   }
 }

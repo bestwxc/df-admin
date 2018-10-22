@@ -5,7 +5,14 @@
 </template>
 
 <script>
+import initDicts from '@/store/initDict'
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+
+  },
+  created () {
+    initDicts.init()
+  }
 }
 </script>

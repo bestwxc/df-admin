@@ -1,9 +1,9 @@
 <template>
 <div>
   <div class="df-editor-container">
-    <json-editor v-if="type === 'json'" />
-    <markdown-editor v-if="type === 'markdown'" />
-    <tinymce v-if="type === 'tinymce'" />
+    <json-editor ref="editorImpl" v-if="type === 'json'" v-bind:value="value" v-bind="editorOptions"/>
+    <markdown-editor ref="editorImpl" v-if="type === 'markdown'" v-bind:value="value" v-bind="editorOptions"/>
+    <tinymce ref="editorImpl" v-if="type === 'tinymce'" v-bind:value="value" v-bind="editorOptions"/>
   </div>
 </div>
 </template>
@@ -19,6 +19,10 @@ export default {
     Tinymce
   },
   props: {
+    value: {
+      type: String,
+      default: () => ''
+    },
     type: {
       type: String,
       required: true
@@ -27,8 +31,12 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  methods: {
+    getContent () {
+      return this.$ref.editorImpl.getContent()
+    }
   }
-
 }
 </script>
 <style lang="scss">

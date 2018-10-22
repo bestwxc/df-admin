@@ -26,6 +26,7 @@ export default {
           {text: '上级部门', value: 'parentDepartmentCode', filter: true, disableAdd: true, disableUpdate: true},
           {text: '部门代码', value: 'departmentCode', disableUpdate: true},
           {text: '部门说明', value: 'description'},
+          {text: '排序值', value: 'orderNum', hide: true, defaultValue: 0},
           {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
         ],
         list: {

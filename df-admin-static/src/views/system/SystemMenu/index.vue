@@ -28,7 +28,7 @@ export default {
           {text: '菜单图标', value: 'menuIcon'},
           {text: '上级菜单', value: 'parentMenu', filter: true, disableAdd: true, disableUpdate: true},
           {text: '跳转地址', value: 'jumpPath'},
-          {text: '排序值', value: 'orderNum', defaultValue: 0},
+          {text: '排序值', value: 'orderNum', hide: true, defaultValue: 0},
           {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
         ],
         list: {

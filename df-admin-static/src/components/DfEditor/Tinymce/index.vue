@@ -168,6 +168,9 @@ export default {
     getContent () {
       window.tinymce.get(this.tinymceId).getContent()
     },
+    getValue () {
+      return this.getContent()
+    },
     imageSuccessCBK (arr) {
       const _this = this
       arr.forEach(v => {
