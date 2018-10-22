@@ -12,7 +12,7 @@ export default {
   },
   data () {
     return {
-      type: 'tinymce',
+      type: 'json',
       editorOptions: {
       }
     }

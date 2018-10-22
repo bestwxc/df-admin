@@ -8,13 +8,13 @@
 </div>
 </template>
 <script>
-// import JsonEditor from './JsonEditorJ'
+import JsonEditor from './JsonEditor'
 import MarkdownEditor from './MarkdownEditor'
 import Tinymce from './Tinymce'
 export default {
   name: 'DfEditor',
   components: {
-    // JsonEditor,
+    JsonEditor,
     MarkdownEditor,
     Tinymce
   },
