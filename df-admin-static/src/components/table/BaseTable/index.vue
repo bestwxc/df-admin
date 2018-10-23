@@ -59,6 +59,15 @@
         <!-- slider -->
         <span v-else-if="column.filter && column.type == 'slider'">
         </span>
+        <!-- json -->
+        <span v-else-if="column.filter && column.type == 'json'">
+        </span>
+        <!-- markdown -->
+        <span v-else-if="column.filter && column.type == 'markdown'">
+        </span>
+        <!-- tinymce -->
+        <span v-else-if="column.filter && column.type == 'tinymce'">
+        </span>
         <!-- 普通input框 -->
         <span v-else-if="column.filter">
           <span v-if="column.range">
@@ -151,7 +160,7 @@
               v-model="value9"
               b-bind = column.sliderOptions>
             </el-slider>
-            <el-input v-else type="textarea" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <el-input v-else type="text" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
       </el-form>
