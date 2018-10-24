@@ -30,8 +30,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/department/list',
-          supportPage: false
+          url: '/api/admin/department/list'
         },
         add: {
           enabled: true,

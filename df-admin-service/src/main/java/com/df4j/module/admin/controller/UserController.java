@@ -8,9 +8,11 @@ import com.df4j.base.server.Result;
 import com.df4j.base.utils.MapUtils;
 import com.df4j.base.utils.FieldUtils;
 import com.df4j.base.utils.DateUtils;
+import com.df4j.base.utils.ValidateUtils;
 import com.df4j.base.form.Field;
 import com.df4j.base.form.BoundType;
 import com.df4j.base.utils.ResultUtils;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Date;
@@ -36,6 +38,14 @@ public class UserController {
      */
     @RequestMapping("/user/list")
     public Result<List<User>> list(@RequestBody Map<String,?> map){
+
+        // 分页页码
+        Integer pageNum = MapUtils.getIntegerFromMap(map, "pageNum", null);
+        // 分页大小
+        Integer pageSize = MapUtils.getIntegerFromMap(map, "pageSize", null);
+        // 排序
+        String sort = MapUtils.getStringFromMap(map, "sort", null);
+
         //Long id = MapUtils.getLongFromMap(map, "id", null);
         Field<Long> id = FieldUtils.getLongField(map, "id", false, BoundType.INCLUDE, BoundType.INCLUDE);
         //String userName = MapUtils.getStringFromMap(map, "userName", null);
@@ -60,8 +70,16 @@ public class UserController {
         Field<Date> createTime = FieldUtils.getDateField(map, "createTime", DateUtils.DATE_TIME_PATTERN, false, BoundType.INCLUDE, BoundType.INCLUDE);
         //Date updateTime = MapUtils.getDateFromMap(map, "updateTime", null);
         Field<Date> updateTime = FieldUtils.getDateField(map, "updateTime", DateUtils.DATE_TIME_PATTERN, false, BoundType.INCLUDE, BoundType.INCLUDE);
+
+        if(ValidateUtils.notNull(pageNum) && ValidateUtils.notNull(pageSize)){
+            PageHelper.startPage(pageNum, pageSize);
+        }
+        if(ValidateUtils.isNotEmptyString(sort)){
+            PageHelper.orderBy(sort);
+        }
+
         List<User> list = userService.list(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
-        return ResultUtils.success(list);
+        return ResultUtils.success(pageNum, pageSize, null, list);
     }
 
     /**

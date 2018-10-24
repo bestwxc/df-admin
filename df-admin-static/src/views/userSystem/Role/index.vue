@@ -38,8 +38,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/role/list',
-          supportPage: false
+          url: '/api/admin/role/list'
         },
         add: {
           enabled: true,

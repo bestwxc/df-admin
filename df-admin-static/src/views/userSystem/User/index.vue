@@ -63,8 +63,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/user/list',
-          supportPage: false
+          url: '/api/admin/user/list'
         },
         add: {
           enabled: true,

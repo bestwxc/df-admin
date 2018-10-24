@@ -112,12 +112,14 @@
       border
       highlight-current-row
       @current-change="handleCurrentChange"
+      @sort-change="handleSortChange"
       style="width: 100%">
       <el-table-column v-for="(column) in columns" v-if="!column.hide"
         :key="column.value"
         :prop="column.value"
         :label="column.text"
         :width="column.width"
+        :sortable="column.sort?'custom':false"
         >
         <template slot-scope="scope">
           {{ scope.row[column.displayValue] || scope.row[column.value] }}
@@ -125,12 +127,12 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination v-if="!isTreeTable() && list.supportPage"
+    <el-pagination v-if="!isTreeTable()"
       @size-change="handlePageSizeChange"
       @current-change="handlePageNoChange"
-      :current-page="pageParam.pageNo"
-      :page-sizes="[20, 40, 100, 200, 200, 400]"
-      :page-size="pageSize"
+      :current-page="pageParam.pageNum"
+      :page-sizes="[20, 40, 100, 200, 400, 1000]"
+      :page-size="pageParam.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="pageParam.total">
     </el-pagination>
@@ -229,7 +231,7 @@ export default {
       queryParam: {
       },
       pageParam: {
-        pageNo: 1,
+        pageNum: 1,
         pageSize: 20,
         total: 0
       },
@@ -267,6 +269,14 @@ export default {
     handleCurrentChange (currentRow, oldCurrentRow) {
       this.currentRow = currentRow
     },
+    handleSortChange (param) {
+      if (param) {
+        this.pageParam.sort = param.prop.replace(/([A-Z])/g, '_$1').toLowerCase() + (param.order === 'descending' ? ' desc' : ' asc')
+      } else {
+        this.pageParam.sort = ''
+      }
+      this.getAndSetData()
+    },
     handlePageSizeChange (pageSize) {
       if (this.pageParam.pageSize === pageSize) {
         return
@@ -274,11 +284,11 @@ export default {
       this.pageParam.pageSize = pageSize
       this.getAndSetData()
     },
-    handlePageNoChange (pageNo) {
-      if (this.pageParam.pageNo === pageNo) {
+    handlePageNoChange (pageNum) {
+      if (this.pageParam.pageNum === pageNum) {
         return
       }
-      this.pageParam.pageNo = pageNo
+      this.pageParam.pageNum = pageNum
       this.getAndSetData()
     },
     async listData (param) {
@@ -289,6 +299,7 @@ export default {
         data: param
       })
       let result = data.result
+      this.pageParam.total = data.total || (result ? data.result.length : 0)
       if (result && result.length && result.length > 0) {
         result.forEach(item => this.columnFormatter(item))
       }
@@ -524,9 +535,14 @@ export default {
       Vue.set(record, '_loaded', true)
       return deltaList
     },
-    async getAndSetData () {
+    async getAndSetData (resetSort) {
       if (this.isTreeTable() && !this.queryParam[this.treeTableConfig.relateParentKey]) {
         this.queryParam[this.treeTableConfig.relateParentKey] = this.treeTableConfig.rootKeyValue
+      }
+      if (!this.isTreeTable()) {
+        this.queryParam.pageNum = this.pageParam.pageNum
+        this.queryParam.pageSize = this.pageParam.pageSize
+        this.queryParam.sort = this.pageParam.sort
       }
       this.queryParam.flag = 0
       const result = await this.listData(this.queryParam)

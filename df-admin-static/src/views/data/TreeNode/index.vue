@@ -31,8 +31,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/tree/list',
-          supportPage: false
+          url: '/api/admin/tree/list'
         },
         add: {
           enabled: true,

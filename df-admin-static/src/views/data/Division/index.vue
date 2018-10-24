@@ -34,8 +34,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/division/list',
-          supportPage: false
+          url: '/api/admin/division/list'
         },
         add: {
           enabled: false,

@@ -33,8 +33,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/menu/list',
-          supportPage: false
+          url: '/api/admin/menu/list'
         },
         add: {
           enabled: true,

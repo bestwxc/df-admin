@@ -19,8 +19,8 @@ export default {
         columns: [
           {text: 'ID', value: 'id', disableAdd: true, disableUpdate: true},
           {text: '菜单ID', value: 'menuId', hide: true, hideAdd: true, hideUpdate: true},
-          {text: '资源名称', value: 'resourceName', filter: true},
-          {text: '资源代码', value: 'resourceCode', filter: true},
+          {text: '资源名称', value: 'resourceName', filter: true, sort: true},
+          {text: '资源代码', value: 'resourceCode', filter: true, sort: true},
           {text: '资源路径', value: 'resourcePath'},
           {text: '资源类型', value: 'resourceType', filter: true, type: 'select', displayValue: 'resourceTypeName', dictType: 'tree', childDictType: 'system.dicts.resourceType'},
           {text: '资源说明', value: 'description', type: 'json'},
@@ -28,8 +28,7 @@ export default {
         ],
         list: {
           enabled: true,
-          url: '/api/admin/resource/list',
-          supportPage: false
+          url: '/api/admin/resource/list'
         },
         add: {
           enabled: true,
