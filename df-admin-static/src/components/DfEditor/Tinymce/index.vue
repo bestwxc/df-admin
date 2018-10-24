@@ -79,10 +79,8 @@ export default {
   },
   methods: {
     initTinymce () {
-      console.log('init')
-      console.log(`#${this.tinymceId}`)
       const _this = this
-      let a = window.tinymce.init({
+      window.tinymce.init({
         language: 'zh_CN',
         selector: `#${this.tinymceId}`,
         height: this.height,
@@ -149,13 +147,7 @@ export default {
         //     console.log(err);
         //   });
         // },
-      }).then(resp => {
-        console.log(resp)
-      }).catch(error => {
-        console.log(error)
       })
-      console.log(a)
-      console.log(window.tinymce)
     },
     destroyTinymce () {
       if (window.tinymce.get(this.tinymceId)) {

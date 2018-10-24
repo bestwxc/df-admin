@@ -1,9 +1,9 @@
 <template>
 <div>
   <div class="df-editor-container">
-    <json-editor v-if="type === 'json'" />
-    <markdown-editor v-if="type === 'markdown'" />
-    <tinymce v-if="type === 'tinymce'" />
+    <json-editor v-if="type === 'json'" :editorOptions="editorOptions"/>
+    <markdown-editor v-if="type === 'markdown'" :editorOptions="editorOptions" />
+    <tinymce v-if="type === 'tinymce'" :editorOptions="editorOptions"/>
   </div>
 </div>
 </template>

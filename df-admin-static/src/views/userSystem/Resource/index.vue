@@ -23,7 +23,7 @@ export default {
           {text: '资源代码', value: 'resourceCode', filter: true},
           {text: '资源路径', value: 'resourcePath'},
           {text: '资源类型', value: 'resourceType', filter: true, type: 'select', displayValue: 'resourceTypeName', dictType: 'tree', childDictType: 'system.dicts.resourceType'},
-          {text: '资源说明', value: 'description'},
+          {text: '资源说明', value: 'description', type: 'json'},
           {text: '状态', value: 'flag', defaultValue: 0, hide: true, hideAdd: true, hideUpdate: true}
         ],
         list: {

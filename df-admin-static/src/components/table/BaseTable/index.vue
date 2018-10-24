@@ -59,6 +59,15 @@
         <!-- slider -->
         <span v-else-if="column.filter && column.type == 'slider'">
         </span>
+        <!-- json -->
+        <span v-else-if="column.filter && column.type == 'json'">
+        </span>
+        <!-- markdown -->
+        <span v-else-if="column.filter && column.type == 'markdown'">
+        </span>
+        <!-- tinymce -->
+        <span v-else-if="column.filter && column.type == 'tinymce'">
+        </span>
         <!-- 普通input框 -->
         <span v-else-if="column.filter">
           <span v-if="column.range">
@@ -151,7 +160,10 @@
               v-model="value9"
               b-bind = column.sliderOptions>
             </el-slider>
-            <el-input v-else type="textarea" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'json'" type="json" :editorOptions="column.editorOptions" :value="formData[column.value]"/>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'markdown'" type="markdown" :editorOptions="column.editorOptions" :value="formData[column.value]"/>
+            <df-editor :ref="'richTextEditor-' + column.value" v-else-if="column.type == 'tinymce'" type="tinymce" :editorOptions="column.editorOptions" :value="formData[column.value]"/>
+            <el-input v-else type="text" v-model="formData[column.value]" :disabled="judgeDisabled(column, editType)" clearable></el-input>
           </el-form-item>
         </span>
       </el-form>
@@ -171,9 +183,13 @@ import dateUtils from '@/utils/dateUtils'
 import stringUtils from '@/utils/stringUtils'
 import request from '@/utils/request'
 import TreeTable from '@/components/table/TreeTable'
+import DfEditor from '@/components/DfEditor'
 export default {
   name: 'BaseTable',
-  components: { TreeTable },
+  components: {
+    TreeTable,
+    DfEditor
+  },
   props: {
     tableType: {
       type: String,
