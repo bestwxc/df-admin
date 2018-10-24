@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.UserMapper;
 import com.df4j.module.admin.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,27 @@ public class UserService {
      * @return
      */
     public List<User> list(Long id, String userName, String nickName, String mobileNo, String headUrl, Integer userState, String userPass, String salt, String departmentCode, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
+        return userMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param userName
+     * @param nickName
+     * @param mobileNo
+     * @param headUrl
+     * @param userState
+     * @param userPass
+     * @param salt
+     * @param departmentCode
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<User> list(Field<Long> id, Field<String> userName, Field<String> nickName, Field<String> mobileNo, Field<String> headUrl, Field<Integer> userState, Field<String> userPass, Field<String> salt, Field<String> departmentCode, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, userName, nickName, mobileNo, headUrl, userState, userPass, salt, departmentCode, flag, createTime, updateTime);
         return userMapper.selectByExample(example);
     }
@@ -248,7 +270,7 @@ public class UserService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String userName,String nickName,String mobileNo,String headUrl,Integer userState,String userPass,String salt,String departmentCode,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object userName,Object nickName,Object mobileNo,Object headUrl,Object userState,Object userPass,Object salt,Object departmentCode,Object flag,Object createTime,Object updateTime){
         WeekendSqls<User> sqls = WeekendSqls.<User>custom();
         sqlsUtils.appendSql(sqls, User::getId, id);
         sqlsUtils.appendSql(sqls, User::getUserName, userName);

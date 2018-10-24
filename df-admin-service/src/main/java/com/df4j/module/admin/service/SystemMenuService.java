@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.SystemMenuMapper;
 import com.df4j.module.admin.model.SystemMenu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,25 @@ public class SystemMenuService {
      * @return
      */
     public List<SystemMenu> list(Long id, String menuCode, String menuName, String menuIcon, String parentMenu, String jumpPath, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, menuCode, menuName, menuIcon, parentMenu, jumpPath, orderNum, flag, createTime, updateTime);
+        return systemMenuMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param menuCode
+     * @param menuName
+     * @param menuIcon
+     * @param parentMenu
+     * @param jumpPath
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<SystemMenu> list(Field<Long> id, Field<String> menuCode, Field<String> menuName, Field<String> menuIcon, Field<String> parentMenu, Field<String> jumpPath, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, menuCode, menuName, menuIcon, parentMenu, jumpPath, orderNum, flag, createTime, updateTime);
         return systemMenuMapper.selectByExample(example);
     }
@@ -227,7 +247,7 @@ public class SystemMenuService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String menuCode,String menuName,String menuIcon,String parentMenu,String jumpPath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object menuCode,Object menuName,Object menuIcon,Object parentMenu,Object jumpPath,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<SystemMenu> sqls = WeekendSqls.<SystemMenu>custom();
         sqlsUtils.appendSql(sqls, SystemMenu::getId, id);
         sqlsUtils.appendSql(sqls, SystemMenu::getMenuCode, menuCode);

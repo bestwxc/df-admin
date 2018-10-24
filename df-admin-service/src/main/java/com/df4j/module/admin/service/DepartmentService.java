@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.DepartmentMapper;
 import com.df4j.module.admin.model.Department;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,24 @@ public class DepartmentService {
      * @return
      */
     public List<Department> list(Long id, String departmentCode, String departmentName, String parentDepartmentCode, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, departmentCode, departmentName, parentDepartmentCode, description, orderNum, flag, createTime, updateTime);
+        return departmentMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param departmentCode
+     * @param departmentName
+     * @param parentDepartmentCode
+     * @param description
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<Department> list(Field<Long> id, Field<String> departmentCode, Field<String> departmentName, Field<String> parentDepartmentCode, Field<String> description, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, departmentCode, departmentName, parentDepartmentCode, description, orderNum, flag, createTime, updateTime);
         return departmentMapper.selectByExample(example);
     }
@@ -215,7 +234,7 @@ public class DepartmentService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String departmentCode,String departmentName,String parentDepartmentCode,String description,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object departmentCode,Object departmentName,Object parentDepartmentCode,Object description,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<Department> sqls = WeekendSqls.<Department>custom();
         sqlsUtils.appendSql(sqls, Department::getId, id);
         sqlsUtils.appendSql(sqls, Department::getDepartmentCode, departmentCode);

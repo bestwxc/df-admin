@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.AdministrativeDivisionMapper;
 import com.df4j.module.admin.model.AdministrativeDivision;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,27 @@ public class AdministrativeDivisionService {
      * @return
      */
     public List<AdministrativeDivision> list(Long id, String divisionCode, String divisionName, Long parentId, String parentDivisionCode, Integer divisionLevel, Integer levelAdjust, String divisionType, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag, createTime, updateTime);
+        return administrativeDivisionMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param divisionCode
+     * @param divisionName
+     * @param parentId
+     * @param parentDivisionCode
+     * @param divisionLevel
+     * @param levelAdjust
+     * @param divisionType
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<AdministrativeDivision> list(Field<Long> id, Field<String> divisionCode, Field<String> divisionName, Field<Long> parentId, Field<String> parentDivisionCode, Field<Integer> divisionLevel, Field<Integer> levelAdjust, Field<String> divisionType, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, divisionCode, divisionName, parentId, parentDivisionCode, divisionLevel, levelAdjust, divisionType, orderNum, flag, createTime, updateTime);
         return administrativeDivisionMapper.selectByExample(example);
     }
@@ -249,7 +271,7 @@ public class AdministrativeDivisionService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String divisionCode,String divisionName,Long parentId,String parentDivisionCode,Integer divisionLevel,Integer levelAdjust,String divisionType,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object divisionCode,Object divisionName,Object parentId,Object parentDivisionCode,Object divisionLevel,Object levelAdjust,Object divisionType,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<AdministrativeDivision> sqls = WeekendSqls.<AdministrativeDivision>custom();
         sqlsUtils.appendSql(sqls, AdministrativeDivision::getId, id);
         sqlsUtils.appendSql(sqls, AdministrativeDivision::getDivisionCode, divisionCode);

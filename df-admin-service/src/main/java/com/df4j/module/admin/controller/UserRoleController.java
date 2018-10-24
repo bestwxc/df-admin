@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.df4j.base.server.Result;
 import com.df4j.base.utils.MapUtils;
+import com.df4j.base.utils.FieldUtils;
+import com.df4j.base.utils.DateUtils;
+import com.df4j.base.form.Field;
+import com.df4j.base.form.BoundType;
 import com.df4j.base.utils.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.df4j.module.admin.model.UserRole;
@@ -31,11 +36,19 @@ public class UserRoleController {
      */
     @RequestMapping("/user/role/list")
     public Result<List<UserRole>> list(@RequestBody Map<String,?> map){
-        Long id = MapUtils.getLongFromMap(map, "id", null);
-        Long userId = MapUtils.getLongFromMap(map, "userId", null);
-        Long roleId = MapUtils.getLongFromMap(map, "roleId", null);
-        Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        List<UserRole> list = userRoleService.list(id, userId, roleId, flag, null, null);
+        //Long id = MapUtils.getLongFromMap(map, "id", null);
+        Field<Long> id = FieldUtils.getLongField(map, "id", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Long userId = MapUtils.getLongFromMap(map, "userId", null);
+        Field<Long> userId = FieldUtils.getLongField(map, "userId", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Long roleId = MapUtils.getLongFromMap(map, "roleId", null);
+        Field<Long> roleId = FieldUtils.getLongField(map, "roleId", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
+        Field<Integer> flag = FieldUtils.getIntegerField(map, "flag", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Date createTime = MapUtils.getDateFromMap(map, "createTime", null);
+        Field<Date> createTime = FieldUtils.getDateField(map, "createTime", DateUtils.DATE_TIME_PATTERN, false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Date updateTime = MapUtils.getDateFromMap(map, "updateTime", null);
+        Field<Date> updateTime = FieldUtils.getDateField(map, "updateTime", DateUtils.DATE_TIME_PATTERN, false, BoundType.INCLUDE, BoundType.INCLUDE);
+        List<UserRole> list = userRoleService.list(id, userId, roleId, flag, createTime, updateTime);
         return ResultUtils.success(list);
     }
 

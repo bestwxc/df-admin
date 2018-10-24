@@ -33,5 +33,5 @@ logging:
 df:
   boot:
     web:
-      # open-cors: true
+      open-cors: true
       open-http-debug-log: true

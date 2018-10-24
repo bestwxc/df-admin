@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.RoleMapper;
 import com.df4j.module.admin.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,23 @@ public class RoleService {
      * @return
      */
     public List<Role> list(Long id, String roleCode, String roleName, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleCode, roleName, description, orderNum, flag, createTime, updateTime);
+        return roleMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param roleCode
+     * @param roleName
+     * @param description
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<Role> list(Field<Long> id, Field<String> roleCode, Field<String> roleName, Field<String> description, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, roleCode, roleName, description, orderNum, flag, createTime, updateTime);
         return roleMapper.selectByExample(example);
     }
@@ -204,7 +222,7 @@ public class RoleService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String roleCode,String roleName,String description,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object roleCode,Object roleName,Object description,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<Role> sqls = WeekendSqls.<Role>custom();
         sqlsUtils.appendSql(sqls, Role::getId, id);
         sqlsUtils.appendSql(sqls, Role::getRoleCode, roleCode);

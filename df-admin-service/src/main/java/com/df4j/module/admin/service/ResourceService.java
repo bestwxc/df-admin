@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.ResourceMapper;
 import com.df4j.module.admin.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,26 @@ public class ResourceService {
      * @return
      */
     public List<Resource> list(Long id, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
+        return resourceMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param menuId
+     * @param resourceType
+     * @param resourceCode
+     * @param resourceName
+     * @param resourcePath
+     * @param description
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<Resource> list(Field<Long> id, Field<Long> menuId, Field<Integer> resourceType, Field<String> resourceCode, Field<String> resourceName, Field<String> resourcePath, Field<String> description, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
         return resourceMapper.selectByExample(example);
     }
@@ -237,7 +258,7 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,Long menuId,Integer resourceType,String resourceCode,String resourceName,String resourcePath,String description,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object menuId,Object resourceType,Object resourceCode,Object resourceName,Object resourcePath,Object description,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<Resource> sqls = WeekendSqls.<Resource>custom();
         sqlsUtils.appendSql(sqls, Resource::getId, id);
         sqlsUtils.appendSql(sqls, Resource::getMenuId, menuId);

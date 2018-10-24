@@ -6,7 +6,7 @@
     <parent>
         <artifactId>df4j-root</artifactId>
         <groupId>com.df4j</groupId>
-        <version>1.2.2</version>
+        <version>1.2.3-SNAPSHOT</version>
     </parent>
     <groupId>com.df4j.admin</groupId>
     <artifactId>df-admin-service</artifactId>

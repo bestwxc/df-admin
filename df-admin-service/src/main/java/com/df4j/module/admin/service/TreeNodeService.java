@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.TreeNodeMapper;
 import com.df4j.module.admin.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,24 @@ public class TreeNodeService {
      * @return
      */
     public List<TreeNode> list(Long id, String nodeValue, String nodeName, Long parentId, String treeNodePath, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, nodeValue, nodeName, parentId, treeNodePath, orderNum, flag, createTime, updateTime);
+        return treeNodeMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param nodeValue
+     * @param nodeName
+     * @param parentId
+     * @param treeNodePath
+     * @param orderNum
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<TreeNode> list(Field<Long> id, Field<String> nodeValue, Field<String> nodeName, Field<Long> parentId, Field<String> treeNodePath, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, nodeValue, nodeName, parentId, treeNodePath, orderNum, flag, createTime, updateTime);
         return treeNodeMapper.selectByExample(example);
     }
@@ -216,7 +235,7 @@ public class TreeNodeService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,String nodeValue,String nodeName,Long parentId,String treeNodePath,Integer orderNum,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object nodeValue,Object nodeName,Object parentId,Object treeNodePath,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<TreeNode> sqls = WeekendSqls.<TreeNode>custom();
         sqlsUtils.appendSql(sqls, TreeNode::getId, id);
         sqlsUtils.appendSql(sqls, TreeNode::getNodeValue, nodeValue);

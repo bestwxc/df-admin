@@ -2,6 +2,7 @@ package com.df4j.module.admin.service;
 
 import com.df4j.base.utils.ValidateUtils;
 import com.df4j.boot.mybatis.utils.WeekendSqlsUtils;
+import com.df4j.base.form.Field;
 import com.df4j.module.admin.mapper.RoleResourceMapper;
 import com.df4j.module.admin.model.RoleResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,21 @@ public class RoleResourceService {
      * @return
      */
     public List<RoleResource> list(Long id, Long roleId, Long resourceId, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, roleId, resourceId, flag, createTime, updateTime);
+        return roleResourceMapper.selectByExample(example);
+    }
+
+    /**
+     * 查询
+     * @param id
+     * @param roleId
+     * @param resourceId
+     * @param flag
+     * @param createTime
+     * @param updateTime
+     * @return
+     */
+    public List<RoleResource> list(Field<Long> id, Field<Long> roleId, Field<Long> resourceId, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
         Example example = this.getExample(id, roleId, resourceId, flag, createTime, updateTime);
         return roleResourceMapper.selectByExample(example);
     }
@@ -183,7 +199,7 @@ public class RoleResourceService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Long id,Long roleId,Long resourceId,Integer flag,Date createTime,Date updateTime){
+    private Example getExample(Object id,Object roleId,Object resourceId,Object flag,Object createTime,Object updateTime){
         WeekendSqls<RoleResource> sqls = WeekendSqls.<RoleResource>custom();
         sqlsUtils.appendSql(sqls, RoleResource::getId, id);
         sqlsUtils.appendSql(sqls, RoleResource::getRoleId, roleId);
