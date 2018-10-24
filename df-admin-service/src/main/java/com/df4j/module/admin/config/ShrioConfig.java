@@ -32,8 +32,8 @@ public class ShrioConfig {
     SecurityManager securityManager(DfAdminRealm dfAdminRealm, SessionManager sessionManager){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(dfAdminRealm);
-        securityManager.setSessionManager(sessionManager);
-        securityManager.setCacheManager(new MemoryConstrainedCacheManager());
+        //securityManager.setSessionManager(sessionManager);
+        //securityManager.setCacheManager(new MemoryConstrainedCacheManager());
         return securityManager;
     }
 
