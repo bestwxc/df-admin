@@ -4,7 +4,7 @@ spring:
   application:
     name: df-admin-service
   profiles:
-    active: test
+    active: dev
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     #url: jdbc:mysql://localhost:3306/dream_flower?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false
@@ -35,3 +35,16 @@ df:
     web:
       open-cors: true
       open-http-debug-log: true
+    datasource:
+      enabled: true
+      default-key: dream-flower
+      datasources:
+        dream-flower:
+          type: hikari
+          master: master
+          nodes:
+            master:
+              driver-class-name: com.mysql.jdbc.Driver
+              # url: jdbc:mysql://localhost:3306/dream_flower?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false
+              username: dream_flower
+              password: dream_flower

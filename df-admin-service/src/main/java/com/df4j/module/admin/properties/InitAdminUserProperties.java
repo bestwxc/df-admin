@@ -5,9 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("df.admin.init-task.init-admin-user")
 public class InitAdminUserProperties {
-    private boolean enable = false;
+    private boolean enable = true;
+    private boolean resetPass = false;
     private String username = "admin";
-    private String password = "123123";
+    private String password = "123456";
+    private String mobileNo = "13888888888";
 
     public boolean isEnable() {
         return enable;
@@ -15,6 +17,14 @@ public class InitAdminUserProperties {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public boolean isResetPass() {
+        return resetPass;
+    }
+
+    public void setResetPass(boolean resetPass) {
+        this.resetPass = resetPass;
     }
 
     public String getUsername() {
@@ -31,5 +41,13 @@ public class InitAdminUserProperties {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 }

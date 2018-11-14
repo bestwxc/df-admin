@@ -1,5 +1,6 @@
 package com.df4j;
 
+import com.df4j.module.admin.task.InitAdminUserTask;
 import com.df4j.module.admin.task.SyncApiResourceTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ public class Application implements ApplicationRunner {
         */
 
         executorService.submit(new SyncApiResourceTask());
+        executorService.submit(new InitAdminUserTask());
 
     }
 }

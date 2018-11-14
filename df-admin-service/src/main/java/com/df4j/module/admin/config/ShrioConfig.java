@@ -1,9 +1,9 @@
 package com.df4j.module.admin.config;
 
 
+import com.df4j.module.admin.properties.SecurityProperties;
 import com.df4j.module.admin.sesurity.shiro.DfAdminRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -12,8 +12,12 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -54,11 +58,13 @@ public class ShrioConfig {
     }
 
     @Bean("dfAdminRealm")
-    DfAdminRealm dfAdminRealm(){
+    DfAdminRealm dfAdminRealm(Environment environment){
+        SecurityProperties securityProperties = new SecurityProperties();
+        Binder.get(environment).bind("df.admin.security", Bindable.ofInstance(securityProperties));
         DfAdminRealm dfAdminRealm = new DfAdminRealm();
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("SHA1");
-        hashedCredentialsMatcher.setHashIterations(3);
+        hashedCredentialsMatcher.setHashAlgorithmName(securityProperties.getAlgorithm());
+        hashedCredentialsMatcher.setHashIterations(securityProperties.getHashIterations());
         hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         dfAdminRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         return dfAdminRealm;

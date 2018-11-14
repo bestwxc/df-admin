@@ -4,6 +4,7 @@ import com.df4j.base.exception.DfException;
 import com.df4j.base.server.Result;
 import com.df4j.base.utils.*;
 import com.df4j.module.admin.model.User;
+import com.df4j.module.admin.properties.SecurityProperties;
 import com.df4j.module.admin.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -30,6 +31,9 @@ public class UserExtController extends UserController{
 
     @Autowired
     private SecurityManager securityManager;
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
 
     /**
@@ -162,6 +166,7 @@ public class UserExtController extends UserController{
      * @return
      */
     private String mdPass(String pass, String salt){
-        return new SimpleHash("SHA1", pass, ByteSource.Util.bytes(salt), 3).toHex();
+        return new SimpleHash(securityProperties.getAlgorithm(), pass,
+                ByteSource.Util.bytes(salt), securityProperties.getHashIterations()).toHex();
     }
 }

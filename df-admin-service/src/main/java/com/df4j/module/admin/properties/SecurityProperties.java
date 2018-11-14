@@ -16,13 +16,37 @@ public class SecurityProperties {
         defaultExcludes.add("admin/image/code");
         defaultExcludes.add("admin/tree/list");
     }
+
+    private String algorithm = "SHA1";
+    private int hashIterations = 3;
     private List<String> excludes = defaultExcludes;
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public int getHashIterations() {
+        return hashIterations;
+    }
+
+    public void setHashIterations(int hashIterations) {
+        this.hashIterations = hashIterations;
+    }
 
     public List<String> getExcludes() {
         return excludes;
     }
 
     public void setExcludes(List<String> excludes) {
-        this.excludes = excludes;
+        if(excludes != null){
+            this.excludes = excludes;
+            this.excludes.addAll(defaultExcludes);
+        } else {
+            this.excludes = defaultExcludes;
+        }
     }
 }
