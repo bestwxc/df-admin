@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.df4j.module.admin.mapper.ResourceMapper">
-  <resultMap id="BaseResultMap" type="com.df4j.module.admin.model.Resource">
+<mapper namespace="com.df4j.module.admin.mapper.MenuResourceMapper">
+  <resultMap id="BaseResultMap" type="com.df4j.module.admin.model.MenuResource">
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="menu_id" jdbcType="BIGINT" property="menuId" />
-    <result column="resource_type" jdbcType="INTEGER" property="resourceType" />
-    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
-    <result column="resource_code" jdbcType="VARCHAR" property="resourceCode" />
-    <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="resource_id" jdbcType="BIGINT" property="resourceId" />
+    <result column="menu_resource_type" jdbcType="INTEGER" property="menuResourceType" />
     <result column="order_num" jdbcType="INTEGER" property="orderNum" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

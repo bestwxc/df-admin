@@ -13,7 +13,7 @@ public class Resource {
     private Long id;
 
     /**
-     * 关联的菜单ID
+     * 菜单ID
      */
     @Column(name = "menu_id")
     private Long menuId;
@@ -25,16 +25,16 @@ public class Resource {
     private Integer resourceType;
 
     /**
-     * 资源代码
-     */
-    @Column(name = "resource_code")
-    private String resourceCode;
-
-    /**
      * 资源名称
      */
     @Column(name = "resource_name")
     private String resourceName;
+
+    /**
+     * 资源代码
+     */
+    @Column(name = "resource_code")
+    private String resourceCode;
 
     /**
      * 资源路径
@@ -89,18 +89,18 @@ public class Resource {
     }
 
     /**
-     * 获取关联的菜单ID
+     * 获取菜单ID
      *
-     * @return menu_id - 关联的菜单ID
+     * @return menu_id - 菜单ID
      */
     public Long getMenuId() {
         return menuId;
     }
 
     /**
-     * 设置关联的菜单ID
+     * 设置菜单ID
      *
-     * @param menuId 关联的菜单ID
+     * @param menuId 菜单ID
      */
     public void setMenuId(Long menuId) {
         this.menuId = menuId;
@@ -125,24 +125,6 @@ public class Resource {
     }
 
     /**
-     * 获取资源代码
-     *
-     * @return resource_code - 资源代码
-     */
-    public String getResourceCode() {
-        return resourceCode;
-    }
-
-    /**
-     * 设置资源代码
-     *
-     * @param resourceCode 资源代码
-     */
-    public void setResourceCode(String resourceCode) {
-        this.resourceCode = resourceCode == null ? null : resourceCode.trim();
-    }
-
-    /**
      * 获取资源名称
      *
      * @return resource_name - 资源名称
@@ -158,6 +140,24 @@ public class Resource {
      */
     public void setResourceName(String resourceName) {
         this.resourceName = resourceName == null ? null : resourceName.trim();
+    }
+
+    /**
+     * 获取资源代码
+     *
+     * @return resource_code - 资源代码
+     */
+    public String getResourceCode() {
+        return resourceCode;
+    }
+
+    /**
+     * 设置资源代码
+     *
+     * @param resourceCode 资源代码
+     */
+    public void setResourceCode(String resourceCode) {
+        this.resourceCode = resourceCode == null ? null : resourceCode.trim();
     }
 
     /**

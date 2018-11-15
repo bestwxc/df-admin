@@ -19,7 +19,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/dream_flower"
+                        connectionURL="jdbc:mysql://47.107.97.21:3306/dream_flower"
                         userId="dream_flower"
                         password="dream_flower">
         </jdbcConnection>
@@ -62,6 +62,9 @@
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_base_system_menu" domainObjectName="SystemMenu">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="t_base_menu_resource" domainObjectName="MenuResource">
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

@@ -18,26 +18,26 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.df4j.module.admin.model.Resource;
-import com.df4j.module.admin.service.ResourceService;
+import com.df4j.module.admin.model.MenuResource;
+import com.df4j.module.admin.service.MenuResourceService;
 
 
 @RestController
 @RequestMapping("/api/admin")
-public class ResourceController {
+public class MenuResourceController {
 
-    private Logger logger = LoggerFactory.getLogger(ResourceController.class);
+    private Logger logger = LoggerFactory.getLogger(MenuResourceController.class);
 
     @Autowired
-    private ResourceService resourceService;
+    private MenuResourceService menuResourceService;
 
     /**
      * 查询
      * @param map
      * @return
      */
-    @RequestMapping("/resource/list")
-    public Result<List<Resource>> list(@RequestBody Map<String,?> map){
+    @RequestMapping("/menu/resource/list")
+    public Result<List<MenuResource>> list(@RequestBody Map<String,?> map){
 
         // 分页页码
         Integer pageNum = MapUtils.getIntegerFromMap(map, "pageNum", null);
@@ -50,16 +50,10 @@ public class ResourceController {
         Field<Long> id = FieldUtils.getLongField(map, "id", false, BoundType.INCLUDE, BoundType.INCLUDE);
         //Long menuId = MapUtils.getLongFromMap(map, "menuId", null);
         Field<Long> menuId = FieldUtils.getLongField(map, "menuId", false, BoundType.INCLUDE, BoundType.INCLUDE);
-        //Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        Field<Integer> resourceType = FieldUtils.getIntegerField(map, "resourceType", false, BoundType.INCLUDE, BoundType.INCLUDE);
-        //String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
-        Field<String> resourceName = FieldUtils.getStringField(map, "resourceName", false, BoundType.INCLUDE, BoundType.INCLUDE);
-        //String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
-        Field<String> resourceCode = FieldUtils.getStringField(map, "resourceCode", false, BoundType.INCLUDE, BoundType.INCLUDE);
-        //String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
-        Field<String> resourcePath = FieldUtils.getStringField(map, "resourcePath", false, BoundType.INCLUDE, BoundType.INCLUDE);
-        //String description = MapUtils.getStringFromMap(map, "description", null);
-        Field<String> description = FieldUtils.getStringField(map, "description", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Long resourceId = MapUtils.getLongFromMap(map, "resourceId", null);
+        Field<Long> resourceId = FieldUtils.getLongField(map, "resourceId", false, BoundType.INCLUDE, BoundType.INCLUDE);
+        //Integer menuResourceType = MapUtils.getIntegerFromMap(map, "menuResourceType", null);
+        Field<Integer> menuResourceType = FieldUtils.getIntegerField(map, "menuResourceType", false, BoundType.INCLUDE, BoundType.INCLUDE);
         //Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Field<Integer> orderNum = FieldUtils.getIntegerField(map, "orderNum", false, BoundType.INCLUDE, BoundType.INCLUDE);
         //Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
@@ -76,7 +70,7 @@ public class ResourceController {
             PageHelper.orderBy(sort);
         }
 
-        List<Resource> list = resourceService.list(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag, createTime, updateTime);
+        List<MenuResource> list = menuResourceService.list(id, menuId, resourceId, menuResourceType, orderNum, flag, createTime, updateTime);
         return ResultUtils.success(pageNum, pageSize, null, list);
     }
 
@@ -85,18 +79,15 @@ public class ResourceController {
      * @param map
      * @return
      */
-    @RequestMapping("/resource/add")
-    public Result<Resource> add(@RequestBody Map<String,?> map){
+    @RequestMapping("/menu/resource/add")
+    public Result<MenuResource> add(@RequestBody Map<String,?> map){
         Long menuId = MapUtils.getLongFromMap(map, "menuId", null);
-        Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
-        String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
-        String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
-        String description = MapUtils.getStringFromMap(map, "description", null);
+        Long resourceId = MapUtils.getLongFromMap(map, "resourceId", null);
+        Integer menuResourceType = MapUtils.getIntegerFromMap(map, "menuResourceType", null);
         Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Resource resource = resourceService.add(menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag);
-        return ResultUtils.success(resource);
+        MenuResource menuResource = menuResourceService.add(menuId, resourceId, menuResourceType, orderNum, flag);
+        return ResultUtils.success(menuResource);
     }
 
     /**
@@ -104,19 +95,16 @@ public class ResourceController {
      * @param map
      * @return
      */
-    @RequestMapping("/resource/update")
-    public Result<Resource> update(@RequestBody Map<String,?> map) {
+    @RequestMapping("/menu/resource/update")
+    public Result<MenuResource> update(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
         Long menuId = MapUtils.getLongFromMap(map, "menuId", null);
-        Integer resourceType = MapUtils.getIntegerFromMap(map, "resourceType", null);
-        String resourceName = MapUtils.getStringFromMap(map, "resourceName", null);
-        String resourceCode = MapUtils.getStringFromMap(map, "resourceCode", null);
-        String resourcePath = MapUtils.getStringFromMap(map, "resourcePath", null);
-        String description = MapUtils.getStringFromMap(map, "description", null);
+        Long resourceId = MapUtils.getLongFromMap(map, "resourceId", null);
+        Integer menuResourceType = MapUtils.getIntegerFromMap(map, "menuResourceType", null);
         Integer orderNum = MapUtils.getIntegerFromMap(map, "orderNum", null);
         Integer flag = MapUtils.getIntegerFromMap(map, "flag", null);
-        Resource resource = resourceService.update(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag);
-        return ResultUtils.success(resource);
+        MenuResource menuResource = menuResourceService.update(id, menuId, resourceId, menuResourceType, orderNum, flag);
+        return ResultUtils.success(menuResource);
     }
 
 
@@ -125,10 +113,10 @@ public class ResourceController {
      * @param map
      * @return
      */
-    @RequestMapping("/resource/delete")
+    @RequestMapping("/menu/resource/delete")
     public Result delete(@RequestBody Map<String,?> map) {
         Long id = MapUtils.getLongFromMapNotNull(map, "id");
-        int num = resourceService.logicDelete(id);
+        int num = menuResourceService.logicDelete(id);
         return ResultUtils.success(null);
     }
 }

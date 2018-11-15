@@ -5,4 +5,4 @@ df:
         dream-flower:
           nodes:
             master:
-              url: jdbc:mysql://39.108.6.226:3306/dream_flower?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false
+              url: jdbc:mysql://47.107.97.21:3306/dream_flower?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false

@@ -31,7 +31,7 @@ public class User {
     private String mobileNo;
 
     /**
-     * 头像地址
+     * 头像URL
      */
     @Column(name = "head_url")
     private String headUrl;
@@ -149,18 +149,18 @@ public class User {
     }
 
     /**
-     * 获取头像地址
+     * 获取头像URL
      *
-     * @return head_url - 头像地址
+     * @return head_url - 头像URL
      */
     public String getHeadUrl() {
         return headUrl;
     }
 
     /**
-     * 设置头像地址
+     * 设置头像URL
      *
-     * @param headUrl 头像地址
+     * @param headUrl 头像URL
      */
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl == null ? null : headUrl.trim();

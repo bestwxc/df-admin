@@ -26,17 +26,17 @@ public class ResourceService {
      * 新增
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
      * @param flag
      * @return
      */
-    public Resource add(Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag){
+    public Resource add(Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag){
         Resource resource = new Resource();
-        setObject(resource,menuId,resourceType,resourceCode,resourceName,resourcePath,description,orderNum,flag);
+        setObject(resource,menuId,resourceType,resourceName,resourceCode,resourcePath,description,orderNum,flag);
         Date now = new Date();
         resource.setCreateTime(now);
         resource.setUpdateTime(now);
@@ -50,17 +50,17 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
      * @param flag
      * @return
      */
-    public Resource update(Long id, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag){
+    public Resource update(Long id, Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        setObject(resource,menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag);
+        setObject(resource,menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag);
         Date now = new Date();
         resource.setUpdateTime(now);
         resourceMapper.updateByPrimaryKey(resource);
@@ -72,8 +72,8 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
@@ -82,8 +82,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public List<Resource> list(Long id, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
+    public List<Resource> list(Long id, Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag, createTime, updateTime);
         return resourceMapper.selectByExample(example);
     }
 
@@ -92,8 +92,8 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
@@ -102,8 +102,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public List<Resource> list(Field<Long> id, Field<Long> menuId, Field<Integer> resourceType, Field<String> resourceCode, Field<String> resourceName, Field<String> resourcePath, Field<String> description, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
-        Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
+    public List<Resource> list(Field<Long> id, Field<Long> menuId, Field<Integer> resourceType, Field<String> resourceName, Field<String> resourceCode, Field<String> resourcePath, Field<String> description, Field<Integer> orderNum, Field<Integer> flag, Field<Date> createTime, Field<Date> updateTime){
+        Example example = this.getExample(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag, createTime, updateTime);
         return resourceMapper.selectByExample(example);
     }
 
@@ -111,16 +111,16 @@ public class ResourceService {
      * 查询
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
      * @param flag
      * @return
      */
-    public List<Resource> list(Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag){
-        return this.list(null, menuId , resourceType , resourceCode , resourceName , resourcePath , description , orderNum , flag  ,null, null);
+    public List<Resource> list(Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag){
+        return this.list(null, menuId , resourceType , resourceName , resourceCode , resourcePath , description , orderNum , flag  ,null, null);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ResourceService {
      * @return
      */
     public Resource listOne(String resourceCode){
-        return listOne(null, null, null, resourceCode, null, null, null, null, 0, null, null);
+        return listOne(null, null, null, null, resourceCode, null, null, null, 0, null, null);
     }
 
     /**
@@ -145,8 +145,8 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
@@ -155,8 +155,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public Resource listOne(Long id, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
+    public Resource listOne(Long id, Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag, createTime, updateTime);
         return resourceMapper.selectOneByExample(example);
     }
 
@@ -166,8 +166,8 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
@@ -176,8 +176,8 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    public int delete(Long id, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
-        Example example = this.getExample(id, menuId, resourceType, resourceCode, resourceName, resourcePath, description, orderNum, flag, createTime, updateTime);
+    public int delete(Long id, Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag, Date createTime, Date updateTime){
+        Example example = this.getExample(id, menuId, resourceType, resourceName, resourceCode, resourcePath, description, orderNum, flag, createTime, updateTime);
         return resourceMapper.deleteByExample(example);
     }
 
@@ -197,7 +197,7 @@ public class ResourceService {
      */
     public int logicDelete(Long id){
         Resource resource = resourceMapper.selectByPrimaryKey(id);
-        List<Resource> list = this.list(null, null, null, resource.getResourceCode(), null, null, null, null, null, null, null);
+        List<Resource> list = this.list(null, null, null, null, resource.getResourceCode(), null, null, null, null, null, null);
         Resource maxResource = list.stream().max((resource1, resource2) -> resource1.getFlag() - resource2.getFlag()).get();
         this.update(id, null, null, null, null, null, null, null, maxResource.getFlag() + 1);
         return 1;
@@ -208,26 +208,26 @@ public class ResourceService {
      * 组装更新数据
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
      * @param flag
      * @return
      */
-    private void setObject(Resource resource, Long menuId, Integer resourceType, String resourceCode, String resourceName, String resourcePath, String description, Integer orderNum, Integer flag){
+    private void setObject(Resource resource, Long menuId, Integer resourceType, String resourceName, String resourceCode, String resourcePath, String description, Integer orderNum, Integer flag){
         if(ValidateUtils.notNull(menuId)){
             resource.setMenuId(menuId);
         }
         if(ValidateUtils.notNull(resourceType)){
             resource.setResourceType(resourceType);
         }
-        if(ValidateUtils.isNotEmptyString(resourceCode)){
-            resource.setResourceCode(resourceCode);
-        }
         if(ValidateUtils.isNotEmptyString(resourceName)){
             resource.setResourceName(resourceName);
+        }
+        if(ValidateUtils.isNotEmptyString(resourceCode)){
+            resource.setResourceCode(resourceCode);
         }
         if(ValidateUtils.isNotEmptyString(resourcePath)){
             resource.setResourcePath(resourcePath);
@@ -248,8 +248,8 @@ public class ResourceService {
      * @param id
      * @param menuId
      * @param resourceType
-     * @param resourceCode
      * @param resourceName
+     * @param resourceCode
      * @param resourcePath
      * @param description
      * @param orderNum
@@ -258,13 +258,13 @@ public class ResourceService {
      * @param updateTime
      * @return
      */
-    private Example getExample(Object id,Object menuId,Object resourceType,Object resourceCode,Object resourceName,Object resourcePath,Object description,Object orderNum,Object flag,Object createTime,Object updateTime){
+    private Example getExample(Object id,Object menuId,Object resourceType,Object resourceName,Object resourceCode,Object resourcePath,Object description,Object orderNum,Object flag,Object createTime,Object updateTime){
         WeekendSqls<Resource> sqls = WeekendSqls.<Resource>custom();
         sqlsUtils.appendSql(sqls, Resource::getId, id);
         sqlsUtils.appendSql(sqls, Resource::getMenuId, menuId);
         sqlsUtils.appendSql(sqls, Resource::getResourceType, resourceType);
-        sqlsUtils.appendSql(sqls, Resource::getResourceCode, resourceCode);
         sqlsUtils.appendSql(sqls, Resource::getResourceName, resourceName);
+        sqlsUtils.appendSql(sqls, Resource::getResourceCode, resourceCode);
         sqlsUtils.appendSql(sqls, Resource::getResourcePath, resourcePath);
         sqlsUtils.appendSql(sqls, Resource::getDescription, description);
         sqlsUtils.appendSql(sqls, Resource::getOrderNum, orderNum);

@@ -306,6 +306,40 @@
         "view": {
           "enabled": false
         }
+      },
+      "MenuResource":{
+        "basePackage": "com.df4j.module",
+        "moduleName": "admin",
+        "srcFolder": "src/main/java/",
+        "modelClassName": "MenuResource",
+        "loginDelete": "true",
+        "ukColumns": "menuId,resourceId",
+        "service": {
+          "enabled": true,
+          "serviceClassName": "MenuResourceService"
+        },
+        "controller": {
+          "enabled": true,
+          "disableMapping": false,
+          "controllerClassName": "MenuResourceController",
+          "classRequestMapping": "/api/admin",
+          "methodRequestMapping": "menu/resource",
+          "list": {
+            "enabled": true
+          },
+          "add": {
+            "enabled": true
+          },
+          "update": {
+            "enabled": true
+          },
+          "delete": {
+            "enabled": true
+          }
+        },
+        "view": {
+          "enabled": false
+        }
       }
     }
   }
